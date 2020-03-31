@@ -8,24 +8,35 @@ int CALLBACK WinMain( //CALLBACK is a modifier which edits how the parameters ar
 	_In_ int nShowCmd					//how the window should be shown for you on startup
 	){
 
-	Window wnd(800, 300, "RedSky Window 1 Test");
-	Window wnd1(600, 600, "RedSky Window 2 Test");
-	Window wnd2(400, 120, "RedSky Window 3 Test");
-	Window wnd3(200, 600, "RedSky Window 4 Test");
+	try {
+		Window wnd(800, 300, "RedSky Window 1 Test");
+		Window wnd1(600, 600, "RedSky Window 2 Test");
+		Window wnd2(400, 120, "RedSky Window 3 Test");
+		Window wnd3(200, 600, "RedSky Window 4 Test");
 
-	//message pump
-	MSG msg;
-	BOOL gResult;
-	while (gResult = (GetMessage(&msg, nullptr, 0, 0)) > 0) {
-		TranslateMessage(&msg); //WM_CHAR is the main purpose of this function
-		DispatchMessage(&msg); //passes to window procedure that is related to this message
+		//message pump
+		MSG msg;
+		BOOL gResult;
+		while (gResult = (GetMessage(&msg, nullptr, 0, 0)) > 0) {
+			TranslateMessage(&msg); //WM_CHAR is the main purpose of this function
+			DispatchMessage(&msg); //passes to window procedure that is related to this message
+		}
+
+		if (gResult == -1) {
+			return -1;
+		}
+
+		return msg.wParam; //error ID
+	} 
+	catch(const RedSkyException& e) {
+		MessageBox(nullptr, e.what(), e.GetType(), MB_OK | MB_ICONEXCLAMATION);
 	}
-
-	if (gResult == -1) {
-		return -1;
+	catch (const std::exception& e) {
+		MessageBox(nullptr, e.what(), "Standard Exception", MB_OK | MB_ICONEXCLAMATION);
 	}
-
-	return msg.wParam; //error ID
-	
+	catch (...) {
+		MessageBox(nullptr, "No details available", "Unknown Exception", MB_OK | MB_ICONEXCLAMATION);
+	}
+	return -1;
 
 }

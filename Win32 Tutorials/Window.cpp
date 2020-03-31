@@ -1,4 +1,6 @@
 #include "Window.h"
+#include <sstream>
+#include "resource.h"
 
 //Window Class initialization
 Window::WindowClass Window::WindowClass::wndClass;
@@ -10,11 +12,12 @@ const char* Window::WindowClass::GetName() noexcept
 
 HINSTANCE Window::WindowClass::GetInstance() noexcept
 {
-	return wndClass.hInst;
+	return wndClass.hInst; //gets the handle for the instance
 }
 
 Window::WindowClass::WindowClass() noexcept : hInst(GetModuleHandle(nullptr))
 {
+	//Windows Class description
 	WNDCLASSEX wc = { 0 };
 	wc.cbSize = sizeof(wc);
 	wc.style = CS_OWNDC;
@@ -22,12 +25,12 @@ Window::WindowClass::WindowClass() noexcept : hInst(GetModuleHandle(nullptr))
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
 	wc.hInstance = GetInstance();
-	wc.hIcon = nullptr;
+	wc.hIcon = static_cast<HICON>(LoadImage(hInst, MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, 32,32,0));
 	wc.hCursor = nullptr;
 	wc.hbrBackground = nullptr;
 	wc.lpszMenuName = nullptr;
 	wc.lpszClassName = GetName();
-	wc.hIconSm = nullptr;
+	wc.hIconSm = static_cast<HICON>(LoadImage(hInst, MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, 16, 16, 0));;
 	RegisterClassEx(&wc);
 }
 
@@ -38,54 +41,70 @@ Window::WindowClass::~WindowClass()
 	UnregisterClass(wndClassName, GetInstance());
 }
 
-Window::Window(int width, int height, const char* name) noexcept
+Window::Window(int width, int height, const char* name) 
 {
+	//Sets the size of the client area
 	RECT wr;
 	wr.left = 100;
 	wr.right = width + wr.left;
 	wr.top = 100;
 	wr.bottom = height + wr.top;
-	//Adjusts the client area to the desired size
-	AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU | WS_MAXIMIZEBOX, FALSE);
 
+	//Sets the style of the window
+	DWORD style = WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU | WS_MAXIMIZEBOX;
+
+	//Adjusts the client area to the desired size
+	AdjustWindowRect(&wr, style, FALSE);
+
+	if (FAILED(AdjustWindowRect(&wr, style, FALSE))) {
+		throw RSWND_LAST_EXCEPT();
+	}
+
+	throw RSWND_EXCEPT(ERROR_ARENA_TRASHED);
+	
 	//Create window and get hWnd
 	hWnd = CreateWindow(
 		WindowClass::GetName(), name,
-		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU | WS_MAXIMIZEBOX,
-		CW_USEDEFAULT, CW_USEDEFAULT,
-		wr.right - wr.left,
-		wr.bottom - wr.top,
+		style,
+		CW_USEDEFAULT, CW_USEDEFAULT, //Starting position
+		wr.right - wr.left, //Width
+		wr.bottom - wr.top, //Height
 		nullptr, nullptr,
 		WindowClass::GetInstance(),
-		this
+		this //This is a long pointer to the Window instance 
 		);
+
+	if (hWnd == nullptr) {
+		throw RSWND_LAST_EXCEPT();
+	}
 
 	ShowWindow(hWnd, SW_SHOWDEFAULT);
 }
-
+//only exists to setup the pointer to our instnace on the windows api side
 LRESULT CALLBACK Window::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 {
-	if (msg == WM_NCCREATE) {
+	if (msg == WM_NCCREATE) { //if this is the first time the window is being created
 		//extract a pointer to window class from creation data
-		const CREATESTRUCTW* const pCreate = reinterpret_cast<CREATESTRUCTW*>(lParam);
+		const CREATESTRUCTW* const pCreate = reinterpret_cast<CREATESTRUCTW*>(lParam); 
 		Window* const pWnd = static_cast<Window*>(pCreate->lpCreateParams);
 		//Set WinAPI data to store a pointer to the window class
-		SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pWnd));
+		SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pWnd)); //Lets you set data stored at the WindowsAPI side to desired data //stores a pointer to this class in the windows API
 		//Set message procedure to normal handler now that setup is finished
-		SetWindowLongPtr(hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&Window::HandleMsgThunk));
+		SetWindowLongPtr(hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&Window::HandleMsgThunk)); //since this instance has been set in WinAPI we can now change the window proc to HandleMessageThunk
 		//forward message to the window class handler
-		return pWnd->HandleMsg(hWnd, msg, wParam, lParam);
+		return pWnd->HandleMsg(hWnd, msg, wParam, lParam); //Handle the new event
 	}
-
-	return DefWindowProc(hWnd, msg, wParam, lParam);
+	//message will now be handled by the new WindowProc which is WindowThunk
+	return DefWindowProc(hWnd, msg, wParam, lParam); 
 }
 
+//adapts from WIN32 Call function to c++ member function
 LRESULT CALLBACK Window::HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 {
 	//retrieve a pointer to a window class
-	Window* const pWnd = reinterpret_cast<Window*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
+	Window* const pWnd = reinterpret_cast<Window*>(GetWindowLongPtr(hWnd, GWLP_USERDATA)); //Get the window pointer
 	//forward message to window class handler
-	return pWnd->HandleMsg(hWnd, msg, wParam, lParam);
+	return pWnd->HandleMsg(hWnd, msg, wParam, lParam); //Calls the member function HandleMSG
 }
 
 LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
@@ -93,7 +112,7 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 	switch (msg) {
 	case WM_CLOSE:
 		PostQuitMessage(0);
-		return 0;
+		return 0; //Stops Destroy Window from being called twice as the function now exits and then the destructor gets called
 	}
 	
 	return DefWindowProc(hWnd, msg, wParam, lParam);
@@ -101,5 +120,53 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 
 Window::~Window()
 {
-	DestroyWindow(hWnd);
+	DestroyWindow(hWnd); //Destroys the window
+}
+
+Window::Exception::Exception(int line, const char* file, HRESULT hr) noexcept : RedSkyException(line, file), hr(hr) {}
+
+const char* Window::Exception::what() const noexcept
+{
+	//Formats the error code in a understandable way
+	std::ostringstream oss;
+	oss << GetType() << std::endl
+		<< "[Error Code] " << GetErrorCode() << std::endl
+		<< "[Description] " << GetErrorString() << std::endl
+		<< GetOriginString();
+	whatBuffer = oss.str();
+	return whatBuffer.c_str();
+}
+
+const char* Window::Exception::GetType() const noexcept
+{
+	return "Red Sky Window Exception";
+}
+
+std::string Window::Exception::TranslateErrorCode(HRESULT hr) noexcept
+{
+	char* pMsgBuf = nullptr;
+
+	//FormatMessage takes a HRESULT and returns detail on the error
+	//This function returns the length of the error code
+	DWORD nMsgLen = FormatMessage(
+		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+		nullptr, hr, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+		reinterpret_cast<LPSTR>(&pMsgBuf), 0, nullptr
+		);
+	if (nMsgLen == 0) { //if the message length is 0 then the error code is not known
+		return "Unknown error code";
+	}
+	std::string errorString = pMsgBuf; //errorString memory will live after this function call //copies the error string into this string
+	LocalFree(pMsgBuf); //release memory from pMsgBuffer
+	return errorString; 
+}
+
+HRESULT Window::Exception::GetErrorCode() const noexcept
+{
+	return hr;
+}
+
+std::string Window::Exception::GetErrorString() const noexcept
+{
+	return TranslateErrorCode(hr);
 }

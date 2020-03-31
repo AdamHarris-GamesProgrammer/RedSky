@@ -3,6 +3,7 @@
 #define _WIN32_WINNT 0x0601 //Sets it to windows 7 or later
 
 //Removes unused windows calls from the <Windows.h> include
+//using these toggles switches that windows has provided
 #define WIN32_LEAN_AND_MEAN
 #define NOGDICAPMASKS
 #define NOSYSMETRICS
