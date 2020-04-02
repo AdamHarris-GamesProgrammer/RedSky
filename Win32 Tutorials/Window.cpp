@@ -60,8 +60,6 @@ Window::Window(int width, int height, const char* name)
 		throw RSWND_LAST_EXCEPT();
 	}
 
-	throw RSWND_EXCEPT(ERROR_ARENA_TRASHED);
-	
 	//Create window and get hWnd
 	hWnd = CreateWindow(
 		WindowClass::GetName(), name,
@@ -113,6 +111,25 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 	case WM_CLOSE:
 		PostQuitMessage(0);
 		return 0; //Stops Destroy Window from being called twice as the function now exits and then the destructor gets called
+		break;
+	//Clears keyboard state when the window is not in focus
+	case WM_KILLFOCUS:
+		kbd.ClearState();
+		break;
+	
+	//Keyboard messages
+	case WM_KEYDOWN:
+		//Syskey command need to be handled to track alt key
+	case WM_SYSKEYDOWN:
+		if (!(lParam & 0x40000000) || kbd.AutorepeatEnabled()) { //Filters Autorepeat
+			kbd.OnKeyPressed(static_cast<unsigned char>(wParam));
+		}
+		break;
+	case WM_KEYUP:
+	case WM_SYSKEYUP:
+		kbd.OnKeyReleased(static_cast<unsigned char>(wParam));
+	case WM_CHAR:
+		kbd.OnChar(static_cast<unsigned char>(wParam));
 	}
 	
 	return DefWindowProc(hWnd, msg, wParam, lParam);

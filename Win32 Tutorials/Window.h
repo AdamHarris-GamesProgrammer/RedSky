@@ -3,6 +3,8 @@
 #include "RedSkyWin.h"
 #include "RedSkyException.h"
 
+#include "Keyboard.h"
+
 class Window //encapsulates the creation, destruction and handling of events
 {
 public:
@@ -45,6 +47,8 @@ private:
 	static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept; //LRESULT is just a long pointer, CALLBACK is just a __stdcall. 
 	static LRESULT CALLBACK HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept; //__stdcall is a calling convention that means the stack is cleaned automatically when the function is over
 	LRESULT HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
+public:
+	Keyboard kbd;
 
 private:
 	int width;
