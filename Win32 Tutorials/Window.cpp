@@ -41,7 +41,7 @@ Window::WindowClass::~WindowClass()
 	UnregisterClass(wndClassName, GetInstance());
 }
 
-Window::Window(int width, int height, const char* name) 
+Window::Window(int width, int height, const char* name) : width(width), height(height)
 {
 	//Sets the size of the client area
 	RECT wr;
@@ -56,7 +56,7 @@ Window::Window(int width, int height, const char* name)
 	//Adjusts the client area to the desired size
 	AdjustWindowRect(&wr, style, FALSE);
 
-	if (FAILED(AdjustWindowRect(&wr, style, FALSE))) {
+	if (AdjustWindowRect(&wr, style, FALSE) == 0) {
 		throw RSWND_LAST_EXCEPT();
 	}
 
@@ -121,16 +121,74 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 	case WM_KEYDOWN:
 		//Syskey command need to be handled to track alt key
 	case WM_SYSKEYDOWN:
-		if (!(lParam & 0x40000000) || kbd.AutorepeatEnabled()) { //Filters Autorepeat
+		if (!(lParam & 0x40000000) || kbd.AutorepeatEnabled()) { //Filters Autorepeat //0x40000000 bit 30 (AutoRepeat)
 			kbd.OnKeyPressed(static_cast<unsigned char>(wParam));
 		}
 		break;
 	case WM_KEYUP:
 	case WM_SYSKEYUP:
 		kbd.OnKeyReleased(static_cast<unsigned char>(wParam));
-	case WM_CHAR:
+	case WM_CHAR: //Text input
 		kbd.OnChar(static_cast<unsigned char>(wParam));
+	
+	//Mouse Messages
+	case WM_MOUSEMOVE:
+	{
+		const POINTS pt = MAKEPOINTS(lParam);
+		if (pt.x > 0 && pt.x < width && pt.y >= 0 && pt.y < height) {
+			mouse.OnMouseMove(pt.x, pt.y);
+			if (!mouse.IsInWindow()) {
+				SetCapture(hWnd);
+				mouse.OnMouseEnter();
+			}
+		}
+		else
+		{
+			if (wParam & (MK_LBUTTON | MK_RBUTTON)) {
+				mouse.OnMouseMove(pt.x, pt.y);
+			}
+			else
+			{
+				ReleaseCapture();
+				mouse.OnMouseLeave();
+			}
+		}
 	}
+		break;
+	case WM_LBUTTONDOWN:
+	{
+		const POINTS pt = MAKEPOINTS(lParam); //lParam holds mouse coordinates
+		mouse.OnLeftPressed(pt.x, pt.y);
+	}
+		break;
+	case WM_RBUTTONDOWN:
+	{
+		const POINTS pt = MAKEPOINTS(lParam);
+		mouse.OnRightPressed(pt.x, pt.y);
+	}
+		break;
+	case WM_LBUTTONUP:
+	{
+		const POINTS pt = MAKEPOINTS(lParam);
+		mouse.OnLeftReleased(pt.x, pt.y);
+	}
+		break;
+	case WM_RBUTTONUP:
+	{
+		const POINTS pt = MAKEPOINTS(lParam);
+		mouse.OnRightReleased(pt.x, pt.y);
+	}
+		break;
+	case WM_MOUSEWHEEL:
+	{
+		const POINTS pt = MAKEPOINTS(lParam);
+		const int delta = GET_WHEEL_DELTA_WPARAM(wParam); //wParam holds mouse wheel
+		mouse.OnWheelDelta(pt.x, pt.y, delta);
+	}
+		break;
+	}
+
+
 	
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
@@ -138,6 +196,13 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 Window::~Window()
 {
 	DestroyWindow(hWnd); //Destroys the window
+}
+
+void Window::SetTitle(const std::string& title)
+{
+	if (SetWindowText(hWnd, title.c_str()) == 0) {
+		throw RSWND_LAST_EXCEPT();
+	}
 }
 
 Window::Exception::Exception(int line, const char* file, HRESULT hr) noexcept : RedSkyException(line, file), hr(hr) {}

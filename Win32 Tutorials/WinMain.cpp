@@ -1,5 +1,7 @@
 #include "Window.h"
 
+#include <sstream>
+
 //Entry point for windows
 int CALLBACK WinMain( //CALLBACK is a modifier which edits how the parameters are passed to Windows, this passes the parameters on the stack
 	_In_ HINSTANCE hInstance,			//Ignore this there is a function that gets this
@@ -20,6 +22,24 @@ int CALLBACK WinMain( //CALLBACK is a modifier which edits how the parameters ar
 
 			if (wnd.kbd.KeyIsPressed(VK_SPACE)) {
 				MessageBox(nullptr, "Jump!", "Space Key Was Pressed", MB_OK | MB_ICONEXCLAMATION);
+			}
+			if (wnd.kbd.KeyIsPressed(VK_MENU)) {
+				MessageBox(nullptr, "Menu", "Alt Key was Pressed", MB_OK | MB_ICONEXCLAMATION);
+			}
+
+			while (!wnd.mouse.IsEmpty()) {
+				const auto e = wnd.mouse.Read();
+				switch (e.GetType()) {
+				case Mouse::Event::Type::Leave:
+					wnd.SetTitle("Gone!");
+					break;
+				case Mouse::Event::Type::Move:
+					std::ostringstream oss;
+					oss << "Mouse moved to (" << e.GetX() << "," << e.GetY() << ")";
+					wnd.SetTitle(oss.str());
+					break;
+				}
+				
 			}
 		}
 

@@ -4,6 +4,7 @@
 #include "RedSkyException.h"
 
 #include "Keyboard.h"
+#include "Mouse.h"
 
 class Window //encapsulates the creation, destruction and handling of events
 {
@@ -41,6 +42,7 @@ public:
 	~Window();
 	Window(const Window&) = delete;
 	Window& operator=(const Window&) = delete;
+	void SetTitle(const std::string& title);
 
 private:
 	//WinAPI dosent accept member functions, therefore a static function is used
@@ -49,6 +51,7 @@ private:
 	LRESULT HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 public:
 	Keyboard kbd;
+	Mouse mouse;
 
 private:
 	int width;
