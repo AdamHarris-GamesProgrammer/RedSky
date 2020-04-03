@@ -13,7 +13,7 @@
 
 #define REGISTER_MESSAGE(msg){msg,#msg}
 
-WindowsMessageMap::WindowsMessageMap()
+WindowsMessageMap::WindowsMessageMap() noexcept
 	:
 	map({
 		REGISTER_MESSAGE(WM_CREATE),
@@ -199,7 +199,7 @@ WindowsMessageMap::WindowsMessageMap()
 		})
 {}
 
-std::string WindowsMessageMap::operator()(DWORD msg, LPARAM lp, WPARAM wp) const
+std::string WindowsMessageMap::operator()(DWORD msg, LPARAM lp, WPARAM wp) const noexcept
 {
 	constexpr int firstColWidth = 25;
 	const auto i = map.find(msg);
