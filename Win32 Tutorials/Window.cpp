@@ -77,6 +77,8 @@ Window::Window(int width, int height, const char* name) : width(width), height(h
 	}
 
 	ShowWindow(hWnd, SW_SHOWDEFAULT);
+
+	pGfx = std::make_unique<Graphics>(hWnd);
 }
 //only exists to setup the pointer to our instnace on the windows api side
 LRESULT CALLBACK Window::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
@@ -211,7 +213,7 @@ std::optional<int> Window::ProcessMessages()
 	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) 
 	{
 		if (msg.message == WM_QUIT) {
-			return msg.wParam;
+			return (int)msg.wParam;
 		}
 
 		TranslateMessage(&msg);
@@ -219,6 +221,11 @@ std::optional<int> Window::ProcessMessages()
 	}
 
 	return{};
+}
+
+Graphics& Window::Gfx()
+{
+	return *pGfx;
 }
 
 Window::Exception::Exception(int line, const char* file, HRESULT hr) noexcept : RedSkyException(line, file), hr(hr) {}

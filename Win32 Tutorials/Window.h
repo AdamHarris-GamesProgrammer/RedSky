@@ -6,6 +6,9 @@
 #include "Keyboard.h"
 #include "Mouse.h"
 
+#include "Graphics.h"
+#include <memory>
+
 #include <optional>
 
 class Window //encapsulates the creation, destruction and handling of events
@@ -46,6 +49,7 @@ public:
 	Window& operator=(const Window&) = delete;
 	void SetTitle(const std::string& title);
 	static std::optional<int> ProcessMessages();
+	Graphics& Gfx();
 private:
 	//WinAPI dosent accept member functions, therefore a static function is used
 	static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept; //LRESULT is just a long pointer, CALLBACK is just a __stdcall. 
@@ -59,6 +63,7 @@ private:
 	int width;
 	int height;
 	HWND hWnd;
+	std::unique_ptr<Graphics> pGfx;
 };
 
 
