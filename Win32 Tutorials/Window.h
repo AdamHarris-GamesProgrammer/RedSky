@@ -15,17 +15,27 @@ class Window //encapsulates the creation, destruction and handling of events
 {
 public:
 	class Exception : public RedSkyException {
+		using RedSkyException::RedSkyException;
 	public:
-		Exception(int line, const char* file, HRESULT hr) noexcept;
-		const char* what() const noexcept override;
-		virtual const char* GetType() const noexcept;
 		static std::string TranslateErrorCode(HRESULT hr) noexcept;
-		HRESULT GetErrorCode() const noexcept;
-		std::string GetErrorString() const noexcept;
+	};
+	class HrException : public Exception {
+	public:
+		HrException(int line, const char* file, HRESULT hr) noexcept;
+		const char* what() const noexcept override;
+		const char* GetType() const noexcept override;
 
+		HRESULT GetErrorCode() const noexcept;
+		std::string GetErrorDescription() const noexcept;
 	private:
 		HRESULT hr;
 	};
+	class NoGfxException : public Exception {
+	public:
+		using Exception::Exception;
+		const char* GetType() const noexcept override;
+	};
+	
 
 private:
 	class WindowClass { // a window requires a window class 
@@ -48,7 +58,7 @@ public:
 	Window(const Window&) = delete;
 	Window& operator=(const Window&) = delete;
 	void SetTitle(const std::string& title);
-	static std::optional<int> ProcessMessages();
+	static std::optional<int> ProcessMessages() noexcept;
 	Graphics& Gfx();
 private:
 	//WinAPI dosent accept member functions, therefore a static function is used
@@ -67,5 +77,6 @@ private:
 };
 
 
-#define RSWND_EXCEPT(hr) Window::Exception(__LINE__,__FILE__,hr);
-#define RSWND_LAST_EXCEPT() Window::Exception(__LINE__,__FILE__,GetLastError())
+#define RSWND_EXCEPT(hr) Window::HrException(__LINE__,__FILE__,(hr));
+#define RSWND_LAST_EXCEPT() Window::HrException(__LINE__,__FILE__,GetLastError())
+#define RSWND_NOGFX_EXCEPT() Window::NoGfxException(__LINE__,__FILE__)
