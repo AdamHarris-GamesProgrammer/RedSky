@@ -21,7 +21,7 @@ public:
 	};
 	class HrException : public Exception {
 	public:
-		HrException(int line, const char* file, HRESULT hr) noexcept;
+		HrException(int line, const char* file, HRESULT hr) noexcept; //Exception with a HRSULT
 		const char* what() const noexcept override;
 		const char* GetType() const noexcept override;
 
@@ -30,7 +30,7 @@ public:
 	private:
 		HRESULT hr;
 	};
-	class NoGfxException : public Exception {
+	class NoGfxException : public Exception { //when graphics is trying to be retrieved but the pointer isnt valid
 	public:
 		using Exception::Exception;
 		const char* GetType() const noexcept override;

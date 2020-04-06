@@ -14,7 +14,7 @@ public:
 	void Set() noexcept;
 	std::vector<std::string> GetMessages() const;
 private:
-	unsigned long long next = 0u;
+	unsigned long long next = 0u; //index of the last message 
 	struct IDXGIInfoQueue* pDxgiInfoQueue = nullptr;
 };
 

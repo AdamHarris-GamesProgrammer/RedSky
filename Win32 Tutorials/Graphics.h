@@ -10,10 +10,10 @@ class Graphics
 {
 public:
 	//Exception classes 
-	class Exception : public RedSkyException {
+	class Exception : public RedSkyException { //Base graphics exception
 		using RedSkyException::RedSkyException;
 	};
-	class HrException : public Exception {
+	class HrException : public Exception { //graphics exception which has a HRESULT
 	public:
 		HrException(int line, const char* file, HRESULT hr, std::vector<std::string> infoMsgs = {}) noexcept;
 		const char* what() const noexcept override;

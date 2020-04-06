@@ -8,13 +8,13 @@
 #define GFX_EXCEPT_NOINFO(hr) Graphics::HrException( __LINE__,__FILE__,(hr) )
 #define GFX_THROW_NOINFO(hrcall) if( FAILED( hr = (hrcall) ) ) throw Graphics::HrException( __LINE__,__FILE__,hr )
 
-#ifndef NDEBUG
+#ifndef NDEBUG //if in debug mode //use the info manager to add additional messages to the error window 
 #define GFX_EXCEPT(hr) Graphics::HrException( __LINE__,__FILE__,(hr),infoManager.GetMessages() )
-#define GFX_THROW_INFO(hrcall) infoManager.Set(); if( FAILED( hr = (hrcall) ) ) throw GFX_EXCEPT(hr)
+#define GFX_THROW_INFO(hrcall) infoManager.Set(); if( FAILED( hr = (hrcall) ) ) throw GFX_EXCEPT(hr) //calls set so only new messages are outputted 
 #define GFX_DEVICE_REMOVED_EXCEPT(hr) Graphics::DeviceRemovedException( __LINE__,__FILE__,(hr),infoManager.GetMessages() )
-#else
+#else //if in release mode
 #define GFX_EXCEPT(hr) Graphics::HrException( __LINE__,__FILE__,(hr) )
-#define GFX_THROW_INFO(hrcall) GFX_THROW_NOINFO(hrcall)
+#define GFX_THROW_INFO(hrcall) GFX_THROW_NOINFO(hrcall) //throws with no information if in release mode
 #define GFX_DEVICE_REMOVED_EXCEPT(hr) Graphics::DeviceRemovedException(__LINE__,__FILE__,(hr))
 #endif
 
@@ -39,6 +39,10 @@ Graphics::Graphics(HWND hWnd)
 	sd.Flags = 0; //no flags currently
 
 	UINT swapCreateFlags = 0u;
+
+#ifndef NDEBUG
+	swapCreateFlags |= D3D11_CREATE_DEVICE_DEBUG;
+#endif
 
 	HRESULT hr;
 
@@ -90,13 +94,13 @@ void Graphics::EndFrame()
 	infoManager.Set();
 #endif // !NDEBUG
 
-	if (FAILED(hr = pSwap->Present(1u, 0u))) {
-		if (hr == DXGI_ERROR_DEVICE_REMOVED) {
+	if (FAILED(hr = pSwap->Present(1u, 0u))) { //if the buffer swap fails
+		if (hr == DXGI_ERROR_DEVICE_REMOVED) { //unstable gpu error
 			throw GFX_DEVICE_REMOVED_EXCEPT(pDevice->GetDeviceRemovedReason()); //gets the reason for this error, usually caused due to hardware errors or drivers
 		}
 		else
 		{
-			throw GFX_EXCEPT(hr);
+			throw GFX_EXCEPT(hr); //General purpose error
 		}
 	}
 }
@@ -122,7 +126,7 @@ const char* Graphics::HrException::what() const noexcept
 		<< std::dec << "(" << (unsigned long)GetErrorCode() << ")" << std::endl
 		<< "[Error String] " << GetErrorString() << std::endl
 		<< "[Description] " << GetErrorDescription() << std::endl;
-	if (!info.empty()) {
+	if (!info.empty()) { //if anything is in the info vector then we add it to the oss stream
 		oss << "\n[Error Info]\n" << GetErrorInto() << std::endl << std::endl;
 	}
 
