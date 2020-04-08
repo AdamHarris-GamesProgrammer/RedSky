@@ -2,6 +2,7 @@
 
 #include <queue>
 #include <bitset>
+#include <optional>
 
 class Keyboard
 {
@@ -35,12 +36,12 @@ public:
 
 	//Key Events
 	bool KeyIsPressed(unsigned char keycode) const noexcept;
-	Event ReadKey() noexcept;
+	std::optional<Event> ReadKey() noexcept;
 	bool KeyIsEmpty() const noexcept; 
 	void FlushKey() noexcept; //Clears key
 
 	//Char Events
-	char ReadChar() noexcept; //Text input, a stream of characters
+	std::optional<char> ReadChar() noexcept; //Text input, a stream of characters
 	bool CharIsEmpty() const noexcept; 
 	void FlushChar() noexcept;
 	void Flush() noexcept; //Flush both queues

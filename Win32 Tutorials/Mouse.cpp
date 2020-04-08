@@ -32,17 +32,14 @@ bool Mouse::RightIsPressed() const noexcept
 }
 
 //Reads the mouse 
-Mouse::Event Mouse::Read() noexcept
+std::optional<Mouse::Event> Mouse::Read() noexcept
 {
 	if (buffer.size() > 0u) {
 		Mouse::Event e = buffer.front();
 		buffer.pop();
 		return e;
 	}
-	else
-	{
-		return Mouse::Event();
-	}
+	return {};
 }
 
 //Clears the buffer
