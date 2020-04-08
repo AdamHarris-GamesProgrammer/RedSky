@@ -2,8 +2,14 @@
 #include "dxerr.h"
 #include <sstream>
 #include <d3dcompiler.h>
+#include <cmath>
+#include <DirectXMath.h>
+
+#include "Constants.h"
 
 namespace wrl = Microsoft::WRL;
+
+namespace dx = DirectX;
 
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "D3DCompiler.lib")
@@ -28,8 +34,8 @@ Graphics::Graphics(HWND hWnd)
 {
 	DXGI_SWAP_CHAIN_DESC sd = {};
 	//Direct3D gets the width and height of the window
-	sd.BufferDesc.Width = 0;
-	sd.BufferDesc.Height = 0;
+	sd.BufferDesc.Width = WINDOW_WIDTH;
+	sd.BufferDesc.Height = WINDOW_HEIGHT;
 	sd.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM; //Sets the colour format
 	sd.BufferDesc.RefreshRate.Numerator = 0; //Pick the current system refresh rate
 	sd.BufferDesc.RefreshRate.Denominator = 0; 
@@ -99,9 +105,9 @@ void Graphics::ClearBuffer(float red, float green, float blue) noexcept
 	pContext->ClearRenderTargetView(pTarget.Get(), colour); //have to use the .get() method to get the address of the ComPtr
 }
 
-void Graphics::DrawTestTriangle()
+void Graphics::DrawTestTriangle(float angle, float x, float y)
 {
-	namespace wrl = Microsoft::WRL;
+	HRESULT hr;
 
 	wrl::ComPtr<ID3D11Buffer> pVertexBuffer;
 
@@ -132,12 +138,16 @@ void Graphics::DrawTestTriangle()
 	bufferDesc.ByteWidth = sizeof(vertices);
 	bufferDesc.StructureByteStride = sizeof(Vertex);
 
-	D3D11_SUBRESOURCE_DATA sd = { 0 };
+	D3D11_SUBRESOURCE_DATA sd = {};
 	sd.pSysMem = vertices;
 
-	HRESULT hr;
+
 
 	GFX_THROW_INFO(pDevice->CreateBuffer(&bufferDesc, &sd, &pVertexBuffer));
+
+	const UINT stride = sizeof(Vertex);
+	const UINT offset = 0u;
+	pContext->IASetVertexBuffers(0, 1, pVertexBuffer.GetAddressOf(), &stride, &offset);
 
 	//create indexed buffer
 	const unsigned short indices[] = {
@@ -154,19 +164,49 @@ void Graphics::DrawTestTriangle()
 	ibd.ByteWidth = sizeof(indices);
 	ibd.StructureByteStride = sizeof(unsigned short);
 
-	D3D11_SUBRESOURCE_DATA isd = { 0 };
+	D3D11_SUBRESOURCE_DATA isd = {};
 	isd.pSysMem = indices;
 	GFX_THROW_INFO(pDevice->CreateBuffer(&ibd, &isd, &pIndexBuffer));
 
-	const UINT stride = sizeof(Vertex);
-	const UINT offset = 0u;
 
 	//& operator is used for filling with a pointer to a pointer
 	//if the data just wants to be used then use the .GetAddressOf() function
 
-	pContext->IASetVertexBuffers(0, 1, pVertexBuffer.GetAddressOf(), &stride, &offset);
 	pContext->IASetIndexBuffer(pIndexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0u);
-	
+
+
+	//constant buffer
+	struct ConstantBuffer {
+		dx::XMMATRIX transform; //4*4 floating point matrix //don't access it directly //optimized for SSMD
+	};
+
+	//Rotation 
+	const ConstantBuffer cb = {
+		{
+			dx::XMMatrixTranspose( //one time transpose on the CPU side as opposed to using the row_major conversion in the vertex shader
+				dx::XMMatrixRotationZ(angle) * 
+				dx::XMMatrixScaling(3.0f / 4.0f, 1.0f,1.0f) *
+				dx::XMMatrixTranslation(x,y, 0.0f)
+			)
+		}
+	};
+
+	wrl::ComPtr<ID3D11Buffer> pConstantBuffer;
+
+	D3D11_BUFFER_DESC cbd;
+	cbd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	cbd.Usage = D3D11_USAGE_DYNAMIC;
+	cbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	cbd.MiscFlags = 0u;
+	cbd.ByteWidth = sizeof(cb);
+	cbd.StructureByteStride = 0u;
+	D3D11_SUBRESOURCE_DATA csd = {};
+	csd.pSysMem = &cb;
+	GFX_THROW_INFO(pDevice->CreateBuffer(&cbd, &csd, &pConstantBuffer));
+
+	//bind to vertex shader
+	pContext->VSSetConstantBuffers(0u, 1u, pConstantBuffer.GetAddressOf());
+
 
 	//Pixel Shader
 	wrl::ComPtr<ID3D11PixelShader> pPixelShader;
@@ -200,8 +240,8 @@ void Graphics::DrawTestTriangle()
 
 	//configure viewport
 	D3D11_VIEWPORT vp;
-	vp.Width = 800;
-	vp.Height = 600;
+	vp.Width = WINDOW_WIDTH;
+	vp.Height = WINDOW_HEIGHT;
 	vp.MinDepth = 0;
 	vp.MaxDepth = 1;
 	vp.TopLeftX = 0;

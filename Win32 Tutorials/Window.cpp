@@ -2,6 +2,8 @@
 #include <sstream>
 #include "resource.h"
 
+#include "Constants.h"
+
 //Window Class initialization
 Window::WindowClass Window::WindowClass::wndClass;
 
