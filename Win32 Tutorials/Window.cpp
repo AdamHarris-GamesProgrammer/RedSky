@@ -163,6 +163,9 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 	{
 		const POINTS pt = MAKEPOINTS(lParam); //lParam holds mouse coordinates
 		mouse.OnLeftPressed(pt.x, pt.y);
+
+		//Brings window to foreground object when clicked on
+		SetForegroundWindow(hWnd);
 	}
 		break;
 	case WM_RBUTTONDOWN:
