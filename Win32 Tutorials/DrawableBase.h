@@ -6,7 +6,7 @@
 template<class T>
 class DrawableBase : public Drawable {
 protected:
-	static bool IsStaticInitialised() const noexcept {
+	static bool IsStaticInitialised() noexcept {
 		return !staticBinds.empty();
 	}
 
