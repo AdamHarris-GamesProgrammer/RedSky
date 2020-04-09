@@ -5,11 +5,16 @@
 #include <d3d11.h>
 #include <wrl.h>
 #include <vector>
+#include <memory>
 #include "DxgiInfoManager.h"
-#include "GraphicsThrowMacros.h"
+#include <d3dcompiler.h>
+#include <DirectXMath.h>
+#include <memory>
+#include <random>
 
 class Graphics
 {
+	friend class Bindable;
 public:
 	//Exception classes 
 	class Exception : public RedSkyException { //Base graphics exception
@@ -56,8 +61,11 @@ public:
 	void EndFrame();
 	void ClearBuffer(float red, float green, float blue) noexcept;
 
-	void DrawTestTriangle(float angle, float x, float z);
+	void DrawIndexed(UINT count) noexcept(!IS_DEBUG);
+	void SetProjection(DirectX::FXMMATRIX proj) noexcept;
+	DirectX::XMMATRIX GetProjection() const noexcept;
 private:
+	DirectX::XMMATRIX projection;
 #ifndef NDEBUG
 	DxgiInfoManager infoManager;
 #endif
