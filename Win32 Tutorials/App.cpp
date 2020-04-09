@@ -22,11 +22,6 @@ void App::DoFrame()
 {
 	const float c = sin(timer.Peek()) / 2.0f + 0.5f;
 	wnd.Gfx().ClearBuffer(c, c, 1.0f);
-
-	wnd.Gfx().DrawTestTriangle(
-		timer.Peek(),
-		wnd.mouse.GetPosX() / ((float)WINDOW_WIDTH / 2) - 1.0f,
-		-wnd.mouse.GetPosY() / ((float)WINDOW_HEIGHT / 2) +1.0f);
 	
 	wnd.Gfx().DrawTestTriangle(-timer.Peek(),0.0f,0.0f);
 	

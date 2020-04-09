@@ -3,6 +3,7 @@
 #include "resource.h"
 
 #include "Constants.h"
+#include "WindowsThrowMacros.h"
 
 //Window Class initialization
 Window::WindowClass Window::WindowClass::wndClass;

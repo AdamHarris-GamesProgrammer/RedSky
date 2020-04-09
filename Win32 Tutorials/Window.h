@@ -3,6 +3,7 @@
 #include "RedSkyWin.h"
 #include "RedSkyException.h"
 
+
 #include "Keyboard.h"
 #include "Mouse.h"
 
@@ -77,6 +78,4 @@ private:
 };
 
 
-#define RSWND_EXCEPT(hr) Window::HrException(__LINE__,__FILE__,(hr));
-#define RSWND_LAST_EXCEPT() Window::HrException(__LINE__,__FILE__,GetLastError())
-#define RSWND_NOGFX_EXCEPT() Window::NoGfxException(__LINE__,__FILE__)
+
