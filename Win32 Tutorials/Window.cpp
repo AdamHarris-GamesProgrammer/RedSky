@@ -8,16 +8,6 @@
 //Window Class initialization
 Window::WindowClass Window::WindowClass::wndClass;
 
-const char* Window::WindowClass::GetName() noexcept
-{
-	return wndClassName;
-}
-
-HINSTANCE Window::WindowClass::GetInstance() noexcept
-{
-	return wndClass.hInst; //gets the handle for the instance
-}
-
 Window::WindowClass::WindowClass() noexcept : hInst(GetModuleHandle(nullptr))
 {
 	//Windows Class description
@@ -195,8 +185,6 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 	}
 		break;
 	}
-
-
 	
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
@@ -237,7 +225,7 @@ Graphics& Window::Gfx()
 	return *pGfx;
 }
 
-
+#pragma region Windows Exception
 std::string Window::Exception::TranslateErrorCode(HRESULT hr) noexcept
 {
 	char* pMsgBuf = nullptr;
@@ -256,7 +244,9 @@ std::string Window::Exception::TranslateErrorCode(HRESULT hr) noexcept
 	LocalFree(pMsgBuf); //release memory from pMsgBuffer
 	return errorString; 
 }
+#pragma endregion
 
+#pragma region Windows HrException
 Window::HrException::HrException(int line, const char* file, HRESULT hr) noexcept : Exception(line, file), hr(hr) {}
 
 const char* Window::HrException::what() const noexcept {
@@ -281,9 +271,12 @@ HRESULT Window::HrException::GetErrorCode() const noexcept {
 std::string Window::HrException::GetErrorDescription() const noexcept {
 	return Exception::TranslateErrorCode(hr);
 }
+#pragma endregion
 
+#pragma region Windows NoGfxException
 const char* Window::NoGfxException::GetType() const noexcept {
 	return "RedSky Window Exception [No Graphics]";
 }
+#pragma endregion
 
 

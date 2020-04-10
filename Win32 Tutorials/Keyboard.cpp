@@ -1,11 +1,6 @@
 #include "Keyboard.h"
 #include "Window.h"
 
-bool Keyboard::KeyIsPressed(unsigned char keycode) const noexcept
-{
-	return keyStates[keycode]; //returns true or false
-}
-
 std::optional<Keyboard::Event> Keyboard::ReadKey() noexcept
 {
 	if (keyBuffer.size() > 0u) { //if there is anything on the key buffer
@@ -16,10 +11,6 @@ std::optional<Keyboard::Event> Keyboard::ReadKey() noexcept
 	return {};
 }
 
-bool Keyboard::KeyIsEmpty() const noexcept
-{
-	return keyBuffer.empty(); 
-}
 
 std::optional<char> Keyboard::ReadChar() noexcept
 {
@@ -37,11 +28,6 @@ void Keyboard::FlushKey() noexcept
 	keyBuffer = std::queue<Event>(); //Resets the queue
 }
 
-bool Keyboard::CharIsEmpty() const noexcept
-{
-	return charBuffer.empty();
-}
-
 void Keyboard::FlushChar() noexcept
 {
 	charBuffer = std::queue<char>(); //Resets the queue
@@ -54,20 +40,6 @@ void Keyboard::Flush() noexcept
 	FlushChar();
 }
 
-void Keyboard::EnableAutorepeat() noexcept
-{
-	autoRepeatEnabled = true;
-}
-
-void Keyboard::DisableAutorepeat() noexcept
-{
-	autoRepeatEnabled = false;
-}
-
-bool Keyboard::AutorepeatEnabled() const noexcept
-{
-	return autoRepeatEnabled;
-}
 
 //Windows class uses this
 void Keyboard::OnKeyPressed(unsigned char keycode) noexcept
@@ -92,10 +64,6 @@ void Keyboard::OnChar(char character) noexcept
 	TrimBuffer(charBuffer);
 }
 
-void Keyboard::ClearState() noexcept
-{
-	keyStates.reset(); //resets keyStates bit set
-}
 
 //Template to work on both the queue<char> and queue<event>
 template<typename T>

@@ -41,8 +41,8 @@ public:
 private:
 	class WindowClass { // a window requires a window class 
 	public:
-		static const char* GetName() noexcept; //the GetName() function does not throw an exception
-		static HINSTANCE GetInstance() noexcept;
+		static const char* GetName() noexcept { return wndClassName; }
+		static HINSTANCE GetInstance() noexcept { return wndClass.hInst; }
 	private:
 		WindowClass() noexcept; //registers on the winAPI
 		~WindowClass();

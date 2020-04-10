@@ -35,30 +35,34 @@ public:
 	Keyboard& operator=(const Keyboard&) = delete; //Copy constructor
 
 	//Key Events
-	bool KeyIsPressed(unsigned char keycode) const noexcept;
+	bool KeyIsPressed(unsigned char keycode) const noexcept { return keyStates[keycode]; }
 	std::optional<Event> ReadKey() noexcept;
-	bool KeyIsEmpty() const noexcept; 
-	void FlushKey() noexcept; //Clears key
+	bool KeyIsEmpty() const noexcept { return keyBuffer.empty(); }
+	void FlushKey() noexcept;
 
-	//Char Events
-	std::optional<char> ReadChar() noexcept; //Text input, a stream of characters
-	bool CharIsEmpty() const noexcept; 
+	//Char Event Reading and cleaning
+	std::optional<char> ReadChar() noexcept; 
+	bool CharIsEmpty() const noexcept { return charBuffer.empty(); }
 	void FlushChar() noexcept;
 	void Flush() noexcept; //Flush both queues
 
-	//Autorepeat
-	void EnableAutorepeat() noexcept;
-	void DisableAutorepeat() noexcept;
-	bool AutorepeatEnabled() const noexcept;
+	//Autorepeat Getter/Setter
+	void EnableAutorepeat() noexcept { autoRepeatEnabled = true; }
+	void DisableAutorepeat() noexcept { autoRepeatEnabled = false; }
+	bool AutorepeatEnabled() const noexcept { return autoRepeatEnabled; }
 
 private:
-	//Window uses this class by making it a friend class
+	//The Window class has access to these as it is a friend class
+
+	//Key event handling
 	void OnKeyPressed(unsigned char keycode) noexcept;
 	void OnKeyReleased(unsigned char keycode) noexcept;
 	void OnChar(char character) noexcept;
-	void ClearState() noexcept; //Clears the key states
+	void ClearState() noexcept { keyStates.reset(); }
+
 	template<typename T>
-	static void TrimBuffer(std::queue<T>& buffer) noexcept; //Buffers can have a maxinum size of 16, removes items until buffer size is back  at 16
+	//Buffers can have a maximum size of 16, removes items until buffer size is back  at 16
+	static void TrimBuffer(std::queue<T>& buffer) noexcept; 
 
 private:
 	static constexpr unsigned int nKeys = 256u; //

@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <Windows.h>
 
+//This class stores all of the possible window event messages
 class WindowsMessageMap
 {
 public:
