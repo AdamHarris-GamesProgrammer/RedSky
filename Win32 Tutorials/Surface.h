@@ -53,10 +53,8 @@ public:
 		std::string note;
 	};
 public:
-	Surface(unsigned int width, unsigned int height, unsigned int pitch) noexcept :
-		pBuffer(std::make_unique<Color[]>(pitch* height)), width(width), height(height) {}
-
-	Surface(unsigned int width, unsigned int height) noexcept : Surface(width, height, width) {}
+	Surface(unsigned int width, unsigned int height) noexcept 
+		: pBuffer(std::make_unique<Color[]>(width * height)), width(width), height(height) {}
 
 	Surface(Surface&& source) noexcept : width(source.width), height(source.height), pBuffer(std::move(source.pBuffer)) {}
 	Surface(Surface&) = delete;

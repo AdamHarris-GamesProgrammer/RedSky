@@ -1,4 +1,4 @@
-
+#define FULL_WINDOWS
 #include "Surface.h"
 #include <algorithm>
 namespace Gdiplus {
@@ -37,8 +37,7 @@ Surface Surface::FromFile(const std::string& name)
 {
 	unsigned int width = 0;
 	unsigned int height = 0;
-	unsigned int pitch = 0;
-	std::unique_ptr<Color[]> pBuffer = nullptr;
+	std::unique_ptr<Color[]> pBuffer;
 
 	{
 		// convert filename to wide string (for Gdiplus)
@@ -53,6 +52,7 @@ Surface Surface::FromFile(const std::string& name)
 			throw Exception(__LINE__, __FILE__, ss.str());
 		}
 
+		width = bitmap.GetWidth();
 		height = bitmap.GetHeight();
 		pBuffer = std::make_unique<Color[]>(width * height);
 
@@ -62,7 +62,7 @@ Surface Surface::FromFile(const std::string& name)
 			{
 				Gdiplus::Color c;
 				bitmap.GetPixel(x, y, &c);
-				pBuffer[y * pitch + x] = c.GetValue();
+				pBuffer[y * width + x] = c.GetValue();
 			}
 		}
 	}

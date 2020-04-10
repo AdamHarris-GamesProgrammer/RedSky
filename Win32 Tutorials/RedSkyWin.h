@@ -1,9 +1,11 @@
 #pragma once
 
 #define _WIN32_WINNT 0x0601 //Sets it to windows 7 or later
+#include <sdkddkver.h>
 
 //Removes unused windows calls from the <Windows.h> include
 //using these toggles switches that windows has provided
+#ifndef FULL_WINDOWS
 #define WIN32_LEAN_AND_MEAN
 #define NOGDICAPMASKS
 #define NOSYSMETRICS
@@ -38,6 +40,7 @@
 #define NOPROXYSTUB
 #define NOIMAGE
 #define NOTAPE
+#endif
 
 
 #define NOMINMAX

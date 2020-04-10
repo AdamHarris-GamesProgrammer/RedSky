@@ -1,3 +1,4 @@
+#define FULL_WINDOWS
 #include "RedSkyWin.h"
 #include "GDIPlusManager.h"
 #include <algorithm>
