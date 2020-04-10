@@ -7,10 +7,10 @@
 #include "GraphicsThrowMacros.h"
 #include "Constants.h"
 
+//shorthand for Microsoft::WRL
 namespace wrl = Microsoft::WRL;
 
-namespace dx = DirectX;
-
+//adds the d3d11 and D3DCompilet library to the project settings
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "D3DCompiler.lib")
 
@@ -141,17 +141,6 @@ void Graphics::DrawIndexed(UINT count) noexcept(!IS_DEBUG)
 	GFX_THROW_INFO_ONLY(pContext->DrawIndexed(count, 0u, 0u));
 }
 
-void Graphics::SetProjection(DirectX::FXMMATRIX proj) noexcept
-{
-	projection = proj;
-}
-
-DirectX::XMMATRIX Graphics::GetProjection() const noexcept
-{
-	return projection;
-}
-
-
 //Graphics Exception Classes
 #pragma region HrException
 Graphics::HrException::HrException(int line, const char* file, HRESULT hr, std::vector<std::string> infoMsgs /*= {}*/) noexcept : Exception(line, file), hr(hr)
@@ -242,9 +231,5 @@ const char* Graphics::InfoException::what() const noexcept {
 
 const char* Graphics::InfoException::GetType() const noexcept {
 	return "RedSky Graphics Info Exception";
-}
-
-std::string Graphics::InfoException::GetErrorInfo() const noexcept {
-	return info;
 }
 #pragma endregion InfoException

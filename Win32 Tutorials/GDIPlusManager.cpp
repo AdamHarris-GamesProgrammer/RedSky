@@ -16,7 +16,9 @@ int GDIPlusManager::refCount = 0;
 
 GDIPlusManager::GDIPlusManager()
 {
+	//if ref count is 0 
 	if (refCount++ == 0) {
+		//setup GDI
 		Gdiplus::GdiplusStartupInput input;
 		input.GdiplusVersion = 1;
 		input.DebugEventCallback = nullptr;
@@ -27,7 +29,9 @@ GDIPlusManager::GDIPlusManager()
 
 GDIPlusManager::~GDIPlusManager()
 {
+	//if refcout equals 0 
 	if (--refCount == 0) {
+		//destroy GDI
 		Gdiplus::GdiplusShutdown(token);
 	}
 }

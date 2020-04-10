@@ -38,7 +38,7 @@ public:
 		InfoException(int line, const char* file, std::vector<std::string> infoMsgs) noexcept;
 		const char* what() const noexcept override;
 		const char* GetType() const noexcept override;
-		std::string GetErrorInfo() const noexcept;
+		std::string GetErrorInfo() const noexcept { return info; }
 
 	private:
 		std::string info;
@@ -53,20 +53,26 @@ public:
 
 
 public:
+	//Constructor related methods
 	Graphics(HWND hWnd);
 	Graphics(const Graphics&) = delete;
 	Graphics& operator=(const Graphics&) = delete;
 	~Graphics() = default;
 
+	//Swap Chain related functions
 	void EndFrame();
 	void ClearBuffer(float red, float green, float blue) noexcept;
 
+	//Indexed Objects
 	void DrawIndexed(UINT count) noexcept(!IS_DEBUG);
-	void SetProjection(DirectX::FXMMATRIX proj) noexcept;
-	DirectX::XMMATRIX GetProjection() const noexcept;
+
+	//Getter/Setter for the projection
+	void SetProjection(DirectX::FXMMATRIX proj) noexcept { projection = proj; }
+	DirectX::XMMATRIX GetProjection() const noexcept { return projection; }
 private:
 	DirectX::XMMATRIX projection;
-#ifndef NDEBUG
+#ifndef NDEBUG 
+	//if not in debug mode
 	DxgiInfoManager infoManager;
 #endif
 	Microsoft::WRL::ComPtr<ID3D11Device> pDevice;
