@@ -29,8 +29,8 @@ public:
 		Event(Type type, const Mouse& parent) noexcept :
 			type(type),
 			leftIsPressed(parent.leftIsPressed),
-			rightIsPressed(parent.rightIsPressed), 
-			x(parent.x), 
+			rightIsPressed(parent.rightIsPressed),
+			x(parent.x),
 			y(parent.y) {}
 
 		Type GetType() const noexcept { return type; }
@@ -41,38 +41,55 @@ public:
 		bool RightIsPressed() const noexcept { return rightIsPressed; }
 	};
 public:
+	//Constructor handlers
 	Mouse() = default;
 	Mouse(const Mouse&) = delete;
 	Mouse& operator=(const Mouse&) = delete;
-	std::pair<int, int>GetPos() const noexcept;
-	int GetPosX() const noexcept;
-	int GetPosY() const noexcept;
-	bool IsInWindow() const noexcept;
-	bool LeftIsPressed() const noexcept;
-	bool RightIsPressed() const noexcept;
-	std::optional<Mouse::Event> Read() noexcept;
+
+	//Getters
+	std::pair<int, int>GetPos() const noexcept { return { x,y }; }
+	int GetPosX() const noexcept { return x; }
+	int GetPosY() const noexcept { return y; }
+	bool IsInWindow() const noexcept { return isInWindow; }
+	bool LeftIsPressed() const noexcept { return leftIsPressed; }
+	bool RightIsPressed() const noexcept { return rightIsPressed; }
 	bool IsEmpty() const noexcept { return buffer.empty(); }
+
+	//Reads the mouse event queue and places events into the buffer
+	std::optional<Mouse::Event> Read() noexcept;
+
+	//Clears the buffer of events
 	void Flush() noexcept;
 private:
+	//Event Handlers
 	void OnMouseMove(int newX, int newY) noexcept;
-	void OnMouseLeave() noexcept;
-	void OnMouseEnter() noexcept;
+	void OnMouseLeave() noexcept { isInWindow = false; }
+	void OnMouseEnter() noexcept { isInWindow = true; }
 	void OnLeftPressed(int x, int y) noexcept;
 	void OnLeftReleased(int x, int y) noexcept;
 	void OnRightPressed(int x, int y) noexcept;
 	void OnRightReleased(int x, int y) noexcept;
 	void OnWheelUp(int x, int y) noexcept;
 	void OnWheelDown(int x, int y) noexcept;
-	void TrimBuffer() noexcept;
 	void OnWheelDelta(int x, int y, int delta) noexcept;
+
+	//Reduces the buffer down to the bufferSize variable the buffer from growing to ridiculous sizes
+	void TrimBuffer() noexcept;
 private:
+	//Size of the buffer
 	static constexpr unsigned int bufferSize = 16u;
+
+	//Positional Data
 	int x;
 	int y;
+	bool isInWindow = false;
+
+	//Button/Wheel Data
 	bool leftIsPressed = false;
 	bool rightIsPressed = false;
-	bool isInWindow = false;
 	int wheelDeltaCarry = 0;
+
+	//Event buffer
 	std::queue<Event> buffer;
 };
 

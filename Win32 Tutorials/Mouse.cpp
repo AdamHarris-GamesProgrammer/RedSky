@@ -1,36 +1,6 @@
 #include "Mouse.h"
 #include "RedSkyWin.h"
 
-std::pair<int, int> Mouse::GetPos() const noexcept
-{
-	return { x,y };
-}
-
-int Mouse::GetPosX() const noexcept
-{
-	return x;
-}
-
-int Mouse::GetPosY() const noexcept
-{
-	return y;
-}
-
-bool Mouse::IsInWindow() const noexcept
-{
-	return isInWindow;
-}
-
-bool Mouse::LeftIsPressed() const noexcept
-{
-	return leftIsPressed;
-}
-
-bool Mouse::RightIsPressed() const noexcept
-{
-	return rightIsPressed;
-}
-
 //Reads the mouse 
 std::optional<Mouse::Event> Mouse::Read() noexcept
 {
@@ -58,15 +28,6 @@ void Mouse::OnMouseMove(int newX, int newY) noexcept
 	TrimBuffer();
 }
 
-void Mouse::OnMouseLeave() noexcept
-{
-	isInWindow = false;
-}
-
-void Mouse::OnMouseEnter() noexcept
-{
-	isInWindow = true;
-}
 
 //Left button events
 void Mouse::OnLeftPressed(int x, int y) noexcept
