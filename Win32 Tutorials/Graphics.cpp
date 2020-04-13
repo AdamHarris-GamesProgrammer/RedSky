@@ -6,6 +6,8 @@
 #include <DirectXMath.h>
 #include "GraphicsThrowMacros.h"
 #include "Constants.h"
+#include "imgui/imgui_impl_dx11.h"
+#include "imgui/imgui_impl_win32.h"
 
 //shorthand for Microsoft::WRL
 namespace wrl = Microsoft::WRL;
@@ -108,10 +110,19 @@ Graphics::Graphics(HWND hWnd)
 	vp.TopLeftX = 0;
 	vp.TopLeftY = 0;
 	pContext->RSSetViewports(1u, &vp);
+
+
+	ImGui_ImplDX11_Init(pDevice.Get(), pContext.Get());
 }
 
 void Graphics::EndFrame()
 {
+	//Renders GUI if imgui is enabled
+	if (imguiEnabled) {
+		ImGui::Render();
+		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+	}
+
 	HRESULT hr; //GFX_THROW_FAILED requires a local hresult variable
 
 #ifndef NDEBUG
@@ -129,16 +140,39 @@ void Graphics::EndFrame()
 	}
 }
 
-void Graphics::ClearBuffer(float red, float green, float blue) noexcept
+void Graphics::BeginFrame(float red, float green, float blue) noexcept
 {
+	if (imguiEnabled) {
+		ImGui_ImplDX11_NewFrame();
+		ImGui_ImplWin32_NewFrame();
+		ImGui::NewFrame();
+	}
+
 	const float colour[] = { red,green,blue,1.0f };
 	pContext->ClearRenderTargetView(pTarget.Get(), colour); //have to use the .get() method to get the address of the ComPtr
 	pContext->ClearDepthStencilView(pDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
 }
 
+
 void Graphics::DrawIndexed(UINT count) noexcept(!IS_DEBUG)
 {
 	GFX_THROW_INFO_ONLY(pContext->DrawIndexed(count, 0u, 0u));
+}
+
+//Imgui Controls
+void Graphics::EnableImgui() noexcept
+{
+	imguiEnabled = true;
+}
+
+void Graphics::DisableImgui() noexcept
+{
+	imguiEnabled = false;
+}
+
+bool Graphics::IsImGuiEnabled() const noexcept
+{
+	return imguiEnabled;
 }
 
 //Graphics Exception Classes

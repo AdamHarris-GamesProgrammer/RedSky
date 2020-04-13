@@ -13,6 +13,7 @@
 #include "GDIPlusManager.h"
 #include "Sheet.h"
 #include "SkinnedBox.h"
+#include "imgui/imgui.h"
 
 GDIPlusManager gdipm;
 
@@ -84,11 +85,30 @@ int App::Go()
 void App::DoFrame()
 {
 	auto dt = timer.Mark();
-	wnd.Gfx().ClearBuffer(0.07f, 0.0f, 0.12f);
+
+	if (wnd.kbd.KeyIsPressed(VK_SPACE)) {
+		wnd.Gfx().DisableImgui();
+	}
+	else
+	{
+		wnd.Gfx().EnableImgui();
+	}
+	wnd.Gfx().BeginFrame(0.07f, 0.0f, 0.12f);
+
+
 	for (auto& b : drawables) {
 		b->Update(wnd.kbd.KeyIsPressed(VK_SPACE) ? 0.0f : dt);
 		b->Draw(wnd.Gfx());
 	}
+
+
+	
+	if (showDemo) {
+		ImGui::ShowDemoWindow(&showDemo);
+	}
+
+
+
 	
 	wnd.Gfx().EndFrame();
 }

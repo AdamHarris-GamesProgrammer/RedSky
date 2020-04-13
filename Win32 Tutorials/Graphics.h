@@ -61,7 +61,8 @@ public:
 
 	//Swap Chain related functions
 	void EndFrame();
-	void ClearBuffer(float red, float green, float blue) noexcept;
+	void BeginFrame(float red, float green, float blue) noexcept;
+	
 
 	//Indexed Objects
 	void DrawIndexed(UINT count) noexcept(!IS_DEBUG);
@@ -69,7 +70,14 @@ public:
 	//Getter/Setter for the projection
 	void SetProjection(DirectX::FXMMATRIX proj) noexcept { projection = proj; }
 	DirectX::XMMATRIX GetProjection() const noexcept { return projection; }
+
+	//Imgui Functions
+	void EnableImgui() noexcept;
+	void DisableImgui() noexcept;
+	bool IsImGuiEnabled() const noexcept;
+
 private:
+	bool imguiEnabled = true;
 	DirectX::XMMATRIX projection;
 #ifndef NDEBUG 
 	//if not in debug mode

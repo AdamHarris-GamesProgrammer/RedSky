@@ -4,6 +4,7 @@
 
 #include "Constants.h"
 #include "WindowsThrowMacros.h"
+#include "imgui/imgui_impl_win32.h"
 
 //Window Class initialization
 Window::WindowClass Window::WindowClass::wndClass;
@@ -26,8 +27,6 @@ Window::WindowClass::WindowClass() noexcept : hInst(GetModuleHandle(nullptr))
 	wc.hIconSm = static_cast<HICON>(LoadImage(hInst, MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, 16, 16, 0));;
 	RegisterClassEx(&wc);
 }
-
-
 
 Window::WindowClass::~WindowClass()
 {
@@ -71,8 +70,19 @@ Window::Window(int width, int height, const char* name) : width(width), height(h
 
 	ShowWindow(hWnd, SW_SHOWDEFAULT);
 
+	//Init Imgui
+	ImGui_ImplWin32_Init(hWnd);
+
+
 	pGfx = std::make_unique<Graphics>(hWnd);
 }
+
+Window::~Window()
+{
+	ImGui_ImplWin32_Shutdown();
+	DestroyWindow(hWnd); //Destroys the window
+}
+
 //only exists to setup the pointer to our instnace on the windows api side
 LRESULT CALLBACK Window::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 {
@@ -102,6 +112,11 @@ LRESULT CALLBACK Window::HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 
 LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 {
+	if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam)) {
+		return true;
+	}
+
+
 	switch (msg) {
 	case WM_CLOSE:
 		PostQuitMessage(0);
@@ -187,11 +202,6 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 	}
 	
 	return DefWindowProc(hWnd, msg, wParam, lParam);
-}
-
-Window::~Window()
-{
-	DestroyWindow(hWnd); //Destroys the window
 }
 
 void Window::SetTitle(const std::string& title)
