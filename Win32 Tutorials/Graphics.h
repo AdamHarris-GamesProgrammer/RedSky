@@ -59,10 +59,16 @@ public:
 	Graphics& operator=(const Graphics&) = delete;
 	~Graphics();
 
+	//DirectX Setup
+	void SetupSwapchainAndDevice(HWND& hWnd);
+	void SetupRenderTarget();
+	void SetupDepthStencil();
+	void SetupViewport();
+
 	//Swap Chain related functions
 	void EndFrame();
 	void BeginFrame(float red, float green, float blue) noexcept;
-	
+
 
 	//Indexed Objects
 	void DrawIndexed(UINT count) noexcept(!IS_DEBUG);
@@ -72,13 +78,13 @@ public:
 	DirectX::XMMATRIX GetProjection() const noexcept { return projection; }
 
 	//Getter/Setter for camera
-	void SetCamera(DirectX::FXMMATRIX cam) noexcept;
-	DirectX::XMMATRIX GetCamera() const noexcept;
+	void SetCamera(DirectX::FXMMATRIX cam) noexcept { camera = cam; }
+	DirectX::XMMATRIX GetCamera() const noexcept { return camera; }
 
-	//Imgui Functions
-	void EnableImgui() noexcept;
-	void DisableImgui() noexcept;
-	bool IsImGuiEnabled() const noexcept;
+	//Getter/Setter for ImGui
+	void EnableImgui() noexcept { imguiEnabled = true; }
+	void DisableImgui() noexcept { imguiEnabled = false; }
+	bool IsImGuiEnabled() const noexcept { return imguiEnabled; }
 
 private:
 	DirectX::XMMATRIX camera;

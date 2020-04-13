@@ -18,6 +18,23 @@ namespace wrl = Microsoft::WRL;
 
 Graphics::Graphics(HWND hWnd)
 {
+	HRESULT hr;
+
+	SetupSwapchainAndDevice(hWnd);
+	SetupRenderTarget();
+	SetupDepthStencil();
+
+	//Bind Render target
+	pContext->OMSetRenderTargets(1u, pTarget.GetAddressOf(), pDSV.Get());
+
+	SetupViewport();
+
+	ImGui_ImplDX11_Init(pDevice.Get(), pContext.Get());
+}
+
+#pragma region DirectX Setup
+void Graphics::SetupSwapchainAndDevice(HWND& hWnd)
+{
 	DXGI_SWAP_CHAIN_DESC sd = {};
 	//Direct3D gets the width and height of the window
 	sd.BufferDesc.Width = WINDOW_WIDTH;
@@ -59,24 +76,33 @@ Graphics::Graphics(HWND hWnd)
 		nullptr,
 		&pContext
 		));
+}
 
+void Graphics::SetupRenderTarget()
+{
+	HRESULT hr;
 	//Gain access to texture sub resource in swap chain
 	wrl::ComPtr<ID3D11Resource> pBackBuffer;
 	GFX_THROW_INFO(pSwap->GetBuffer(0, __uuidof(ID3D11Resource), &pBackBuffer));
 	GFX_THROW_INFO(pDevice->CreateRenderTargetView(pBackBuffer.Get(), nullptr, &pTarget));
+}
+
+void Graphics::SetupDepthStencil()
+{
+	HRESULT hr;
 
 	D3D11_DEPTH_STENCIL_DESC  dsDesc = {};
 	dsDesc.DepthEnable = TRUE;
 	dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
 	dsDesc.DepthFunc = D3D11_COMPARISON_LESS;
-	
+
 	wrl::ComPtr<ID3D11DepthStencilState> pDSState;
 	GFX_THROW_INFO(pDevice->CreateDepthStencilState(&dsDesc, &pDSState));
 
 	pContext->OMSetDepthStencilState(pDSState.Get(), 1u);
 
-
 	wrl::ComPtr<ID3D11Texture2D> pDepthStencil;
+
 	D3D11_TEXTURE2D_DESC descDepth = {};
 	descDepth.Width = WINDOW_WIDTH;
 	descDepth.Height = WINDOW_HEIGHT;
@@ -96,11 +122,10 @@ Graphics::Graphics(HWND hWnd)
 	descDSV.Texture2D.MipSlice = 0u;
 
 	GFX_THROW_INFO(pDevice->CreateDepthStencilView(pDepthStencil.Get(), &descDSV, &pDSV));
+}
 
-
-	//Bind Render target
-	pContext->OMSetRenderTargets(1u, pTarget.GetAddressOf(), pDSV.Get());
-
+void Graphics::SetupViewport()
+{
 	//configure viewport
 	D3D11_VIEWPORT vp;
 	vp.Width = 800;
@@ -110,13 +135,24 @@ Graphics::Graphics(HWND hWnd)
 	vp.TopLeftX = 0;
 	vp.TopLeftY = 0;
 	pContext->RSSetViewports(1u, &vp);
-
-
-	ImGui_ImplDX11_Init(pDevice.Get(), pContext.Get());
 }
+#pragma endregion DirectX Setup Functions
 
 Graphics::~Graphics() {
 	ImGui_ImplDX11_Shutdown();
+}
+
+void Graphics::BeginFrame(float red, float green, float blue) noexcept
+{
+	if (imguiEnabled) {
+		ImGui_ImplDX11_NewFrame();
+		ImGui_ImplWin32_NewFrame();
+		ImGui::NewFrame();
+	}
+
+	const float colour[] = { red,green,blue,1.0f };
+	pContext->ClearRenderTargetView(pTarget.Get(), colour); //have to use the .get() method to get the address of the ComPtr
+	pContext->ClearDepthStencilView(pDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
 }
 
 void Graphics::EndFrame()
@@ -144,49 +180,9 @@ void Graphics::EndFrame()
 	}
 }
 
-void Graphics::BeginFrame(float red, float green, float blue) noexcept
-{
-	if (imguiEnabled) {
-		ImGui_ImplDX11_NewFrame();
-		ImGui_ImplWin32_NewFrame();
-		ImGui::NewFrame();
-	}
-
-	const float colour[] = { red,green,blue,1.0f };
-	pContext->ClearRenderTargetView(pTarget.Get(), colour); //have to use the .get() method to get the address of the ComPtr
-	pContext->ClearDepthStencilView(pDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
-}
-
-
 void Graphics::DrawIndexed(UINT count) noexcept(!IS_DEBUG)
 {
 	GFX_THROW_INFO_ONLY(pContext->DrawIndexed(count, 0u, 0u));
-}
-
-void Graphics::SetCamera(DirectX::FXMMATRIX cam) noexcept
-{
-	camera = cam;
-}
-
-DirectX::XMMATRIX Graphics::GetCamera() const noexcept
-{
-	return camera;
-}
-
-//Imgui Controls
-void Graphics::EnableImgui() noexcept
-{
-	imguiEnabled = true;
-}
-
-void Graphics::DisableImgui() noexcept
-{
-	imguiEnabled = false;
-}
-
-bool Graphics::IsImGuiEnabled() const noexcept
-{
-	return imguiEnabled;
 }
 
 //Graphics Exception Classes
