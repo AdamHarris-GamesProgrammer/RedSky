@@ -4,7 +4,6 @@
 #include "Constants.h"
 #include "Box.h"
 #include <memory>
-#include "Melon.h"
 #include "Pyramid.h"
 #include "RedSkyMath.h"
 #include <algorithm>
@@ -20,36 +19,15 @@ GDIPlusManager gdipm;
 namespace DX = DirectX;
 
 
-App::App() : wnd(WINDOW_WIDTH, WINDOW_HEIGHT, "RedSky Demo Window")
+App::App() : wnd(WINDOW_WIDTH, WINDOW_HEIGHT, "RedSky Demo Window"), light(wnd.Gfx())
 {
 	class Factory {
 	public:
 		Factory(Graphics& gfx) : gfx(gfx) {}
 
 		std::unique_ptr<Drawable> operator()() {
-			switch (typedist(rng)) {
-			case 0:
-				return std::make_unique<Pyramid>(gfx, rng, adist, ddist, odist, rdist);
-				break;
+			return std::make_unique<Box>(gfx, rng, adist, ddist, odist, rdist, bdist);
 
-			case 1:
-				return std::make_unique<Box>(gfx, rng, adist, ddist, odist, rdist, bdist);
-				break;
-
-			case 2:
-				return std::make_unique<Melon>(gfx, rng, adist, ddist, odist, rdist, longdist, latdist);
-				break;
-			case 3:
-				return std::make_unique<Sheet>(gfx, rng, adist, ddist, odist, rdist);
-				break;
-			case 4:
-				return std::make_unique<SkinnedBox>(gfx, rng, adist, ddist, odist, rdist);
-				break;
-			default:
-				assert(false && "[Error]: Invalid type in factory");
-				return{};
-				break;
-			}
 		}
 
 	private:
@@ -60,9 +38,6 @@ App::App() : wnd(WINDOW_WIDTH, WINDOW_HEIGHT, "RedSky Demo Window")
 		std::uniform_real_distribution<float> odist{ 0.0f,PI * 0.08f };
 		std::uniform_real_distribution<float> rdist{ 6.0f,20.0f };
 		std::uniform_real_distribution<float> bdist{ 0.4f,3.0f };
-		std::uniform_int_distribution<int> latdist{ 5,20 };
-		std::uniform_int_distribution<int> longdist{ 10,40 };
-		std::uniform_int_distribution<int> typedist{ 0,3 };
 	};
 
 	drawables.reserve(nDrawables);
@@ -97,13 +72,14 @@ void App::DoFrame()
 	}
 	wnd.Gfx().BeginFrame(bgColour[0], bgColour[1], bgColour[2]);
 	wnd.Gfx().SetCamera(cam.GetMatrix());
+	light.Bind(wnd.Gfx());
 
 
 	for (auto& b : drawables) {
 		b->Update(wnd.kbd.KeyIsPressed(VK_SPACE) ? 0.0f : dt);
 		b->Draw(wnd.Gfx());
 	}
-
+	light.Draw(wnd.Gfx());
 
 	if (ImGui::Begin("Simulation Speed")) {
 		ImGui::Text("Simulation Speed");
@@ -121,6 +97,7 @@ void App::DoFrame()
 	ImGui::End();
 
 	cam.SpawnControlWindow();
+	light.SpawnControlWindow();
 
 	wnd.Gfx().EndFrame();
 }
