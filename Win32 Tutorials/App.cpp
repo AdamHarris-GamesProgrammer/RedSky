@@ -84,7 +84,7 @@ int App::Go()
 
 void App::DoFrame()
 {
-	auto dt = timer.Mark();
+	auto dt = timer.Mark() * simSpeed;
 
 	if (wnd.kbd.KeyIsPressed(VK_SPACE)) {
 		wnd.Gfx().DisableImgui();
@@ -93,7 +93,7 @@ void App::DoFrame()
 	{
 		wnd.Gfx().EnableImgui();
 	}
-	wnd.Gfx().BeginFrame(0.07f, 0.0f, 0.12f);
+	wnd.Gfx().BeginFrame(colour[0], colour[1], colour[2]);
 
 
 	for (auto& b : drawables) {
@@ -102,12 +102,24 @@ void App::DoFrame()
 	}
 
 
-	
-	if (showDemo) {
-		ImGui::ShowDemoWindow(&showDemo);
+	if (ImGui::Begin("Simulation Speed")) {
+		ImGui::Text("Simulation Speed");
+		ImGui::SameLine();
+		ImGui::SliderFloat("", &simSpeed, 0.0f, 4.0f, "%.2f");
+
 	}
+	ImGui::End();
 
+	if (ImGui::Begin("Background Colour")) {
+		ImGui::Text("Background Colour");
+		ImGui::SameLine();
+		ImGui::ColorEdit3("", colour);
+	}
+	ImGui::End();
 
+	//ImGui::ShowUserGuide();
+
+	ImGui::ShowDemoWindow();
 
 	
 	wnd.Gfx().EndFrame();

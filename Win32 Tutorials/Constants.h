@@ -1,4 +1,4 @@
 #pragma once
 
-#define WINDOW_WIDTH	800
+#define WINDOW_WIDTH	1300
 #define WINDOW_HEIGHT	600

@@ -116,6 +116,7 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 		return true;
 	}
 
+	const auto imio = ImGui::GetIO();
 
 	switch (msg) {
 	case WM_CLOSE:
@@ -131,19 +132,31 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 	case WM_KEYDOWN:
 		//Syskey command need to be handled to track alt key
 	case WM_SYSKEYDOWN:
+		if (imio.WantCaptureKeyboard) {
+			break;
+		}
 		if (!(lParam & 0x40000000) || kbd.AutorepeatEnabled()) { //Filters Autorepeat //0x40000000 bit 30 (AutoRepeat)
 			kbd.OnKeyPressed(static_cast<unsigned char>(wParam));
 		}
 		break;
 	case WM_KEYUP:
 	case WM_SYSKEYUP:
+		if (imio.WantCaptureKeyboard) {
+			break;
+		}
 		kbd.OnKeyReleased(static_cast<unsigned char>(wParam));
 	case WM_CHAR: //Text input
+		if (imio.WantCaptureKeyboard) {
+			break;
+		}
 		kbd.OnChar(static_cast<unsigned char>(wParam));
 	
 	//Mouse Messages
 	case WM_MOUSEMOVE:
 	{
+		if (imio.WantCaptureKeyboard) {
+			break;
+		}
 		const POINTS pt = MAKEPOINTS(lParam);
 		if (pt.x > 0 && pt.x < width && pt.y >= 0 && pt.y < height) {
 			mouse.OnMouseMove(pt.x, pt.y);
@@ -167,6 +180,9 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 		break;
 	case WM_LBUTTONDOWN:
 	{
+		if (imio.WantCaptureKeyboard) {
+			break;
+		}
 		const POINTS pt = MAKEPOINTS(lParam); //lParam holds mouse coordinates
 		mouse.OnLeftPressed(pt.x, pt.y);
 
@@ -176,24 +192,36 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 		break;
 	case WM_RBUTTONDOWN:
 	{
+		if (imio.WantCaptureKeyboard) {
+			break;
+		}
 		const POINTS pt = MAKEPOINTS(lParam);
 		mouse.OnRightPressed(pt.x, pt.y);
 	}
 		break;
 	case WM_LBUTTONUP:
 	{
+		if (imio.WantCaptureKeyboard) {
+			break;
+		}
 		const POINTS pt = MAKEPOINTS(lParam);
 		mouse.OnLeftReleased(pt.x, pt.y);
 	}
 		break;
 	case WM_RBUTTONUP:
 	{
+		if (imio.WantCaptureKeyboard) {
+			break;
+		}
 		const POINTS pt = MAKEPOINTS(lParam);
 		mouse.OnRightReleased(pt.x, pt.y);
 	}
 		break;
 	case WM_MOUSEWHEEL:
 	{
+		if (imio.WantCaptureKeyboard) {
+			break;
+		}
 		const POINTS pt = MAKEPOINTS(lParam);
 		const int delta = GET_WHEEL_DELTA_WPARAM(wParam); //wParam holds mouse wheel
 		mouse.OnWheelDelta(pt.x, pt.y, delta);
