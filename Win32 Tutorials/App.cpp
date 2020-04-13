@@ -17,6 +17,8 @@
 
 GDIPlusManager gdipm;
 
+namespace DX = DirectX;
+
 
 App::App() : wnd(WINDOW_WIDTH, WINDOW_HEIGHT, "RedSky Demo Window")
 {
@@ -60,13 +62,13 @@ App::App() : wnd(WINDOW_WIDTH, WINDOW_HEIGHT, "RedSky Demo Window")
 		std::uniform_real_distribution<float> bdist{ 0.4f,3.0f };
 		std::uniform_int_distribution<int> latdist{ 5,20 };
 		std::uniform_int_distribution<int> longdist{ 10,40 };
-		std::uniform_int_distribution<int> typedist{ 0,4 };
+		std::uniform_int_distribution<int> typedist{ 0,3 };
 	};
 
 	drawables.reserve(nDrawables);
 	std::generate_n(std::back_inserter(drawables), nDrawables, Factory{ wnd.Gfx() });
 
-	wnd.Gfx().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 3.0f / 4.0f, 0.5f, 40.0f));
+	wnd.Gfx().SetProjection(DX::XMMatrixPerspectiveLH(1.0f, 3.0f / 4.0f, 0.5f, 40.0f));
 }
 
 App::~App() {}
@@ -93,7 +95,8 @@ void App::DoFrame()
 	{
 		wnd.Gfx().EnableImgui();
 	}
-	wnd.Gfx().BeginFrame(colour[0], colour[1], colour[2]);
+	wnd.Gfx().BeginFrame(bgColour[0], bgColour[1], bgColour[2]);
+	wnd.Gfx().SetCamera(cam.GetMatrix());
 
 
 	for (auto& b : drawables) {
@@ -113,14 +116,11 @@ void App::DoFrame()
 	if (ImGui::Begin("Background Colour")) {
 		ImGui::Text("Background Colour");
 		ImGui::SameLine();
-		ImGui::ColorEdit3("", colour);
+		ImGui::ColorEdit3("", bgColour);
 	}
 	ImGui::End();
 
-	//ImGui::ShowUserGuide();
+	cam.SpawnControlWindow();
 
-	ImGui::ShowDemoWindow();
-
-	
 	wnd.Gfx().EndFrame();
 }

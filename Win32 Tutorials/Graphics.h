@@ -57,7 +57,7 @@ public:
 	Graphics(HWND hWnd);
 	Graphics(const Graphics&) = delete;
 	Graphics& operator=(const Graphics&) = delete;
-	~Graphics() = default;
+	~Graphics();
 
 	//Swap Chain related functions
 	void EndFrame();
@@ -71,14 +71,20 @@ public:
 	void SetProjection(DirectX::FXMMATRIX proj) noexcept { projection = proj; }
 	DirectX::XMMATRIX GetProjection() const noexcept { return projection; }
 
+	//Getter/Setter for camera
+	void SetCamera(DirectX::FXMMATRIX cam) noexcept;
+	DirectX::XMMATRIX GetCamera() const noexcept;
+
 	//Imgui Functions
 	void EnableImgui() noexcept;
 	void DisableImgui() noexcept;
 	bool IsImGuiEnabled() const noexcept;
 
 private:
-	bool imguiEnabled = true;
+	DirectX::XMMATRIX camera;
 	DirectX::XMMATRIX projection;
+
+	bool imguiEnabled = true;
 #ifndef NDEBUG 
 	//if not in debug mode
 	DxgiInfoManager infoManager;
