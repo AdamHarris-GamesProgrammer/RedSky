@@ -15,6 +15,7 @@ int CALLBACK WinMain( //CALLBACK is a modifier which edits how the parameters ar
 		App{}.Go();
 
 	} 
+	//Message boxes for all exception types
 	catch(const RedSkyException& e) {
 		MessageBox(nullptr, e.what(), e.GetType(), MB_OK | MB_ICONEXCLAMATION);
 	}

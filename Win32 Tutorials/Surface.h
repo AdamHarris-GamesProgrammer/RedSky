@@ -29,12 +29,14 @@ public:
 			return *this;
 		}
 
+		//Getters for a colour
 		constexpr char GetX() const noexcept { return dword >> 24u; }
 		constexpr unsigned char GetA() const noexcept { return GetX(); }
 		constexpr unsigned char GetR() const noexcept { return (dword >> 16u) & 0xFFu; }
 		constexpr unsigned char GetG() const noexcept { return (dword >> 8u) & 0xFFu; }
 		constexpr unsigned char GetB() const noexcept { return dword & 0xFFu; }
 
+		//Setters for a colour
 		void SetX(unsigned char x) noexcept { dword = (dword & 0xFFFFFFu) | (x << 24u); }
 		void SetA(unsigned char a) noexcept { SetX(a); }
 		void SetR(unsigned char r) noexcept { dword = (dword & 0xFF00FFFFu) | (r << 16u); }
@@ -60,19 +62,24 @@ public:
 	Surface(Surface&) = delete;
 	Surface& operator=(Surface&& donor) noexcept;
 	Surface& operator=(const Surface&) = delete;
-	~Surface() {}
+	~Surface() = default;
 
 	void Clear(Color fillValue) noexcept;
+
+	//Getters/Setters for individual pixels
 	void PutPixel(unsigned int x, unsigned int y, Color c) noexcept (!IS_DEBUG);
 	Color GetPixel(unsigned int x, unsigned int y) const noexcept (!IS_DEBUG);
 
+	//Getters/Setters for the surface as a whole
 	unsigned int GetWidth() const noexcept { return width; }
 	unsigned int GetHeight() const noexcept { return height; }
 	Color* GetBufferPtr() noexcept { return pBuffer.get(); }
 	const Color* GetBufferPtr() const noexcept { return pBuffer.get(); }
 
+	//Loads a image from file
 	static Surface FromFile(const std::string& name);
-	void Save(const std::string& fileName);
+
+	//Copies a source surface to another surface
 	void Copy(const Surface& src) noexcept (!IS_DEBUG);
 
 private:

@@ -70,11 +70,6 @@ Surface Surface::FromFile(const std::string& name)
 	return Surface(width, height, std::move(pBuffer));
 }
 
-void Surface::Save(const std::string& fileName)
-{
-
-}
-
 void Surface::Copy(const Surface& src) noexcept (!IS_DEBUG)
 {
 	assert(width == src.width);
