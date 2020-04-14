@@ -10,7 +10,6 @@
 #include <random>
 #include "Surface.h"
 #include "GDIPlusManager.h"
-#include "Sheet.h"
 #include "SkinnedBox.h"
 #include "imgui/imgui.h"
 
@@ -74,7 +73,7 @@ void App::DoFrame()
 	}
 	wnd.Gfx().BeginFrame(bgColour[0], bgColour[1], bgColour[2]);
 	wnd.Gfx().SetCamera(cam.GetMatrix());
-	light.Bind(wnd.Gfx());
+	light.Bind(wnd.Gfx(), cam.GetMatrix());
 
 
 	for (auto& b : drawables) {
@@ -86,7 +85,7 @@ void App::DoFrame()
 	if (ImGui::Begin("Simulation Speed")) {
 		ImGui::Text("Simulation Speed");
 		ImGui::SameLine();
-		ImGui::SliderFloat("", &simSpeed, 0.0f, 4.0f, "%.2f");
+		ImGui::SliderFloat("", &simSpeed, 0.0f, 6.0f, "%.4f", 3.2f);
 
 	}
 	ImGui::End();

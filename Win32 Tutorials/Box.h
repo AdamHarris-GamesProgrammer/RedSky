@@ -1,7 +1,7 @@
 #pragma once
-#include "DrawableBase.h"
+#include "TestObjects.h"
 
-class Box : public DrawableBase<Box>
+class Box : public TestObject<Box>
 {
 public:
 	Box(Graphics& gfx, std::mt19937& rng,
@@ -15,22 +15,6 @@ public:
 	DirectX::XMMATRIX GetTransformXM() const noexcept override;
 
 private:
-	//Positional Data
-	float r;
-	float roll = 0.0f;
-	float pitch = 0.0f;
-	float yaw = 0.0f;
-	float theta;
-	float phi;
-	float chi;
-
-	//Speed
-	float droll;
-	float dpitch;
-	float dyaw;
-	float dtheta;
-	float dphi;
-	float dchi;
 
 	DirectX::XMFLOAT3X3 mt;
 };
