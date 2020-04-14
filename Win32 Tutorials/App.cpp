@@ -26,7 +26,8 @@ App::App() : wnd(WINDOW_WIDTH, WINDOW_HEIGHT, "RedSky Demo Window"), light(wnd.G
 		Factory(Graphics& gfx) : gfx(gfx) {}
 
 		std::unique_ptr<Drawable> operator()() {
-			return std::make_unique<Box>(gfx, rng, adist, ddist, odist, rdist, bdist);
+			const DirectX::XMFLOAT3 mat = { cdist(rng), cdist(rng), cdist(rng) };
+			return std::make_unique<Box>(gfx, rng, adist, ddist, odist, rdist, bdist, mat);
 
 		}
 
@@ -38,6 +39,7 @@ App::App() : wnd(WINDOW_WIDTH, WINDOW_HEIGHT, "RedSky Demo Window"), light(wnd.G
 		std::uniform_real_distribution<float> odist{ 0.0f,PI * 0.08f };
 		std::uniform_real_distribution<float> rdist{ 6.0f,20.0f };
 		std::uniform_real_distribution<float> bdist{ 0.4f,3.0f };
+		std::uniform_real_distribution<float> cdist{ 0.0f,1.0f };
 	};
 
 	drawables.reserve(nDrawables);
