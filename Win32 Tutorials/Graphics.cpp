@@ -142,7 +142,7 @@ Graphics::~Graphics() {
 	ImGui_ImplDX11_Shutdown();
 }
 
-void Graphics::BeginFrame(DirectX::XMFLOAT3 colour) noexcept
+void Graphics::BeginFrame(DirectX::XMFLOAT4 colour) noexcept
 {
 	if (imguiEnabled) {
 		ImGui_ImplDX11_NewFrame();
@@ -150,8 +150,7 @@ void Graphics::BeginFrame(DirectX::XMFLOAT3 colour) noexcept
 		ImGui::NewFrame();
 	}
 
-	const float outColour[] = { colour.x, colour.y, colour.z,1.0f };
-	pContext->ClearRenderTargetView(pTarget.Get(), outColour); //have to use the .get() method to get the address of the ComPtr
+	pContext->ClearRenderTargetView(pTarget.Get(), &colour.x); //have to use the .get() method to get the address of the ComPtr
 	pContext->ClearDepthStencilView(pDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
 }
 

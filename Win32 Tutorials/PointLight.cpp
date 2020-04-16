@@ -10,9 +10,7 @@ void PointLight::SpawnControlWindow() noexcept
 	//Allows us to manipulate the colors of the light 
 	if (ImGui::Begin("Light")) {
 		ImGui::Text("Position");
-		ImGui::SliderFloat("X", &cbData.pos.x, -60.0f, 60.0f, "%.1f");
-		ImGui::SliderFloat("Y", &cbData.pos.y, -60.0f, 60.0f, "%.1f");
-		ImGui::SliderFloat("Z", &cbData.pos.z, -60.0f, 60.0f, "%.1f");
+		ImGui::SliderFloat3("", &cbData.pos.x, -60.0f, 60.0f, "%.1f");
 
 		ImGui::Text("Intensity/Color");
 		ImGui::SliderFloat("Intensity", &cbData.diffuseIntensity, 0.01f, 2.0f, "%.2f", 2);
