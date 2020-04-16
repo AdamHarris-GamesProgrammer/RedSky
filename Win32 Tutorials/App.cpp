@@ -87,7 +87,7 @@ void App::DoFrame()
 	{
 		wnd.Gfx().EnableImgui();
 	}
-	wnd.Gfx().BeginFrame(bgColour[0], bgColour[1], bgColour[2]);
+	wnd.Gfx().BeginFrame(bgColour);
 	wnd.Gfx().SetCamera(cam.GetMatrix());
 	light.Bind(wnd.Gfx(), cam.GetMatrix());
 
@@ -114,7 +114,7 @@ void App::SpawnBackgroundControlWindow()
 	if (ImGui::Begin("Background Colour")) {
 		ImGui::Text("Background Colour");
 		ImGui::SameLine();
-		ImGui::ColorEdit3("", bgColour);
+		ImGui::ColorEdit3("", &bgColour.x);
 	}
 	ImGui::End();
 }

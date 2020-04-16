@@ -28,6 +28,6 @@ private:
 
 	PointLight light;
 
-	float bgColour[3] = { 0.07f,0.0f,0.12f };
+	DirectX::XMFLOAT3 bgColour = { 0.0f,0.0f,0.0f };
 	static constexpr size_t nDrawables = 180;
 };

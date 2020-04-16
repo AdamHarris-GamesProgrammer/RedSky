@@ -67,7 +67,7 @@ public:
 
 	//Swap Chain related functions
 	void EndFrame();
-	void BeginFrame(DirectX::FXMVECTOR colour) noexcept;
+	void BeginFrame(DirectX::XMFLOAT3 colour) noexcept;
 
 
 	//Indexed Objects
