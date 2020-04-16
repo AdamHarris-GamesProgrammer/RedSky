@@ -13,6 +13,9 @@ public:
 	int Go();
 private:
 	void DoFrame();
+
+	void SpawnBackgroundControlWindow();
+	void SpawnSpeedControlWindow();
 private:
 	ImguiManager imgui;
 	Window wnd;

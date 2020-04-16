@@ -7,6 +7,7 @@ PointLight::PointLight(Graphics& gfx, float radius /*= 0.5f*/) : mesh(gfx, radiu
 
 void PointLight::SpawnControlWindow() noexcept
 {
+	//Allows us to manipulate the colors of the light 
 	if (ImGui::Begin("Light")) {
 		ImGui::Text("Position");
 		ImGui::SliderFloat("X", &cbData.pos.x, -60.0f, 60.0f, "%.1f");

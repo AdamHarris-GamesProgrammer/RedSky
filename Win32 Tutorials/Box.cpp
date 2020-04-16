@@ -49,15 +49,16 @@ Box::Box(Graphics& gfx, std::mt19937& rng,
 
 	AddBind(std::make_unique<TransformCbuf>(gfx, *this));
 
+	//This is the material colour
 	struct PSMaterialConstant {
-		alignas(16) dx::XMFLOAT3 color;
+		dx::XMFLOAT3 color;
 		float specularIntensity = 0.6f;
 		float specularPower = 30.0f;
-		float padding[2];
+		float padding[3];
 	} colorConst;
 
 	colorConst.color = material;
-	AddBind(std::make_unique<PixelConstantBuffer<PSMaterialConstant>>(gfx, colorConst, 1u));
+	AddBind(std::make_unique<PixelConstantBuffer<PSMaterialConstant>>(gfx, colorConst, 1u)); //assigns this to the first slot of the shader slot 0 is for the lighting data
 
 
 	// model deformation transform (per instance, not stored as bind)

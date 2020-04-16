@@ -47,7 +47,7 @@ public:
 
 protected:
 	Microsoft::WRL::ComPtr<ID3D11Buffer> pConstantBuffer;
-	UINT slot;
+	UINT slot; //this holds the slot number for the buffer of a shader. Allows us to pass in the material colour as a seperate slot to the lighting data
 };
 
 
