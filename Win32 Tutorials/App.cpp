@@ -63,6 +63,13 @@ App::App() : wnd(WINDOW_WIDTH, WINDOW_HEIGHT, "RedSky Demo Window"), light(wnd.G
 	drawables.reserve(nDrawables);
 	std::generate_n(std::back_inserter(drawables), nDrawables, Factory{ wnd.Gfx() });
 
+	//init boxes
+	for (auto& pd : drawables) {
+		if (auto pb = dynamic_cast<Box*>(pd.get())) {
+			boxes.push_back(pb);
+		}
+	}
+
 	wnd.Gfx().SetProjection(DX::XMMatrixPerspectiveLH(1.0f, 3.0f / 4.0f, 0.5f, 40.0f));
 }
 
@@ -108,6 +115,8 @@ void App::DoFrame()
 	SpawnSpeedControlWindow();
 	cam.SpawnControlWindow();
 	light.SpawnControlWindow();
+
+	boxes.front()->SpawnControlWindow(69, wnd.Gfx());
 
 	wnd.Gfx().EndFrame();
 }
