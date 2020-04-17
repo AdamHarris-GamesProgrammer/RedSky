@@ -4,6 +4,7 @@
 #include "ImguiManager.h"
 #include "Camera.h"
 #include "PointLight.h"
+#include <set>
 
 class App
 {
@@ -14,8 +15,11 @@ public:
 private:
 	void DoFrame();
 
-	void SpawnBackgroundControlWindow();
-	void SpawnSpeedControlWindow();
+	void SpawnBackgroundControlWindow() noexcept;
+	void SpawnSpeedControlWindow() noexcept;
+	void SpawnBoxWindowManagerWindow() noexcept;
+	void SpawnBoxWindows() noexcept;
+
 private:
 	ImguiManager imgui;
 	Window wnd;
@@ -30,4 +34,7 @@ private:
 
 	DirectX::XMFLOAT4 bgColour = { 0.0f,0.0f,0.0f, 1.0f };
 	static constexpr size_t nDrawables = 180;
+
+	std::optional<int> comboBoxIndex;
+	std::set<int> boxControlIds;
 };

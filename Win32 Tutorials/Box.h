@@ -14,7 +14,7 @@ public:
 		DirectX::XMFLOAT3 material);
 
 	DirectX::XMMATRIX GetTransformXM() const noexcept override;
-	void SpawnControlWindow(int id, Graphics& gfx) noexcept;
+	bool SpawnControlWindow(int id, Graphics& gfx) noexcept;
 private:
 	void SyncMaterial(Graphics& gfx) noexcept (!IS_DEBUG);
 private:

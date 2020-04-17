@@ -43,7 +43,7 @@ App::App() : wnd(WINDOW_WIDTH, WINDOW_HEIGHT, "RedSky Demo Window"), light(wnd.G
 				break;
 			}
 
-			
+
 
 		}
 
@@ -108,20 +108,19 @@ void App::DoFrame()
 	}
 	light.Draw(wnd.Gfx());
 
-
-
-
 	SpawnBackgroundControlWindow();
 	SpawnSpeedControlWindow();
 	cam.SpawnControlWindow();
 	light.SpawnControlWindow();
+	SpawnBoxWindowManagerWindow();
+	SpawnBoxWindows();
 
-	boxes.front()->SpawnControlWindow(69, wnd.Gfx());
+
 
 	wnd.Gfx().EndFrame();
 }
 
-void App::SpawnBackgroundControlWindow()
+void App::SpawnBackgroundControlWindow() noexcept
 {
 	if (ImGui::Begin("Background Colour")) {
 		ImGui::Text("Background Colour");
@@ -131,7 +130,7 @@ void App::SpawnBackgroundControlWindow()
 	ImGui::End();
 }
 
-void App::SpawnSpeedControlWindow()
+void App::SpawnSpeedControlWindow() noexcept
 {
 	if (ImGui::Begin("Simulation Speed")) {
 		ImGui::Text("Simulation Speed");
@@ -140,4 +139,42 @@ void App::SpawnSpeedControlWindow()
 
 	}
 	ImGui::End();
+}
+
+void App::SpawnBoxWindowManagerWindow() noexcept
+{
+	if (ImGui::Begin("Boxes")) {
+		using namespace std::string_literals;
+		const auto preview = comboBoxIndex ? std::to_string(*comboBoxIndex) : "Choose a box"s;
+		if (ImGui::BeginCombo("Box Number", preview.c_str())) {
+			for (int i = 0; i < boxes.size(); i++) {
+				const bool selected = *comboBoxIndex == i;
+				if (ImGui::Selectable(std::to_string(i).c_str(), selected)) {
+					comboBoxIndex = i;
+				}
+				if (selected) {
+					ImGui::SetItemDefaultFocus();
+				}
+			}
+			ImGui::EndCombo();
+		}
+		if (ImGui::Button("Spawn Control Window") && comboBoxIndex) {
+			boxControlIds.insert(*comboBoxIndex);
+			comboBoxIndex.reset();
+		}
+	}
+	ImGui::End();
+}
+
+void App::SpawnBoxWindows() noexcept
+{
+	for (auto i = boxControlIds.begin(); i != boxControlIds.end(); ) {
+		if (!boxes[*i]->SpawnControlWindow(*i, wnd.Gfx())) {
+			i = boxControlIds.erase(i);
+		}
+		else
+		{
+			i++;
+		}
+	}
 }

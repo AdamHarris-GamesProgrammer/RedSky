@@ -67,22 +67,36 @@ DirectX::XMMATRIX Box::GetTransformXM() const noexcept
 	return dx::XMLoadFloat3x3(&mt) * TestObject::GetTransformXM();
 }
 
-void Box::SpawnControlWindow(int id, Graphics& gfx) noexcept
+bool Box::SpawnControlWindow(int id, Graphics& gfx) noexcept
 {
 	using namespace std::string_literals;
 
-	bool quickNEasy = false;
+	bool haveValuesChanged = false;
+	bool open = true;
 
-	if (ImGui::Begin(("Box"s + std::to_string(id)).c_str())) {
-		quickNEasy = quickNEasy || ImGui::ColorEdit3("Material Color", &materialConstants.color.x);
-		quickNEasy = quickNEasy || ImGui::SliderFloat("Specular Intensity", &materialConstants.specularIntensity, 0.05f, 4.0f, "%.2f", 2);
-		quickNEasy = quickNEasy || ImGui::SliderFloat("Specular Power", &materialConstants.specularPower, 1.0f, 200.0f, "%.2f", 2);
+	if (ImGui::Begin(("Box"s + std::to_string(id)).c_str(), &open)) {
+		ImGui::Text("Material Properties");
+		const auto cd = ImGui::ColorEdit3("Material Color", &materialConstants.color.x);
+		const auto sid =  ImGui::SliderFloat("Specular Intensity", &materialConstants.specularIntensity, 0.05f, 4.0f, "%.2f", 2);
+		const auto spd =  ImGui::SliderFloat("Specular Power", &materialConstants.specularPower, 1.0f, 200.0f, "%.2f", 2);
+		haveValuesChanged = cd || sid || spd;
+
+		ImGui::Text("Position");
+		ImGui::SliderFloat("R", &r, 0.0f, 80.0f, "%.1f");
+		ImGui::SliderAngle("Theta", &theta, -180.0f, 180.0f);
+		ImGui::SliderAngle("Phi", &phi, -180.0f, 180.0f);
+		ImGui::Text("Orientation");
+		ImGui::SliderAngle("Roll", &roll, -180.0f, 180.0f);
+		ImGui::SliderAngle("Pitch", &pitch, -180.0f, 180.0f);
+		ImGui::SliderAngle("Yaw", &yaw, -180.0f, 180.0f);
 	}
 	ImGui::End();
 
-	if (quickNEasy) {
+	if (haveValuesChanged) {
 		SyncMaterial(gfx);
 	}
+
+	return open;
 }
 
 void Box::SyncMaterial(Graphics& gfx) noexcept (!IS_DEBUG)
