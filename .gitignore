@@ -94,6 +94,7 @@ StyleCopReport.xml
 *.scc
 
 !Win32 Tutorials/Models/*.obj
+!Win32 Tutorials/assimp/bin/x64/*
 
 # Chutzpah Test files
 _Chutzpah*

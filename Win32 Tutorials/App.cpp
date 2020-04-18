@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <random>
 #include "Surface.h"
+#include "AssTest.h"
 #include "GDIPlusManager.h"
 #include "SkinnedBox.h"
 #include "imgui/imgui.h"
@@ -25,16 +26,13 @@ namespace DX = DirectX;
 
 App::App() : wnd(WINDOW_WIDTH, WINDOW_HEIGHT, "RedSky Demo Window"), light(wnd.Gfx())
 {
-	Assimp::Importer imp;
-	auto model = imp.ReadFile("Models\\suzanne.obj", aiProcess_Triangulate | aiProcess_JoinIdenticalVertices);
-
-
 	class Factory {
 	public:
 		Factory(Graphics& gfx) : gfx(gfx) {}
 
 		std::unique_ptr<Drawable> operator()() {
 			const DirectX::XMFLOAT3 mat = { cdist(rng), cdist(rng), cdist(rng) };
+			const DirectX::XMFLOAT3 suzanneMat = { 0.25f, 0.75f, 0.5f };
 
 			switch (sdist(rng)) {
 			case 0:
@@ -45,6 +43,8 @@ App::App() : wnd(WINDOW_WIDTH, WINDOW_HEIGHT, "RedSky Demo Window"), light(wnd.G
 				return std::make_unique<Pyramid>(gfx, rng, adist, ddist, odist, rdist, tdist);
 			case  3:
 				return std::make_unique<SkinnedBox>(gfx, rng, adist, ddist, odist, rdist);
+			case  4:
+				return std::make_unique<AssTest>(gfx, rng, adist, ddist, odist, rdist, suzanneMat, 1.5f);
 			default:
 				assert(false && "Invalid drawable option in factory class");
 				break;
@@ -57,7 +57,7 @@ App::App() : wnd(WINDOW_WIDTH, WINDOW_HEIGHT, "RedSky Demo Window"), light(wnd.G
 	private:
 		Graphics& gfx;
 		std::mt19937 rng{ std::random_device{}() };
-		std::uniform_int_distribution<int> sdist{ 0,3 };
+		std::uniform_int_distribution<int> sdist{ 0,4 };
 		std::uniform_real_distribution<float> adist{ 0.0f,PI * 2.0f };
 		std::uniform_real_distribution<float> ddist{ 0.0f,PI * 0.5f };
 		std::uniform_real_distribution<float> odist{ 0.0f,PI * 0.08f };
