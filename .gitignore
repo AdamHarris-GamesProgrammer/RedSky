@@ -93,6 +93,8 @@ StyleCopReport.xml
 *.svclog
 *.scc
 
+#!Win32 Tutorials\Models\*.obj
+
 # Chutzpah Test files
 _Chutzpah*
 
