@@ -28,47 +28,48 @@ namespace rsexp
 			Count,
 		};
 
+		//This acts as a compile time lookup table for each type of buffer we use
 		template<ElementType> struct Map;
 		template<> struct Map<Position2D> {
 			using SysType = DirectX::XMFLOAT2;
-			DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32_FLOAT;
-			const char* semantic = "Position";
+			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32_FLOAT;
+			static constexpr const char* semantic = "Position";
 		};
 		template<> struct Map<Position3D>
 		{
 			using SysType = DirectX::XMFLOAT3;
-			DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
-			const char* semantic = "Position";
+			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
+			static constexpr const char* semantic = "Position";
 		};
 		template<> struct Map<Texture2D>
 		{
 			using SysType = DirectX::XMFLOAT2;
-			DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32_FLOAT;
-			const char* semantic = "Texcoord";
+			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32_FLOAT;
+			static constexpr const char* semantic = "Texcoord";
 		};
 		template<> struct Map<Normal>
 		{
 			using SysType = DirectX::XMFLOAT3;
-			DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
-			const char* semantic = "Normal";
+			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
+			static constexpr const char* semantic = "Normal";
 		};
 		template<> struct Map<Float3Color>
 		{
 			using SysType = DirectX::XMFLOAT3;
-			DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
-			const char* semantic = "Color";
+			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
+			static constexpr const char* semantic = "Color";
 		};
 		template<> struct Map<Float4Color>
 		{
 			using SysType = DirectX::XMFLOAT4;
-			DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
-			const char* semantic = "Color";
+			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
+			static constexpr const char* semantic = "Color";
 		};
 		template<> struct Map<BGRAColor>
 		{
 			using SysType = rsexp::BGRAColor;
-			DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R8G8B8A8_UNORM;
-			const char* semantic = "Color";
+			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R8G8B8A8_UNORM;
+			static constexpr const char* semantic = "Color";
 		};
 
 
@@ -103,6 +104,34 @@ namespace rsexp
 			}
 
 			ElementType GetType() const noexcept { return type; }
+
+			D3D11_INPUT_ELEMENT_DESC GetDesc() const noexcept(!IS_DEBUG) {
+				switch (type)
+				{
+				case rsexp::VertexLayout::Position2D:
+					return GenerateDesc<Position2D>(GetOffset());
+				case rsexp::VertexLayout::Position3D:
+					return GenerateDesc<Position3D>(GetOffset());
+				case rsexp::VertexLayout::Texture2D:
+					return GenerateDesc<Texture2D>(GetOffset());
+				case rsexp::VertexLayout::Normal:
+					return GenerateDesc<Normal>(GetOffset());
+				case rsexp::VertexLayout::Float3Color:
+					return GenerateDesc<Float3Color>(GetOffset());
+				case rsexp::VertexLayout::Float4Color:
+					return GenerateDesc<Float4Color>(GetOffset());
+				case rsexp::VertexLayout::BGRAColor:
+					return GenerateDesc<BGRAColor>(GetOffset());
+				}
+				assert("Invalid Element type" && false);
+				return { "INVALID",0,DXGI_FORMAT_UNKNOWN, 0,0,D3D11_INPUT_PER_VERTEX_DATA,0 };
+			}
+		private:
+			template<ElementType type>
+			static constexpr D3D11_INPUT_ELEMENT_DESC GenerateDesc(size_t offset) noexcept(!IS_DEBUG) {
+				return { Map<type>::semantic, 0, Map<type>::dxgiFormat,0,(UINT)offset, D3D11_INPUT_PER_VERTEX_DATA,0 };
+			}
+
 		private:
 			ElementType type;
 			size_t offset;
@@ -132,6 +161,16 @@ namespace rsexp
 			return elements.empty() ? 0u : elements.back().GetOffsetAfter();
 		}
 		size_t GetElementCount() const noexcept { return elements.size(); }
+
+		std::vector<D3D11_INPUT_ELEMENT_DESC> GetD3DLayout() const noexcept(!IS_DEBUG) {
+			std::vector<D3D11_INPUT_ELEMENT_DESC> desc;
+			desc.reserve(GetElementCount());
+			for (const auto& e : elements) {
+				desc.push_back(e.GetDesc());
+			}
+			return desc;
+		}
+
 	private:
 		std::vector<Element> elements;
 	};
@@ -181,7 +220,7 @@ namespace rsexp
 				SetAttribute<VertexLayout::BGRAColor>(pAttribute, std::forward<T>(val));
 				break;
 			default:
-				assert("Bad element type" && false);
+				assert("Invalid element type" && false);
 			}
 		}
 
