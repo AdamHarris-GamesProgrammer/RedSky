@@ -18,14 +18,41 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+#include "VertexLayout.h"
 
 GDIPlusManager gdipm;
 
 namespace DX = DirectX;
 
+void f() {
+	VertexBuffer vb(std::move(
+		VertexLayout{}
+		.Append<VertexLayout::Position3D>()
+		.Append<VertexLayout::Normal>()
+		.Append<VertexLayout::Texture2D>()
+		));
+	vb.EmplaceBack(
+		DX::XMFLOAT3{ 1.0f,1.0f,5.0f },
+		DX::XMFLOAT3{ 2.0f,1.0f,4.0f },
+		DX::XMFLOAT2{ 6.0f,9.0f }
+	);
+	vb.EmplaceBack(
+		DX::XMFLOAT3{ 6.0f,9.0f,6.0f },
+		DX::XMFLOAT3{ 9.0f,6.0f,9.0f },
+		DX::XMFLOAT2{ 4.2f,0.0f }
+	);
+	auto pos = vb[0].Attr<VertexLayout::Position3D>();
+	auto nor = vb[0].Attr<VertexLayout::Normal>();
+	auto tex = vb[1].Attr<VertexLayout::Texture2D>();
+	vb.Back().Attr<VertexLayout::Position3D>().z = 420.0f;
+	pos = vb.Back().Attr<VertexLayout::Position3D>();
+}
+
 
 App::App() : wnd(WINDOW_WIDTH, WINDOW_HEIGHT, "RedSky Demo Window"), light(wnd.Gfx())
 {
+	f();
+
 	class Factory {
 	public:
 		Factory(Graphics& gfx) : gfx(gfx) {}
