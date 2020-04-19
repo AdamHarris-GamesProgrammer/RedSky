@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
-#include <DirectXMath.h>
 #include <type_traits>
+#include "Graphics.h"
 
 namespace rsexp
 {
@@ -24,8 +24,53 @@ namespace rsexp
 			Normal,
 			Float3Color,
 			Float4Color,
-			BGRAColor
+			BGRAColor,
+			Count,
 		};
+
+		template<ElementType> struct Map;
+		template<> struct Map<Position2D> {
+			using SysType = DirectX::XMFLOAT2;
+			DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32_FLOAT;
+			const char* semantic = "Position";
+		};
+		template<> struct Map<Position3D>
+		{
+			using SysType = DirectX::XMFLOAT3;
+			DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
+			const char* semantic = "Position";
+		};
+		template<> struct Map<Texture2D>
+		{
+			using SysType = DirectX::XMFLOAT2;
+			DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32_FLOAT;
+			const char* semantic = "Texcoord";
+		};
+		template<> struct Map<Normal>
+		{
+			using SysType = DirectX::XMFLOAT3;
+			DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
+			const char* semantic = "Normal";
+		};
+		template<> struct Map<Float3Color>
+		{
+			using SysType = DirectX::XMFLOAT3;
+			DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
+			const char* semantic = "Color";
+		};
+		template<> struct Map<Float4Color>
+		{
+			using SysType = DirectX::XMFLOAT4;
+			DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
+			const char* semantic = "Color";
+		};
+		template<> struct Map<BGRAColor>
+		{
+			using SysType = rsexp::BGRAColor;
+			DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R8G8B8A8_UNORM;
+			const char* semantic = "Color";
+		};
+
 
 		class Element {
 		public:
@@ -39,19 +84,19 @@ namespace rsexp
 				using namespace DirectX;
 				switch (type) {
 				case Position2D:
-					return sizeof(XMFLOAT2);
+					return sizeof(Map<Position2D>::SysType);
 				case Position3D:
-					return sizeof(XMFLOAT3);
+					return sizeof(Map<Position3D>::SysType);
 				case Texture2D:
-					return sizeof(XMFLOAT2);
+					return sizeof(Map<Texture2D>::SysType);
 				case Normal:
-					return sizeof(XMFLOAT3);
+					return sizeof(Map<Normal>::SysType);
 				case Float3Color:
-					return sizeof(XMFLOAT3);
+					return sizeof(Map<Float3Color>::SysType);
 				case Float4Color:
-					return sizeof(rsexp::BGRAColor);
+					return sizeof(Map<Float4Color>::SysType);
 				case BGRAColor:
-					return sizeof(unsigned int);
+					return sizeof(Map<BGRAColor>::SysType);
 				}
 				assert("Invalid element type" && false);
 				return 0u;
@@ -77,9 +122,9 @@ namespace rsexp
 
 		const Element& ResolveByIndex(size_t i) const noexcept(!IS_DEBUG) { return elements[i]; }
 
-		template <ElementType Type>
-		VertexLayout& Append() noexcept(!IS_DEBUG) {
-			elements.emplace_back(Type, Size());
+
+		VertexLayout& Append(ElementType type) noexcept(!IS_DEBUG) {
+			elements.emplace_back(type, Size());
 			return *this;
 		}
 
@@ -101,43 +146,8 @@ namespace rsexp
 		template<VertexLayout::ElementType Type>
 		auto& Attr() noexcept(!IS_DEBUG)
 		{
-			using namespace DirectX;
-			const auto& element = layout.Resolve<Type>();
-			//pData is a pointer to the start and then add the offset to get to the correct attribute
-			auto pAttribute = pData + element.GetOffset();
-			if constexpr (Type == VertexLayout::Position2D)
-			{
-				return *reinterpret_cast<XMFLOAT2*>(pAttribute);
-			}
-			else if constexpr (Type == VertexLayout::Position3D)
-			{
-				return *reinterpret_cast<XMFLOAT3*>(pAttribute);
-			}
-			else if constexpr (Type == VertexLayout::Texture2D)
-			{
-				return *reinterpret_cast<XMFLOAT2*>(pAttribute);
-			}
-			else if constexpr (Type == VertexLayout::Normal)
-			{
-				return *reinterpret_cast<XMFLOAT3*>(pAttribute);
-			}
-			else if constexpr (Type == VertexLayout::Float3Color)
-			{
-				return *reinterpret_cast<XMFLOAT3*>(pAttribute);
-			}
-			else if constexpr (Type == VertexLayout::Float4Color)
-			{
-				return *reinterpret_cast<XMFLOAT4*>(pAttribute);
-			}
-			else if constexpr (Type == VertexLayout::BGRAColor)
-			{
-				return *reinterpret_cast<BGRAColor*>(pAttribute);
-			}
-			else
-			{
-				assert("Bad element type" && false);
-				return *reinterpret_cast<char*>(pAttribute);
-			}
+			auto pAttribute = pData + layout.Resolve<Type>().GetOffset();
+			return *reinterpret_cast<typename VertexLayout::Map<Type>::SysType*>(pAttribute);
 		}
 
 		//in templating && allows us to forward a parameter without modification or unnecessary copies
@@ -150,25 +160,25 @@ namespace rsexp
 			switch (element.GetType())
 			{
 			case VertexLayout::Position2D:
-				SetAttribute<XMFLOAT2>(pAttribute, std::forward<T>(val));
+				SetAttribute<VertexLayout::Position2D>(pAttribute, std::forward<T>(val));
 				break;
 			case VertexLayout::Position3D:
-				SetAttribute<XMFLOAT3>(pAttribute, std::forward<T>(val));
+				SetAttribute<VertexLayout::Position3D>(pAttribute, std::forward<T>(val));
 				break;
 			case VertexLayout::Texture2D:
-				SetAttribute<XMFLOAT2>(pAttribute, std::forward<T>(val));
+				SetAttribute<VertexLayout::Texture2D>(pAttribute, std::forward<T>(val));
 				break;
 			case VertexLayout::Normal:
-				SetAttribute<XMFLOAT3>(pAttribute, std::forward<T>(val));
+				SetAttribute<VertexLayout::Normal>(pAttribute, std::forward<T>(val));
 				break;
 			case VertexLayout::Float3Color:
-				SetAttribute<XMFLOAT3>(pAttribute, std::forward<T>(val));
+				SetAttribute<VertexLayout::Float3Color>(pAttribute, std::forward<T>(val));
 				break;
 			case VertexLayout::Float4Color:
-				SetAttribute<XMFLOAT4>(pAttribute, std::forward<T>(val));
+				SetAttribute<VertexLayout::Float4Color>(pAttribute, std::forward<T>(val));
 				break;
 			case VertexLayout::BGRAColor:
-				SetAttribute<BGRAColor>(pAttribute, std::forward<T>(val));
+				SetAttribute<VertexLayout::BGRAColor>(pAttribute, std::forward<T>(val));
 				break;
 			default:
 				assert("Bad element type" && false);
@@ -188,9 +198,10 @@ namespace rsexp
 			SetAttributeByIndex(i, std::forward<First>(first));
 			SetAttributeByIndex(i + 1, std::forward <Rest>(rest)...);
 		}
-		template<typename Dest, typename Src>
-		void SetAttribute(char* pAttribute, Src&& val) noexcept(!IS_DEBUG) {
-			if constexpr (std::is_assignable<Dest, Src>::value) {
+		template<VertexLayout::ElementType DestLayoutType, typename SrcType>
+		void SetAttribute(char* pAttribute, SrcType&& val) noexcept(!IS_DEBUG) {
+			using Dest = typename VertexLayout::Map<DestLayoutType>::SysType;
+			if constexpr (std::is_assignable<Dest, SrcType>::value) {
 				*reinterpret_cast<Dest*>(pAttribute) = val;
 			}
 			else {
