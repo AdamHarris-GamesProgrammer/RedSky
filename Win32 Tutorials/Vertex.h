@@ -46,7 +46,7 @@ public:
 			case Float3Color:
 				return sizeof(XMFLOAT3);
 			case Float4Color:
-				return sizeof(XMFLOAT3);
+				return sizeof(::BGRAColor);
 			case BGRAColor:
 				return sizeof(unsigned int);
 			}
@@ -172,11 +172,12 @@ public:
 		}
 	}
 
-private:
+protected:
 	Vertex(char* pData, const VertexLayout& layout) noexcept(!IS_DEBUG) : pData(pData), layout(layout) {
 		assert(pData != nullptr);
 	}
 
+private:
 	template<typename First, typename ...Rest>
 	//enables parameter packing of multiple elements by element index
 	//Rest... is a parameter pack this can be one argument or it could be multiple 
@@ -197,6 +198,20 @@ private:
 private:
 	char* pData = nullptr;
 	const VertexLayout& layout;
+};
+
+//Cannot be used to modify the data, it can only be used to access the data
+class ConstVertex {
+public:
+	ConstVertex(const Vertex& v) noexcept(!IS_DEBUG) : vertex(v) {}
+
+	template<VertexLayout::ElementType Type>
+	const auto& Attr() const noexcept(!IS_DEBUG) {
+		return const_cast<Vertex&>(vertex).Attr<Type>();
+	}
+
+private:
+	Vertex vertex;
 };
 
 //Acts as a buffer of all vertices
@@ -230,6 +245,19 @@ public:
 	Vertex operator[](size_t i) noexcept(!IS_DEBUG) {
 		assert(i < Size());
 		return Vertex{ buffer.data() + layout.Size() * i, layout };
+	}
+
+	//Just operates as const wrappers for the usual Vertex methods
+	ConstVertex Back() const noexcept(!IS_DEBUG) {
+		return const_cast<VertexBuffer*>(this)->Back();
+	}
+
+	ConstVertex Front() const noexcept(!IS_DEBUG) {
+		return const_cast<VertexBuffer*>(this)->Front();
+	}
+
+	ConstVertex operator[](size_t i) const noexcept(!IS_DEBUG) {
+		return const_cast<VertexBuffer&>(*this)[i];
 	}
 
 private:

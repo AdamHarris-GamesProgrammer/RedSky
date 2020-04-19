@@ -338,8 +338,8 @@
     <ClInclude Include="AssTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VertexLayout.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Vertex.h">
+      <Filter>Header Files\Bindable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
