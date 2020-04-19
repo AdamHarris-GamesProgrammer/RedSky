@@ -24,7 +24,9 @@ AssTest::AssTest(Graphics& gfx, std::mt19937& rng,
 
 		Assimp::Importer imp;
 		const auto pModel = imp.ReadFile("Models\\suzanne.obj",
-			aiProcess_Triangulate | aiProcess_JoinIdenticalVertices);
+			aiProcess_Triangulate //aiProcess_Triangulate this triangulates the faces on a mesh if they contain more than 3 vertices.
+			| aiProcess_JoinIdenticalVertices //aiProcess_JoinIdenticalVertices this enables a index buffer
+			);
 		const auto pMesh = pModel->mMeshes[0];
 
 		std::vector<Vertex> vertices;
