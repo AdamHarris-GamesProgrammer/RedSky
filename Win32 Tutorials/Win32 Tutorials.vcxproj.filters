@@ -156,6 +156,9 @@
     <ClCompile Include="AssTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Vertex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -321,6 +324,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BindableCommon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
