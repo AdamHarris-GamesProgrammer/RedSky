@@ -1,11 +1,13 @@
 #pragma once
 #include "DrawableBase.h"
-#include "BindableBase.h"
+#include "BindableCommon.h"
 #include "Vertex.h"
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+
+using namespace Bind;
 
 class Mesh : public DrawableBase<Mesh> {
 public:

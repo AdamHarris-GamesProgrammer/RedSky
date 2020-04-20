@@ -12,9 +12,15 @@
 #include <memory>
 #include <random>
 
+#include "ConditionalNoexcept.h"
+
+namespace Bind {
+	class Bindable;
+}
+
 class Graphics
 {
-	friend class Bindable;
+	friend class Bind::Bindable;
 public:
 	//Exception classes 
 	class Exception : public RedSkyException { //Base graphics exception
@@ -71,7 +77,7 @@ public:
 
 
 	//Indexed Objects
-	void DrawIndexed(UINT count) noexcept(!IS_DEBUG);
+	void DrawIndexed(UINT count) noxnd;
 
 	//Getter/Setter for the projection
 	void SetProjection(DirectX::FXMMATRIX proj) noexcept { projection = proj; }
