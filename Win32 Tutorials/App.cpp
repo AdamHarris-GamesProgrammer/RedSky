@@ -2,19 +2,14 @@
 #include <sstream>
 #include <iomanip>
 #include "Constants.h"
-#include "Box.h"
 #include <memory>
-#include "Pyramid.h"
 #include "RedSkyMath.h"
 #include <algorithm>
 #include <random>
 #include "Surface.h"
 #include "AssTest.h"
 #include "GDIPlusManager.h"
-#include "SkinnedBox.h"
 #include "imgui/imgui.h"
-#include "Cylinder.h"
-#include "Pyramid.h"
 #include "Vertex.h"
 
 GDIPlusManager gdipm;
