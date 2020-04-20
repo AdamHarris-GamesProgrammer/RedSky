@@ -4,7 +4,7 @@
 #include "ImguiManager.h"
 #include "Camera.h"
 #include "PointLight.h"
-#include <set>
+#include "Model.h"
 
 class App
 {
@@ -16,9 +16,7 @@ private:
 	void DoFrame();
 
 	void SpawnBackgroundControlWindow() noexcept;
-	void SpawnSpeedControlWindow() noexcept;
-	void SpawnBoxWindowManagerWindow() noexcept;
-	void SpawnBoxWindows() noexcept;
+
 
 private:
 	ImguiManager imgui;
@@ -33,8 +31,6 @@ private:
 	PointLight light;
 
 	DirectX::XMFLOAT4 bgColour = { 0.0f,0.0f,0.0f, 1.0f };
-	static constexpr size_t nDrawables = 180;
 
-	std::optional<int> comboBoxIndex;
-	std::set<int> boxControlIds;
+	Model nano{ wnd.Gfx(), "Models\\nanosuit.obj" };
 };

@@ -18,6 +18,7 @@ AssTest::AssTest(Graphics& gfx, std::mt19937& rng,
 	namespace dx = DirectX;
 
 	if (!IsStaticInitialised()) {
+		//defines the vertex buffer
 		using rsexp::VertexLayout;
 		rsexp::VertexBuffer vbuf(std::move(
 			VertexLayout{}
