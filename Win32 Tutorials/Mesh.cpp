@@ -1,6 +1,8 @@
 #include "Mesh.h"
 #include "imgui/imgui.h"
 
+namespace dx = DirectX;
+
 Mesh::Mesh(Graphics& gfx, std::vector<std::unique_ptr<Bindable>> bindPtrs) {
 	if (!IsStaticInitialised()) {
 		AddStaticBind(std::make_unique<Topology>(gfx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
@@ -33,9 +35,6 @@ Node::Node(const std::string& name, std::vector<Mesh*> meshPtrs, const DirectX::
 	DirectX::XMStoreFloat4x4(&this->transform, transform);
 }
 
-
-
-
 void Node::Draw(Graphics& gfx, DirectX::FXMMATRIX accumulatedTransforms) const noxnd
 {
 	const auto built = DirectX::XMLoadFloat4x4(&transform) * accumulatedTransforms; //the current nodes transform plus the transform of all root objects
@@ -52,17 +51,60 @@ void Node::AddChild(std::unique_ptr<Node> pChild) noxnd {
 	childPtrs.push_back(std::move(pChild));
 }
 
-void Node::RenderTree() const noexcept
+void Node::ShowTree() const noexcept
 {
 	if (ImGui::TreeNode(name.c_str())) {
 		for (const auto& pChild : childPtrs) {
-			pChild->RenderTree();
+			pChild->ShowTree();
 		}
 		ImGui::TreePop();
 	}
 }
 
-Model::Model(Graphics& gfx, const std::string fileName) {
+class ModelWindow {
+public:
+	void Show(const char* windowName, const Node& root) noexcept
+	{
+		windowName = windowName ? windowName : "Model";
+		if (ImGui::Begin(windowName)) {
+			ImGui::Columns(2, nullptr, true);
+			root.ShowTree();
+
+			ImGui::NextColumn();
+			ImGui::Text("Orientation");
+			ImGui::SliderAngle("Roll", &pos.roll, -180.0f, 180.0f);
+			ImGui::SliderAngle("Pitch", &pos.pitch, -180.0f, 180.0f);
+			ImGui::SliderAngle("Yaw", &pos.yaw, -180.0f, 180.0f);
+
+			ImGui::Text("Position");
+			ImGui::SliderFloat("X", &pos.x, -20.0f, 20.0f);
+			ImGui::SliderFloat("Y", &pos.y, -20.0f, 20.0f);
+			ImGui::SliderFloat("Z", &pos.z, -20.0f, 20.0f);
+		}
+		ImGui::End();
+	}
+
+	dx::XMMATRIX GetTransform() const noexcept {
+		return DirectX::XMMatrixRotationRollPitchYaw(pos.roll, pos.pitch, pos.yaw) *
+			DirectX::XMMatrixTranslation(pos.x, pos.y, pos.z);
+	}
+
+private:
+	struct
+	{
+		float roll = 0.0f;
+		float pitch = 0.0f;
+		float yaw = 0.0f;
+		float x = 0.0f;
+		float y = 0.0f;
+		float z = 0.0f;
+	} pos;
+};
+
+
+
+Model::Model(Graphics& gfx, const std::string fileName) :
+	pWindow(std::make_unique<ModelWindow>()){
 	//Create Assimp object and load file
 	Assimp::Importer imp;
 	const auto pScene = imp.ReadFile(fileName.c_str(),
@@ -79,31 +121,14 @@ Model::Model(Graphics& gfx, const std::string fileName) {
 	pRoot = ParseNode(*pScene->mRootNode);
 }
 
+Model::~Model() noexcept {}
+
 void Model::Draw(Graphics& gfx) const noxnd {
-	const auto transform = DirectX::XMMatrixRotationRollPitchYaw(pos.roll, pos.pitch, pos.yaw) *
-		DirectX::XMMatrixTranslation(pos.x, pos.y, pos.z);
-	pRoot->Draw(gfx, transform);
+	pRoot->Draw(gfx, pWindow->GetTransform());
 }
 
-void Model::ShowWindow(const char* windowName /*= nullptr*/) noexcept
-{
-	windowName = windowName ? windowName : "Model";
-	if (ImGui::Begin(windowName)) {
-		ImGui::Columns(2, nullptr, true);
-		pRoot->RenderTree();
-
-		ImGui::NextColumn();
-		ImGui::Text("Orientation");
-		ImGui::SliderAngle("Roll", &pos.roll, -180.0f, 180.0f);
-		ImGui::SliderAngle("Pitch", &pos.pitch, -180.0f, 180.0f);
-		ImGui::SliderAngle("Yaw", &pos.yaw, -180.0f, 180.0f);
-
-		ImGui::Text("Position");
-		ImGui::SliderFloat("X", &pos.x, -20.0f, 20.0f);
-		ImGui::SliderFloat("Y", &pos.y, -20.0f, 20.0f);
-		ImGui::SliderFloat("Z", &pos.z, -20.0f, 20.0f);
-	}
-	ImGui::End();
+void Model::ShowWindow(const char* windowName) noexcept {
+	pWindow->Show(windowName, *pRoot);
 }
 
 std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh) {

@@ -28,7 +28,7 @@ public:
 	Node(const std::string& name, std::vector<Mesh*> meshPtrs, const DirectX::XMMATRIX& transform) noxnd;
 
 	void Draw(Graphics& gfx, DirectX::FXMMATRIX accumulatedTransforms) const noxnd;
-	void RenderTree() const noexcept;
+	void ShowTree() const noexcept;
 
 private:
 	//Add a child to a node //this is private as models only want to be able to add a child 
@@ -50,18 +50,13 @@ public:
 
 	static std::unique_ptr<Mesh> ParseMesh(Graphics& gfx, const aiMesh& mesh);
 
+	~Model() noexcept;
+
 	std::unique_ptr<Node> ParseNode(const aiNode& node) noexcept;
 private:
 	std::unique_ptr<Node> pRoot;
 	std::vector<std::unique_ptr<Mesh>> meshPtrs;
+	std::unique_ptr<class ModelWindow> pWindow;
 
-	struct
-	{
-		float roll = 0.0f;
-		float pitch = 0.0f;
-		float yaw = 0.0f;
-		float x = 0.0f;
-		float y = 0.0f;
-		float z = 0.0f;
-	} pos;
+
 };
