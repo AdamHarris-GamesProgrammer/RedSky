@@ -16,7 +16,7 @@ private:
 	void DoFrame();
 
 	void SpawnBackgroundControlWindow() noexcept;
-	void ShowModelWindow();
+	void ShowImguiDemoWindow();
 
 private:
 	ImguiManager imgui;
@@ -33,13 +33,5 @@ private:
 	DirectX::XMFLOAT4 bgColour = { 0.0f,0.0f,0.0f, 1.0f };
 
 	Model nano{ wnd.Gfx(), "Models\\nanosuit.obj" };
-	struct 
-	{
-		float roll = 0.0f;
-		float pitch = 0.0f;
-		float yaw = 0.0f;
-		float x = 0.0f;
-		float y = 0.0f;
-		float z = 0.0f;
-	} pos;
+
 };
