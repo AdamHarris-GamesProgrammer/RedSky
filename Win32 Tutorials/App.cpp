@@ -7,7 +7,6 @@
 #include <algorithm>
 #include <random>
 #include "Surface.h"
-#include "AssTest.h"
 #include "GDIPlusManager.h"
 #include "imgui/imgui.h"
 #include "Vertex.h"
