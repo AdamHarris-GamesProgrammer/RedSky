@@ -2,6 +2,7 @@
 #include "DrawableBase.h"
 #include "BindableCommon.h"
 #include "Vertex.h"
+#include <optional>
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -28,7 +29,7 @@ public:
 	Node(const std::string& name, std::vector<Mesh*> meshPtrs, const DirectX::XMMATRIX& transform) noxnd;
 
 	void Draw(Graphics& gfx, DirectX::FXMMATRIX accumulatedTransforms) const noxnd;
-	void ShowTree() const noexcept;
+	void ShowTree(int& nodeIndex, std::optional<int>& selectedIndex) const noexcept;
 
 private:
 	//Add a child to a node //this is private as models only want to be able to add a child 

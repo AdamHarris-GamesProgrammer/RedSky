@@ -51,14 +51,23 @@ void Node::AddChild(std::unique_ptr<Node> pChild) noxnd {
 	childPtrs.push_back(std::move(pChild));
 }
 
-void Node::ShowTree() const noexcept
+void Node::ShowTree(int& nodeIndex, std::optional<int>& selectedIndex) const noexcept
 {
-	if (ImGui::TreeNode(name.c_str())) {
+	const int currentNodeIndex = nodeIndex;
+	nodeIndex++;
+
+	const auto node_flags = ImGuiTreeNodeFlags_OpenOnArrow
+		| ((currentNodeIndex == selectedIndex.value_or(-1)) ? ImGuiTreeNodeFlags_Selected : 0)
+		| ((childPtrs.size() == 0) ? ImGuiTreeNodeFlags_Leaf : 0);
+
+	if (ImGui::TreeNodeEx((void*)(intptr_t)currentNodeIndex, node_flags, name.c_str())) {
+		selectedIndex = ImGui::IsItemClicked() ? currentNodeIndex : selectedIndex;
 		for (const auto& pChild : childPtrs) {
-			pChild->ShowTree();
+			pChild->ShowTree(nodeIndex, selectedIndex);
 		}
 		ImGui::TreePop();
 	}
+
 }
 
 class ModelWindow {
@@ -66,9 +75,12 @@ public:
 	void Show(const char* windowName, const Node& root) noexcept
 	{
 		windowName = windowName ? windowName : "Model";
+
+		int nodeIndexTracker = 0;
+
 		if (ImGui::Begin(windowName)) {
 			ImGui::Columns(2, nullptr, true);
-			root.ShowTree();
+			root.ShowTree(nodeIndexTracker, selectedIndex);
 
 			ImGui::NextColumn();
 			ImGui::Text("Orientation");
@@ -90,6 +102,7 @@ public:
 	}
 
 private:
+	std::optional<int> selectedIndex;
 	struct
 	{
 		float roll = 0.0f;
