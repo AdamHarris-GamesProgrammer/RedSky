@@ -31,18 +31,19 @@ void Mesh::Draw(Graphics& gfx, DirectX::FXMMATRIX accumulatedTransform) const no
 }
 
 
-Node::Node(const std::string& name, std::vector<Mesh*> meshPtrs, const DirectX::XMMATRIX& transform) noxnd
+Node::Node(const std::string& name, std::vector<Mesh*> meshPtrs, const DirectX::XMMATRIX& transform_in) noxnd
 	: meshPtrs(meshPtrs), name(name)
 {
-	dx::XMStoreFloat4x4(&baseTransform, transform);
+	dx::XMStoreFloat4x4(&transform, transform_in);
 	dx::XMStoreFloat4x4(&appliedTransform, dx::XMMatrixIdentity());
 }
 
 void Node::Draw(Graphics& gfx, DirectX::FXMMATRIX accumulatedTransforms) const noxnd
 {
 	const auto built =
-		dx::XMLoadFloat4x4(&appliedTransform) *
-		DirectX::XMLoadFloat4x4(&baseTransform) *
+		
+		DirectX::XMLoadFloat4x4(&transform) *
+		dx::XMLoadFloat4x4(&appliedTransform)*
 		accumulatedTransforms; //the current nodes transform plus the transform of all root objects
 	for (const auto pm : meshPtrs) {
 		pm->Draw(gfx, built);
@@ -72,6 +73,7 @@ void Node::ShowTree(int& nodeIndex, std::optional<int>& selectedIndex, Node*& pS
 		| ((currentNodeIndex == selectedIndex.value_or(-1)) ? ImGuiTreeNodeFlags_Selected : 0)
 		| ((childPtrs.empty()) ? ImGuiTreeNodeFlags_Leaf : 0);
 
+	//generates the widget
 	const auto expanded = ImGui::TreeNodeEx((void*)(intptr_t)currentNodeIndex, node_flags, name.c_str());
 
 

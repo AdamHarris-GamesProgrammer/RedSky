@@ -16,29 +16,29 @@ namespace wrl = Microsoft::WRL;
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "D3DCompiler.lib")
 
-Graphics::Graphics(HWND hWnd)
+Graphics::Graphics(HWND hWnd, int width, int height)
 {
 	HRESULT hr;
 
-	SetupSwapchainAndDevice(hWnd);
+	SetupSwapchainAndDevice(hWnd, width, height);
 	SetupRenderTarget();
-	SetupDepthStencil();
+	SetupDepthStencil(width, height);
 
 	//Bind Render target
 	pContext->OMSetRenderTargets(1u, pTarget.GetAddressOf(), pDSV.Get());
 
-	SetupViewport();
+	SetupViewport(width, height);
 
 	ImGui_ImplDX11_Init(pDevice.Get(), pContext.Get());
 }
 
 #pragma region DirectX Setup
-void Graphics::SetupSwapchainAndDevice(HWND& hWnd)
+void Graphics::SetupSwapchainAndDevice(HWND& hWnd, int width, int height)
 {
 	DXGI_SWAP_CHAIN_DESC sd = {};
 	//Direct3D gets the width and height of the window
-	sd.BufferDesc.Width = WINDOW_WIDTH;
-	sd.BufferDesc.Height = WINDOW_HEIGHT;
+	sd.BufferDesc.Width = width;
+	sd.BufferDesc.Height = height;
 	sd.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM; //Sets the colour format
 	sd.BufferDesc.RefreshRate.Numerator = 0; //Pick the current system refresh rate
 	sd.BufferDesc.RefreshRate.Denominator = 0;
@@ -87,7 +87,7 @@ void Graphics::SetupRenderTarget()
 	GFX_THROW_INFO(pDevice->CreateRenderTargetView(pBackBuffer.Get(), nullptr, &pTarget));
 }
 
-void Graphics::SetupDepthStencil()
+void Graphics::SetupDepthStencil(int width, int height)
 {
 	HRESULT hr;
 
@@ -104,8 +104,8 @@ void Graphics::SetupDepthStencil()
 	wrl::ComPtr<ID3D11Texture2D> pDepthStencil;
 
 	D3D11_TEXTURE2D_DESC descDepth = {};
-	descDepth.Width = WINDOW_WIDTH;
-	descDepth.Height = WINDOW_HEIGHT;
+	descDepth.Width = width;
+	descDepth.Height = height;
 	descDepth.MipLevels = 1u;
 	descDepth.ArraySize = 1u;
 	descDepth.Format = DXGI_FORMAT_D32_FLOAT;
@@ -124,12 +124,12 @@ void Graphics::SetupDepthStencil()
 	GFX_THROW_INFO(pDevice->CreateDepthStencilView(pDepthStencil.Get(), &descDSV, &pDSV));
 }
 
-void Graphics::SetupViewport()
+void Graphics::SetupViewport(int width, int height)
 {
 	//configure viewport
 	D3D11_VIEWPORT vp;
-	vp.Width = 800;
-	vp.Height = WINDOW_HEIGHT;
+	vp.Width = (float)width;
+	vp.Height = (float)height;
 	vp.MinDepth = 0;
 	vp.MaxDepth = 1;
 	vp.TopLeftX = 0;

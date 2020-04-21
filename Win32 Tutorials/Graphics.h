@@ -60,16 +60,16 @@ public:
 
 public:
 	//Constructor related methods
-	Graphics(HWND hWnd);
+	Graphics(HWND hWnd, int width, int height);
 	Graphics(const Graphics&) = delete;
 	Graphics& operator=(const Graphics&) = delete;
 	~Graphics();
 
 	//DirectX Setup
-	void SetupSwapchainAndDevice(HWND& hWnd);
+	void SetupSwapchainAndDevice(HWND& hWnd, int width, int height);
 	void SetupRenderTarget();
-	void SetupDepthStencil();
-	void SetupViewport();
+	void SetupDepthStencil(int width, int height);
+	void SetupViewport(int width, int height);
 
 	//Swap Chain related functions
 	void EndFrame();

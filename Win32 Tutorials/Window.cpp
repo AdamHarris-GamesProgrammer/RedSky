@@ -74,7 +74,7 @@ Window::Window(int width, int height, const char* name) : width(width), height(h
 	ImGui_ImplWin32_Init(hWnd);
 
 
-	pGfx = std::make_unique<Graphics>(hWnd);
+	pGfx = std::make_unique<Graphics>(hWnd, width, height);
 }
 
 Window::~Window()
