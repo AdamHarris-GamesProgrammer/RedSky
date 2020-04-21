@@ -1,6 +1,7 @@
 #include "Mesh.h"
 #include "imgui/imgui.h"
 #include <unordered_map>
+#include <sstream>
 
 namespace dx = DirectX;
 
@@ -98,7 +99,7 @@ public:
 			root.ShowTree(nodeIndexTracker, selectedIndex, pSelectedNode);
 
 			ImGui::NextColumn();
-			if (pSelectedNode != nullptr) {
+			if (pSelectedNode != nullptr) { //if there is a selected node
 				auto& transform = transforms[*selectedIndex];
 				ImGui::Text("Orientation");
 				ImGui::SliderAngle("Roll", &transform.roll, -180.0f, 180.0f);
@@ -150,8 +151,14 @@ Model::Model(Graphics& gfx, const std::string fileName) :
 	Assimp::Importer imp;
 	const auto pScene = imp.ReadFile(fileName.c_str(),
 		aiProcess_JoinIdenticalVertices |
-		aiProcess_Triangulate
+		aiProcess_Triangulate |
+		aiProcess_ConvertToLeftHanded |
+		aiProcess_GenNormals
 		);
+
+	if (pScene == nullptr) {
+		throw ModelException(__LINE__, __FILE__, imp.GetErrorString());
+	}
 
 	//load all meshes and store them 
 	for (size_t i = 0; i < pScene->mNumMeshes; i++) {
@@ -261,3 +268,27 @@ std::unique_ptr<Node> Model::ParseNode(const aiNode& node) noexcept {
 
 	return pNode;
 }
+
+#pragma region 
+ModelException::ModelException(int line, const char* file, std::string note) noexcept
+	: RedSkyException(line,file), note(std::move(note)){}
+
+const char* ModelException::what() const noexcept
+{
+	std::ostringstream oss;
+	oss << RedSkyException::what() << std::endl
+		<< "[Note]: " << GetNote();
+	whatBuffer = oss.str();
+	return whatBuffer.c_str();
+}
+
+const char* ModelException::GetType() const noexcept
+{
+	return "RedSky Model Exception";
+}
+
+const std::string& ModelException::GetNote() const noexcept
+{
+	return note;
+}
+#pragma endregion Model Exception Class

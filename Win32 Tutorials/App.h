@@ -32,6 +32,6 @@ private:
 
 	DirectX::XMFLOAT4 bgColour = { 0.0f,0.0f,0.0f, 1.0f };
 
-	Model nano{ wnd.Gfx(), "Models\\nanosuit.obj" };
+	Model nano{ wnd.Gfx(), "Models\\boxy.gltf" };
 
 };
