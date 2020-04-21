@@ -31,7 +31,7 @@ void Mesh::Draw(Graphics& gfx, DirectX::FXMMATRIX accumulatedTransform) const no
 }
 
 
-Node::Node(const std::string& name, std::vector<Mesh*> meshPtrs, const DirectX::XMMATRIX& transform) noxnd 
+Node::Node(const std::string& name, std::vector<Mesh*> meshPtrs, const DirectX::XMMATRIX& transform) noxnd
 	: meshPtrs(meshPtrs), name(name)
 {
 	dx::XMStoreFloat4x4(&baseTransform, transform);
@@ -40,9 +40,9 @@ Node::Node(const std::string& name, std::vector<Mesh*> meshPtrs, const DirectX::
 
 void Node::Draw(Graphics& gfx, DirectX::FXMMATRIX accumulatedTransforms) const noxnd
 {
-	const auto built = 
-		DirectX::XMLoadFloat4x4(&baseTransform) *
+	const auto built =
 		dx::XMLoadFloat4x4(&appliedTransform) *
+		DirectX::XMLoadFloat4x4(&baseTransform) *
 		accumulatedTransforms; //the current nodes transform plus the transform of all root objects
 	for (const auto pm : meshPtrs) {
 		pm->Draw(gfx, built);
@@ -68,16 +68,19 @@ void Node::ShowTree(int& nodeIndex, std::optional<int>& selectedIndex, Node*& pS
 	const int currentNodeIndex = nodeIndex;
 	nodeIndex++; //increments the current node for recursive calling
 
-	const auto node_flags = ImGuiTreeNodeFlags_OpenOnArrow 
-		| ((currentNodeIndex == selectedIndex.value_or(-1)) ? ImGuiTreeNodeFlags_Selected : 0) 
+	const auto node_flags = ImGuiTreeNodeFlags_OpenOnArrow
+		| ((currentNodeIndex == selectedIndex.value_or(-1)) ? ImGuiTreeNodeFlags_Selected : 0)
 		| ((childPtrs.empty()) ? ImGuiTreeNodeFlags_Leaf : 0);
 
-	if (ImGui::TreeNodeEx((void*)(intptr_t)currentNodeIndex, node_flags, name.c_str())) {
-		if (ImGui::IsItemClicked()) {
-			selectedIndex = currentNodeIndex;
-			pSelectedNode = const_cast<Node*>(this);
-		}
-		
+	const auto expanded = ImGui::TreeNodeEx((void*)(intptr_t)currentNodeIndex, node_flags, name.c_str());
+
+
+	if (ImGui::IsItemClicked()) {
+		selectedIndex = currentNodeIndex;
+		pSelectedNode = const_cast<Node*>(this);
+	}
+
+	if (expanded) {
 		for (const auto& pChild : childPtrs) {
 			pChild->ShowTree(nodeIndex, selectedIndex, pSelectedNode);
 		}
@@ -118,7 +121,7 @@ public:
 
 	dx::XMMATRIX GetTransform() const noexcept {
 		const auto& transform = transforms.at(*selectedIndex);
-		return 
+		return
 			dx::XMMatrixRotationRollPitchYaw(transform.roll, transform.pitch, transform.yaw) *
 			dx::XMMatrixTranslation(transform.x, transform.y, transform.z);
 	}
@@ -146,7 +149,7 @@ private:
 
 
 Model::Model(Graphics& gfx, const std::string fileName) :
-	pWindow(std::make_unique<ModelWindow>()){
+	pWindow(std::make_unique<ModelWindow>()) {
 	//Create Assimp object and load file
 	Assimp::Importer imp;
 	const auto pScene = imp.ReadFile(fileName.c_str(),
@@ -271,7 +274,7 @@ std::unique_ptr<Node> Model::ParseNode(const aiNode& node) noexcept {
 
 #pragma region 
 ModelException::ModelException(int line, const char* file, std::string note) noexcept
-	: RedSkyException(line,file), note(std::move(note)){}
+	: RedSkyException(line, file), note(std::move(note)) {}
 
 const char* ModelException::what() const noexcept
 {
