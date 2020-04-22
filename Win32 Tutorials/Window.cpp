@@ -127,7 +127,22 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 	case WM_KILLFOCUS:
 		kbd.ClearState();
 		break;
-	
+	case WM_ACTIVATE:
+		OutputDebugString("activate\n");
+		if (!cursorEnabled) {
+			if (wParam & WA_ACTIVE) {
+				OutputDebugString("Activate > Confine\n");
+				ConfineCursor();
+				HideCursor();
+			}
+			else
+			{
+				OutputDebugString("Activate > Free\n");
+				FreeCursor();
+				ShowCursor();
+			}
+		}
+		break;
 	//Keyboard messages
 	case WM_KEYDOWN:
 		//Syskey command need to be handled to track alt key
@@ -154,6 +169,8 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 	//Mouse Messages
 	case WM_MOUSEMOVE:
 	{
+		const POINTS pt = MAKEPOINTS(lParam);
+
 		if (!cursorEnabled) {
 			if (!mouse.IsInWindow()) {
 				SetCapture(hWnd);
@@ -272,26 +289,53 @@ Graphics& Window::Gfx()
 	return *pGfx;
 }
 
-void Window::EnableCursor()
+void Window::EnableCursor()noexcept
 {
 	cursorEnabled = true;
 	ShowCursor();
+	EnableImGuiMouse();
+	FreeCursor();
 }
 
-void Window::DisableCursor()
+void Window::DisableCursor()noexcept
 {
 	cursorEnabled = false;
 	HideCursor();
+	DisableImGuiMouse();
+	ConfineCursor();
 }
 
-void Window::HideCursor()
+void Window::HideCursor()noexcept
 {
 	while (::ShowCursor(FALSE) >= 0);
 }
 
-void Window::ShowCursor()
+void Window::ShowCursor()noexcept
 {
 	while (::ShowCursor(TRUE) < 0);
+}
+
+void Window::EnableImGuiMouse()noexcept
+{
+	ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
+}
+
+void Window::DisableImGuiMouse()noexcept
+{
+	ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouse;
+}
+
+void Window::ConfineCursor() noexcept
+{
+	RECT rect;
+	GetClientRect(hWnd, &rect);
+	MapWindowPoints(hWnd, nullptr, reinterpret_cast<POINT*>(&rect), 2);
+	ClipCursor(&rect);
+}
+
+void Window::FreeCursor() noexcept
+{
+	ClipCursor(nullptr);
 }
 
 #pragma region Windows Exception

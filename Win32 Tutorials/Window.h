@@ -60,14 +60,18 @@ public:
 	Window& operator=(const Window&) = delete;
 	void SetTitle(const std::string& title);
 
-	void EnableCursor();
-	void DisableCursor();
+	void EnableCursor() noexcept;
+	void DisableCursor() noexcept;
 
 	static std::optional<int> ProcessMessages() noexcept;
 	Graphics& Gfx();
 private:
-	void HideCursor();
-	void ShowCursor();
+	void ConfineCursor() noexcept;
+	void FreeCursor() noexcept;
+	void HideCursor() noexcept;
+	void ShowCursor() noexcept;
+	void EnableImGuiMouse() noexcept;
+	void DisableImGuiMouse() noexcept;
 
 	//WinAPI dosent accept member functions, therefore a static function is used
 	static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept; //LRESULT is just a long pointer, CALLBACK is just a __stdcall. 
