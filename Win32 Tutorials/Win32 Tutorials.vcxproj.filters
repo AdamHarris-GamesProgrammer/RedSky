@@ -314,6 +314,9 @@
     <ClInclude Include="ConditionalNoexcept.h">
       <Filter>Header Files\Macros</Filter>
     </ClInclude>
+    <ClInclude Include="RedSkyKeyboardKeys.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="RedSky.rc">

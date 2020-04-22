@@ -18,7 +18,6 @@ namespace DX = DirectX;
 App::App() : wnd(1280, 720, "RedSky Demo Window"), light(wnd.Gfx())
 {
 	wnd.Gfx().SetProjection(DX::XMMatrixPerspectiveLH(1.0f, 9.0f / 16.0f, 0.5f, 40.0f));
-	wnd.EnableCursor();
 }
 
 App::~App() {}
@@ -49,9 +48,13 @@ void App::DoFrame()
 	wnd.Gfx().SetCamera(cam.GetMatrix());
 	light.Bind(wnd.Gfx(), cam.GetMatrix());
 
-	for (auto& b : drawables) {
-		b->Update(wnd.kbd.KeyIsPressed(VK_SPACE) ? 0.0f : dt);
-		b->Draw(wnd.Gfx());
+	//Q: DISABLE CURSOR
+	if (wnd.kbd.KeyIsPressed(KEY_Q)) {
+		wnd.DisableCursor();
+	}
+	//E: ENABLE CURSOR
+	else if (wnd.kbd.KeyIsPressed(KEY_E)) {
+		wnd.EnableCursor();
 	}
 
 	nano.Draw(wnd.Gfx());

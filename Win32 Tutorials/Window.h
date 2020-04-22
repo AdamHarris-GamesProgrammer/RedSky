@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RedSkyWin.h"
+#include "RedSkyKeyboardKeys.h"
 #include "RedSkyException.h"
 
 
@@ -82,7 +83,7 @@ public:
 	Mouse mouse;
 
 private:
-	bool cursorEnabled = false;
+	bool cursorEnabled = true;
 	int width;
 	int height;
 	HWND hWnd;

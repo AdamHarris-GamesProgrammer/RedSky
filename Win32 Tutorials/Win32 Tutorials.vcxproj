@@ -250,6 +250,7 @@
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="RedSkyException.h" />
+    <ClInclude Include="RedSkyKeyboardKeys.h" />
     <ClInclude Include="RedSkyMath.h" />
     <ClInclude Include="RedSkyTimer.h" />
     <ClInclude Include="RedSkyWin.h" />

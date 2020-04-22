@@ -128,16 +128,13 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 		kbd.ClearState();
 		break;
 	case WM_ACTIVATE:
-		OutputDebugString("activate\n");
 		if (!cursorEnabled) {
 			if (wParam & WA_ACTIVE) {
-				OutputDebugString("Activate > Confine\n");
 				ConfineCursor();
 				HideCursor();
 			}
 			else
 			{
-				OutputDebugString("Activate > Free\n");
 				FreeCursor();
 				ShowCursor();
 			}
@@ -183,7 +180,6 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 		if (imio.WantCaptureKeyboard) {
 			break;
 		}
-		const POINTS pt = MAKEPOINTS(lParam);
 		if (pt.x > 0 && pt.x < width && pt.y >= 0 && pt.y < height) {
 			mouse.OnMouseMove(pt.x, pt.y);
 			if (!mouse.IsInWindow()) {

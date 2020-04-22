@@ -22,8 +22,6 @@ private:
 	ImguiManager imgui;
 	Window wnd;
 	RedSkyTimer timer;
-	std::vector<std::unique_ptr<class Drawable>> drawables;
-	std::vector<class Box*> boxes;
 	float simSpeed = 1.0f;
 	
 	Camera cam;
