@@ -154,6 +154,15 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 	//Mouse Messages
 	case WM_MOUSEMOVE:
 	{
+		if (!cursorEnabled) {
+			if (!mouse.IsInWindow()) {
+				SetCapture(hWnd);
+				mouse.OnMouseEnter();
+				HideCursor();
+			}
+			break;
+		}
+
 		if (imio.WantCaptureKeyboard) {
 			break;
 		}
@@ -261,6 +270,28 @@ Graphics& Window::Gfx()
 		throw RSWND_NOGFX_EXCEPT();
 	}
 	return *pGfx;
+}
+
+void Window::EnableCursor()
+{
+	cursorEnabled = true;
+	ShowCursor();
+}
+
+void Window::DisableCursor()
+{
+	cursorEnabled = false;
+	HideCursor();
+}
+
+void Window::HideCursor()
+{
+	while (::ShowCursor(FALSE) >= 0);
+}
+
+void Window::ShowCursor()
+{
+	while (::ShowCursor(TRUE) < 0);
 }
 
 #pragma region Windows Exception

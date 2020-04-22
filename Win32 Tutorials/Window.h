@@ -59,9 +59,16 @@ public:
 	Window(const Window&) = delete;
 	Window& operator=(const Window&) = delete;
 	void SetTitle(const std::string& title);
+
+	void EnableCursor();
+	void DisableCursor();
+
 	static std::optional<int> ProcessMessages() noexcept;
 	Graphics& Gfx();
 private:
+	void HideCursor();
+	void ShowCursor();
+
 	//WinAPI dosent accept member functions, therefore a static function is used
 	static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept; //LRESULT is just a long pointer, CALLBACK is just a __stdcall. 
 	static LRESULT CALLBACK HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept; //__stdcall is a calling convention that means the stack is cleaned automatically when the function is over
@@ -71,11 +78,9 @@ public:
 	Mouse mouse;
 
 private:
+	bool cursorEnabled = false;
 	int width;
 	int height;
 	HWND hWnd;
 	std::unique_ptr<Graphics> pGfx;
 };
-
-
-
