@@ -1,32 +1,38 @@
 #include "Camera.h"
 #include "imgui/imgui.h"
+#include "RedSkyMath.h"
 
 namespace DX = DirectX;
 
+Camera::Camera() noexcept
+{
+	Reset();
+}
+
 DirectX::XMMATRIX Camera::GetMatrix() const noexcept
 {
-	const auto pos = DX::XMVector3Transform(
-		DX::XMVectorSet(0.0f, 0.0f, -r, 0.0f),
-		DX::XMMatrixRotationRollPitchYaw(phi, -theta, 0.0f)
-		);
+	using namespace DX;
 
-	return DX::XMMatrixLookAtLH(
-		pos, DX::XMVectorZero(),
-		DX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f)
-		) * DX::XMMatrixRotationRollPitchYaw(pitch, -yaw, roll);
+	const XMVECTOR forwardBaseVector = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
 
+	const auto lookVector = XMVector3Transform(forwardBaseVector,
+		XMMatrixRotationRollPitchYaw(pitch, yaw, 0.0f)
+	);
+
+	const auto camPosition = XMLoadFloat3(&pos);
+	
+	const auto camTarget = camPosition + lookVector;
+
+	return XMMatrixLookAtLH(camPosition, camTarget, XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f));
 }
 
 void Camera::SpawnControlWindow() noexcept
 {
 	if (ImGui::Begin("Camera Settings")) {
 		ImGui::Text("Position");
-		ImGui::SliderFloat("R", &r, 0.2f, 80.0f, "%.1f");
-		ImGui::SliderAngle("Theta", &theta, -180.0f, 180.0f);
-		ImGui::SliderAngle("Phi", &phi, -89.0f, 89.0f);
+		ImGui::SliderFloat3("", &pos.x, -80.0f, 80.0f, "%.1f");
 		ImGui::Text("Orientation");
-		ImGui::SliderAngle("Roll", &roll, -180.0f, 180.0f);
-		ImGui::SliderAngle("Pitch", &pitch, -180.0f, 180.0f);
+		ImGui::SliderAngle("Pitch", &pitch, 0.995f * -90.0f, 0.995f * 90.0f);
 		ImGui::SliderAngle("Yaw", &yaw, -180.0f, 180.0f);
 
 		if (ImGui::Button("Reset")) {
@@ -38,12 +44,29 @@ void Camera::SpawnControlWindow() noexcept
 
 void Camera::Reset() noexcept
 {
-	r = 20.0f;
-
-	theta = 0.0f;
-	phi = 0.0f;
+	pos = { 0.0f, 7.5f,-18.0f };
 
 	pitch = 0.0f;
 	yaw = 0.0f;
-	roll = 0.0f;
+}
+
+void Camera::Rotate(float dx, float dy) noexcept
+{
+	yaw = wrap_angle(yaw + dx * rotationSpeed);
+	pitch = std::clamp(pitch + dy * rotationSpeed, 0.995f * -PI / 2.0f, 0.995f * PI / 2.0f);
+}
+
+void Camera::Translate(DirectX::XMFLOAT3 translation) noexcept
+{
+	DX::XMStoreFloat3(&translation, DX::XMVector3Transform(
+		DX::XMLoadFloat3(&translation),
+		DX::XMMatrixRotationRollPitchYaw(pitch, yaw, 0.0f) *
+		DX::XMMatrixScaling(travelSpeed, travelSpeed, travelSpeed)
+	));
+
+	pos = {
+		pos.x + translation.x,
+		pos.y + translation.y,
+		pos.z + translation.z
+	};
 }
