@@ -37,25 +37,36 @@ void App::DoFrame()
 {
 	auto dt = timer.Mark() * simSpeed;
 
-	if (wnd.kbd.KeyIsPressed(VK_SPACE)) {
-		wnd.Gfx().DisableImgui();
-	}
-	else
-	{
-		wnd.Gfx().EnableImgui();
-	}
 	wnd.Gfx().BeginFrame(bgColour);
 	wnd.Gfx().SetCamera(cam.GetMatrix());
 	light.Bind(wnd.Gfx(), cam.GetMatrix());
 
-	//Q: DISABLE CURSOR
-	if (wnd.kbd.KeyIsPressed(KEY_Q)) {
-		wnd.DisableCursor();
+	while (const auto e = wnd.kbd.ReadKey())
+	{
+		//Toggles Camera On and Off when F is pressed
+		if (e->IsPress() && e->GetCode() == KEY_F) {
+			if (wnd.CursorEnabled()) {
+				wnd.DisableCursor();
+				wnd.mouse.EnableRaw();
+			}
+			else
+			{
+				wnd.EnableCursor();
+				wnd.mouse.DisableRaw();
+			}
+		}
+
+		//Toggles Imgui On and Off when SPACE is pressed
+		if (e->IsPress() && e->GetCode() == KEY_SPACE) {
+			if (wnd.Gfx().IsImGuiEnabled()) {
+				wnd.Gfx().DisableImgui();
+			}
+			else {
+				wnd.Gfx().EnableImgui();
+			}
+		}
 	}
-	//E: ENABLE CURSOR
-	else if (wnd.kbd.KeyIsPressed(KEY_E)) {
-		wnd.EnableCursor();
-	}
+
 
 	nano.Draw(wnd.Gfx());
 
@@ -65,6 +76,8 @@ void App::DoFrame()
 	cam.SpawnControlWindow();
 	light.SpawnControlWindow();
 	ShowImguiDemoWindow();
+	ShowRawInputWindow();
+
 	nano.ShowWindow();
 	
 
@@ -87,5 +100,19 @@ void App::ShowImguiDemoWindow()
 	if (showDemoWindow) {
 		ImGui::ShowDemoWindow(&showDemoWindow);
 	}
+}
+
+void App::ShowRawInputWindow()
+{
+	while (const auto d = wnd.mouse.ReadRawDelta())
+	{
+		x += d->x;
+		y += d->y;
+	}
+	if (ImGui::Begin("Raw Input"))
+	{
+		ImGui::Text("Tally: (%d,%d)", x, y);
+	}
+	ImGui::End();
 }
 

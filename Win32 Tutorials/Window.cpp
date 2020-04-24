@@ -19,7 +19,7 @@ Window::WindowClass::WindowClass() noexcept : hInst(GetModuleHandle(nullptr))
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
 	wc.hInstance = GetInstance();
-	wc.hIcon = static_cast<HICON>(LoadImage(hInst, MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, 32,32,0));
+	wc.hIcon = static_cast<HICON>(LoadImage(hInst, MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, 32, 32, 0));
 	wc.hCursor = nullptr;
 	wc.hbrBackground = nullptr;
 	wc.lpszMenuName = nullptr;
@@ -75,6 +75,18 @@ Window::Window(int width, int height, const char* name) : width(width), height(h
 
 
 	pGfx = std::make_unique<Graphics>(hWnd, width, height);
+
+	//Allows us to interface with the input device itself 
+	//higher resolution for the input device
+	//Allows us to input from two different input devices e.g. two mice 
+	RAWINPUTDEVICE rid;
+	rid.usUsagePage = 0x01; //mouse page
+	rid.usUsage = 0x02; //mouse usage
+	rid.dwFlags = 0;
+	rid.hwndTarget = nullptr;
+	if (RegisterRawInputDevices(&rid, 1, sizeof(rid)) == FALSE) {
+		throw RSWND_LAST_EXCEPT();
+	}
 }
 
 Window::~Window()
@@ -88,7 +100,7 @@ LRESULT CALLBACK Window::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 {
 	if (msg == WM_NCCREATE) { //if this is the first time the window is being created
 		//extract a pointer to window class from creation data
-		const CREATESTRUCTW* const pCreate = reinterpret_cast<CREATESTRUCTW*>(lParam); 
+		const CREATESTRUCTW* const pCreate = reinterpret_cast<CREATESTRUCTW*>(lParam);
 		Window* const pWnd = static_cast<Window*>(pCreate->lpCreateParams);
 		//Set WinAPI data to store a pointer to the window class
 		SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pWnd)); //Lets you set data stored at the WindowsAPI side to desired data //stores a pointer to this class in the windows API
@@ -98,7 +110,7 @@ LRESULT CALLBACK Window::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 		return pWnd->HandleMsg(hWnd, msg, wParam, lParam); //Handle the new event
 	}
 	//message will now be handled by the new WindowProc which is WindowThunk
-	return DefWindowProc(hWnd, msg, wParam, lParam); 
+	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
 //adapts from WIN32 Call function to c++ member function
@@ -123,7 +135,7 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 		PostQuitMessage(0);
 		return 0; //Stops Destroy Window from being called twice as the function now exits and then the destructor gets called
 		break;
-	//Clears keyboard state when the window is not in focus
+		//Clears keyboard state when the window is not in focus
 	case WM_KILLFOCUS:
 		kbd.ClearState();
 		break;
@@ -140,7 +152,7 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 			}
 		}
 		break;
-	//Keyboard messages
+		//Keyboard messages
 	case WM_KEYDOWN:
 		//Syskey command need to be handled to track alt key
 	case WM_SYSKEYDOWN:
@@ -162,8 +174,8 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 			break;
 		}
 		kbd.OnChar(static_cast<unsigned char>(wParam));
-	
-	//Mouse Messages
+
+		//Mouse Messages
 	case WM_MOUSEMOVE:
 	{
 		const POINTS pt = MAKEPOINTS(lParam);
@@ -199,7 +211,7 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 			}
 		}
 	}
-		break;
+	break;
 	case WM_LBUTTONDOWN:
 	{
 		if (imio.WantCaptureKeyboard) {
@@ -211,7 +223,7 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 		//Brings window to foreground object when clicked on
 		SetForegroundWindow(hWnd);
 	}
-		break;
+	break;
 	case WM_RBUTTONDOWN:
 	{
 		if (imio.WantCaptureKeyboard) {
@@ -220,7 +232,7 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 		const POINTS pt = MAKEPOINTS(lParam);
 		mouse.OnRightPressed(pt.x, pt.y);
 	}
-		break;
+	break;
 	case WM_LBUTTONUP:
 	{
 		if (imio.WantCaptureKeyboard) {
@@ -229,7 +241,7 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 		const POINTS pt = MAKEPOINTS(lParam);
 		mouse.OnLeftReleased(pt.x, pt.y);
 	}
-		break;
+	break;
 	case WM_RBUTTONUP:
 	{
 		if (imio.WantCaptureKeyboard) {
@@ -238,7 +250,7 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 		const POINTS pt = MAKEPOINTS(lParam);
 		mouse.OnRightReleased(pt.x, pt.y);
 	}
-		break;
+	break;
 	case WM_MOUSEWHEEL:
 	{
 		if (imio.WantCaptureKeyboard) {
@@ -248,9 +260,55 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 		const int delta = GET_WHEEL_DELTA_WPARAM(wParam); //wParam holds mouse wheel
 		mouse.OnWheelDelta(pt.x, pt.y, delta);
 	}
+
+	//You will not get WM_INPUT messages until you register raw input for the input device
+	case WM_INPUT:
+	{
+		if (!mouse.RawEnabled()) {
+			break;
+		}
+
+		UINT size;
+		//lparam is the handle for the raw data
+		//fills the size variable with how much data is required
+		if (GetRawInputData(
+			reinterpret_cast<HRAWINPUT>(lParam),
+			RID_INPUT,
+			nullptr,
+			&size,
+			sizeof(RAWINPUTHEADER)) == -1)
+		{
+			//bails out if msg processing goes wrong
+			break;
+		}
+		rawBuffer.resize(size);
+
+		//fills the raw input vector with the data listed from the buffer size
+		if (GetRawInputData(
+			reinterpret_cast<HRAWINPUT>(lParam),
+			RID_INPUT,
+			rawBuffer.data(),
+			&size,
+			sizeof(RAWINPUTHEADER)) != size)
+		{
+			//bail out if processing goes wrong
+			break;
+		}
+
+		//processes the raw input data
+		auto& ri = reinterpret_cast<const RAWINPUT&>(*rawBuffer.data());
+
+		//checks to see if the lastx and lasty is different to the previous frame
+		if (ri.header.dwType == RIM_TYPEMOUSE &&
+			(ri.data.mouse.lLastX != 0 || ri.data.mouse.lLastY != 0))
+		{
+			//stores the new raw values if they are different to the previous frame
+			mouse.OnRawDelta(ri.data.mouse.lLastX, ri.data.mouse.lLastY);
+		}
 		break;
 	}
-	
+
+	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
@@ -264,7 +322,7 @@ void Window::SetTitle(const std::string& title)
 std::optional<int> Window::ProcessMessages() noexcept
 {
 	MSG msg;
-	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) 
+	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 	{
 		if (msg.message == WM_QUIT) {
 			return (int)msg.wParam;
@@ -303,6 +361,7 @@ void Window::DisableCursor()noexcept
 
 void Window::HideCursor()noexcept
 {
+	//uses the WinAPI ShowCursor function when it is above 0 the cursor is hidden
 	while (::ShowCursor(FALSE) >= 0);
 }
 
@@ -351,7 +410,7 @@ std::string Window::Exception::TranslateErrorCode(HRESULT hr) noexcept
 	}
 	std::string errorString = pMsgBuf; //errorString memory will live after this function call //copies the error string into this string
 	LocalFree(pMsgBuf); //release memory from pMsgBuffer
-	return errorString; 
+	return errorString;
 }
 #pragma endregion
 

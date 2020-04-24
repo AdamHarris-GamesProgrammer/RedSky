@@ -1,6 +1,7 @@
 #include "Mouse.h"
 #include "RedSkyWin.h"
 
+
 //Reads the mouse 
 std::optional<Mouse::Event> Mouse::Read() noexcept
 {
@@ -11,6 +12,20 @@ std::optional<Mouse::Event> Mouse::Read() noexcept
 	}
 	return {};
 }
+
+std::optional<Mouse::RawDelta> Mouse::ReadRawDelta() noexcept
+{
+	//if queue is emptry return null optional
+	if (rawDeltaBuffer.empty()) {
+		return std::nullopt;
+	}
+	
+	//if it is not empty then return the raw delta
+	const RawDelta d = rawDeltaBuffer.front();
+	rawDeltaBuffer.pop();
+	return d;
+}
+
 
 //Clears the buffer
 void Mouse::Flush() noexcept
@@ -28,6 +43,12 @@ void Mouse::OnMouseMove(int newX, int newY) noexcept
 	TrimBuffer();
 }
 
+//pushes raw delta information into the buffer
+void Mouse::OnRawDelta(int dx, int dy) noexcept
+{
+	rawDeltaBuffer.push({ dx,dy });
+	TrimBuffer();
+}
 
 //Left button events
 void Mouse::OnLeftPressed(int x, int y) noexcept
@@ -81,6 +102,14 @@ void Mouse::TrimBuffer() noexcept
 {
 	while (buffer.size() > bufferSize) {
 		buffer.pop();
+	}
+}
+
+void Mouse::TrimRawInputBuffer() noexcept
+{
+	while (rawDeltaBuffer.size() > bufferSize)
+	{
+		rawDeltaBuffer.pop();
 	}
 }
 

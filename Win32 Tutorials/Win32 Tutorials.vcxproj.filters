@@ -315,7 +315,7 @@
       <Filter>Header Files\Macros</Filter>
     </ClInclude>
     <ClInclude Include="RedSkyKeyboardKeys.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\RedSky</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

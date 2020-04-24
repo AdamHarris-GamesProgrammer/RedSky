@@ -17,6 +17,7 @@ private:
 
 	void SpawnBackgroundControlWindow() noexcept;
 	void ShowImguiDemoWindow();
+	void ShowRawInputWindow(); //Test for the raw input information
 
 private:
 	ImguiManager imgui;
@@ -24,6 +25,8 @@ private:
 	RedSkyTimer timer;
 	float simSpeed = 1.0f;
 	
+	int x = 0, y = 0;
+
 	Camera cam;
 
 	PointLight light;

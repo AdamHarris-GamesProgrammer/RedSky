@@ -6,6 +6,11 @@ class Mouse
 {
 	friend class Window;
 public:
+	//struct for the raw information
+	struct RawDelta {
+		int x, y;
+	};
+
 	class Event {
 	public:
 		enum class Type {
@@ -54,9 +59,14 @@ public:
 	bool LeftIsPressed() const noexcept { return leftIsPressed; }
 	bool RightIsPressed() const noexcept { return rightIsPressed; }
 	bool IsEmpty() const noexcept { return buffer.empty(); }
-
+	std::optional<RawDelta> ReadRawDelta() noexcept;
 	//Reads the mouse event queue and places events into the buffer
 	std::optional<Mouse::Event> Read() noexcept;
+
+	//Mouse Raw Input Methods
+	void EnableRaw() noexcept { rawEnabled = true; }
+	void DisableRaw() noexcept { rawEnabled = false; }
+	bool RawEnabled() const noexcept { return rawEnabled; }
 
 	//Clears the buffer of events
 	void Flush() noexcept;
@@ -65,6 +75,7 @@ private:
 	void OnMouseMove(int newX, int newY) noexcept;
 	void OnMouseLeave() noexcept { isInWindow = false; }
 	void OnMouseEnter() noexcept { isInWindow = true; }
+	void OnRawDelta(int dx, int dy) noexcept;
 	void OnLeftPressed(int x, int y) noexcept;
 	void OnLeftReleased(int x, int y) noexcept;
 	void OnRightPressed(int x, int y) noexcept;
@@ -75,6 +86,7 @@ private:
 
 	//Reduces the buffer down to the bufferSize variable the buffer from growing to ridiculous sizes
 	void TrimBuffer() noexcept;
+	void TrimRawInputBuffer() noexcept;
 private:
 	//Size of the buffer
 	static constexpr unsigned int bufferSize = 16u;
@@ -85,11 +97,13 @@ private:
 	bool isInWindow = false;
 
 	//Button/Wheel Data
+	bool rawEnabled = false;
 	bool leftIsPressed = false;
 	bool rightIsPressed = false;
 	int wheelDeltaCarry = 0;
 
 	//Event buffer
 	std::queue<Event> buffer;
+	std::queue<RawDelta> rawDeltaBuffer;
 };
 
