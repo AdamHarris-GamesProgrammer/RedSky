@@ -47,7 +47,7 @@ public:
 private:
 	//Add a child to a node //this is private as models only want to be able to add a child 
 	void AddChild(std::unique_ptr<Node> pChild) noxnd;
-	void ShowTree(std::optional<int>& selectedIndex, Node*& pSelectedNode) const noexcept;
+	void ShowTree(Node*& pSelectedNode) const noexcept;
 private:
 	std::string name;
 	int id;

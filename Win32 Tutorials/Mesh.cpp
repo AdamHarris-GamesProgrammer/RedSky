@@ -63,11 +63,11 @@ void Node::AddChild(std::unique_ptr<Node> pChild) noxnd {
 	childPtrs.push_back(std::move(pChild));
 }
 
-void Node::ShowTree(std::optional<int>& selectedIndex, Node*& pSelectedNode) const noexcept
+void Node::ShowTree(Node*& pSelectedNode) const noexcept
 {
-
+	const int selectedId = (pSelectedNode == nullptr) ? -1 : pSelectedNode->GetID();
 	const auto node_flags = ImGuiTreeNodeFlags_OpenOnArrow
-		| ((GetID() == selectedIndex.value_or(-1)) ? ImGuiTreeNodeFlags_Selected : 0)
+		| ((GetID() == selectedId) ? ImGuiTreeNodeFlags_Selected : 0)
 		| ((childPtrs.empty()) ? ImGuiTreeNodeFlags_Leaf : 0);
 
 	//generates the widget
@@ -75,13 +75,12 @@ void Node::ShowTree(std::optional<int>& selectedIndex, Node*& pSelectedNode) con
 
 
 	if (ImGui::IsItemClicked()) {
-		selectedIndex = GetID();
 		pSelectedNode = const_cast<Node*>(this);
 	}
 
 	if (expanded) {
 		for (const auto& pChild : childPtrs) {
-			pChild->ShowTree(selectedIndex, pSelectedNode);
+			pChild->ShowTree(pSelectedNode);
 		}
 		ImGui::TreePop();
 	}
@@ -98,11 +97,11 @@ public:
 
 		if (ImGui::Begin(windowName)) {
 			ImGui::Columns(2, nullptr, true);
-			root.ShowTree(selectedIndex, pSelectedNode);
+			root.ShowTree(pSelectedNode);
 
 			ImGui::NextColumn();
 			if (pSelectedNode != nullptr) { //if there is a selected node
-				auto& transform = transforms[*selectedIndex];
+				auto& transform = transforms[pSelectedNode->GetID()];
 				ImGui::Text("Orientation");
 				ImGui::SliderAngle("Roll", &transform.roll, -180.0f, 180.0f);
 				ImGui::SliderAngle("Pitch", &transform.pitch, -180.0f, 180.0f);
@@ -119,7 +118,8 @@ public:
 	}
 
 	dx::XMMATRIX GetTransform() const noexcept {
-		const auto& transform = transforms.at(*selectedIndex);
+		assert(pSelectedNode != nullptr);
+		const auto& transform = transforms.at(pSelectedNode->GetID());
 		return
 			dx::XMMatrixRotationRollPitchYaw(transform.roll, transform.pitch, transform.yaw) *
 			dx::XMMatrixTranslation(transform.x, transform.y, transform.z);
@@ -130,7 +130,6 @@ public:
 	}
 
 private:
-	std::optional<int> selectedIndex;
 	Node* pSelectedNode;
 
 	struct TransformParameters
