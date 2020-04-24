@@ -91,7 +91,7 @@ void App::DoFrame()
 	while (const auto delta = wnd.mouse.ReadRawDelta()) 
 	{
 		if (!wnd.CursorEnabled()) {
-			cam.Rotate(delta->x, delta->y);
+			cam.Rotate((float)delta->x, (float)delta->y);
 		}
 	}
 
