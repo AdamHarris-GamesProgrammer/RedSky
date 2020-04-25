@@ -40,11 +40,11 @@ float4 main(float3 worldPos : Position, float3 n : Normal, float2 tc : Texcoord)
     
     //Calculate Specular intensity
     const float4 specularSample = spec.Sample(splr, tc);
-    const float3 specularColorIntensity = specularSample.rgb;
-    const float specularPower = specularSample.a;
-    const float3 specular = att * specularColorIntensity * pow(max(0.0f, dot(normalize(-r), normalize(worldPos))), specularPower);
+    const float3 specularReflectionColor = specularSample.rgb;
+    const float specularPower = pow(2.0f, specularSample.a * 13.0f);
+    const float3 specular = att * (diffuseColor * diffuseIntensity) * pow(max(0.0f, dot(normalize(-r), normalize(worldPos))), specularPower);
     
     //Calculate final colour with texture and diffuse color
-    return float4(saturate(diffuse + ambient + specular), 1.0f) * tex.Sample(splr, tc);
+    return float4(saturate((diffuse + ambient) * tex.Sample(splr, tc).rgb + specular * specularReflectionColor), 1.0f);
 
 }

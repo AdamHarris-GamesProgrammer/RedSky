@@ -41,6 +41,6 @@ float4 main(float3 worldPos : Position, float3 n : Normal, float2 tc : Texcoord)
     const float3 specular = att * (diffuseColor * diffuseIntensity) * specularIntensity * pow(max(0.0f, dot(normalize(-r), normalize(worldPos))), specularPower);
     
     //Calculate final colour with texture and diffuse color
-    return float4(saturate(diffuse + ambient + specular), 1.0f) * tex.Sample(splr, tc);
+    return float4(saturate((diffuse + ambient) * tex.Sample(splr, tc).rgb + specular), 1.0f);
 
 }
