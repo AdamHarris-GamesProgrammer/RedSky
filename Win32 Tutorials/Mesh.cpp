@@ -163,7 +163,7 @@ Model::Model(Graphics& gfx, const std::string fileName) :
 
 	//load all meshes and store them 
 	for (size_t i = 0; i < pScene->mNumMeshes; i++) {
-		meshPtrs.push_back(ParseMesh(gfx, *pScene->mMeshes[i]));
+		meshPtrs.push_back(ParseMesh(gfx, *pScene->mMeshes[i], pScene->mMaterials));
 	}
 
 	int nextId = 0;
@@ -184,9 +184,7 @@ void Model::ShowWindow(const char* windowName) noexcept {
 	pWindow->Show(windowName, *pRoot);
 }
 
-std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh) {
-	namespace dx = DirectX;
-
+std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const aiMaterial* const* pMaterials) {
 	using rsexp::VertexLayout;
 
 	//create a dynamic buffer layout 
@@ -194,7 +192,13 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh) {
 		VertexLayout{}
 		.Append(VertexLayout::Position3D)
 		.Append(VertexLayout::Normal)
-		));
+	));
+
+	auto& material = *pMaterials[mesh.mMaterialIndex];
+	for (int i = 0; i < material.mNumProperties; i++) {
+		auto& prop = *material.mProperties[i];
+		int qqq = 90;
+	}
 
 	for (unsigned int i = 0; i < mesh.mNumVertices; i++) {
 		//places the vertices and normals in the vertex buffer
