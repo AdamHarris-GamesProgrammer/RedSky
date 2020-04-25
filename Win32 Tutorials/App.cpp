@@ -86,6 +86,9 @@ void App::DoFrame()
 		if (wnd.kbd.KeyIsPressed(KEY_F)) {
 			cam.Translate({ 0.0f,-dt,0.0f });
 		}
+		if (wnd.mouse.LeftIsPressed()) {
+			wnd.EnableCursor();
+		}
 	}
 
 	while (const auto delta = wnd.mouse.ReadRawDelta()) 
