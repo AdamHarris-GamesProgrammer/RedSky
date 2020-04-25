@@ -1,5 +1,6 @@
 #include "Mesh.h"
 #include "imgui/imgui.h"
+#include "Surface.h"
 #include <unordered_map>
 #include <sstream>
 
@@ -144,8 +145,6 @@ private:
 	std::unordered_map<int, TransformParameters> transforms;
 };
 
-
-
 Model::Model(Graphics& gfx, const std::string fileName) :
 	pWindow(std::make_unique<ModelWindow>()) {
 	//Create Assimp object and load file
@@ -187,31 +186,26 @@ void Model::ShowWindow(const char* windowName) noexcept {
 std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const aiMaterial* const* pMaterials) {
 	using rsexp::VertexLayout;
 
-	//create a dynamic buffer layout 
 	rsexp::VertexBuffer vbuf(std::move(
 		VertexLayout{}
 		.Append(VertexLayout::Position3D)
 		.Append(VertexLayout::Normal)
-	));
+		.Append(VertexLayout::Texture2D)
+		));
 
-	auto& material = *pMaterials[mesh.mMaterialIndex];
-	for (int i = 0; i < material.mNumProperties; i++) {
-		auto& prop = *material.mProperties[i];
-		int qqq = 90;
-	}
-
-	for (unsigned int i = 0; i < mesh.mNumVertices; i++) {
-		//places the vertices and normals in the vertex buffer
+	for (unsigned int i = 0; i < mesh.mNumVertices; i++)
+	{
 		vbuf.EmplaceBack(
 			*reinterpret_cast<dx::XMFLOAT3*>(&mesh.mVertices[i]),
-			*reinterpret_cast<dx::XMFLOAT3*>(&mesh.mNormals[i])
+			*reinterpret_cast<dx::XMFLOAT3*>(&mesh.mNormals[i]),
+			*reinterpret_cast<dx::XMFLOAT2*>(&mesh.mTextureCoords[0][i])
 			);
 	}
 
-	//loop through the faces and define the indices
 	std::vector<unsigned short> indices;
 	indices.reserve(mesh.mNumFaces * 3);
-	for (unsigned int i = 0; i < mesh.mNumFaces; i++) {
+	for (unsigned int i = 0; i < mesh.mNumFaces; i++)
+	{
 		const auto& face = mesh.mFaces[i];
 		assert(face.mNumIndices == 3);
 		indices.push_back(face.mIndices[0]);
@@ -219,34 +213,37 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 		indices.push_back(face.mIndices[2]);
 	}
 
-	//vector object to hold all of the bindable objects
-	std::vector<std::unique_ptr<Bindable>> bindablePtrs;
+	std::vector<std::unique_ptr<Bind::Bindable>> bindablePtrs;
 
-	//create vertex buffer
-	bindablePtrs.push_back(std::make_unique<VertexBuffer>(gfx, vbuf));
+	if (mesh.mMaterialIndex >= 0)
+	{
+		using namespace std::string_literals;
+		auto& material = *pMaterials[mesh.mMaterialIndex];
+		aiString texFileName;
+		material.GetTexture(aiTextureType_DIFFUSE, 0, &texFileName);
+		bindablePtrs.push_back(std::make_unique<Bind::Texture>(gfx, Surface::FromFile("Models\\nanoTextured\\"s + texFileName.C_Str())));
+		bindablePtrs.push_back(std::make_unique<Bind::Sampler>(gfx));
+	}
 
-	//create index buffer
-	bindablePtrs.push_back(std::make_unique<IndexBuffer>(gfx, indices));
+	bindablePtrs.push_back(std::make_unique<Bind::VertexBuffer>(gfx, vbuf));
 
+	bindablePtrs.push_back(std::make_unique<Bind::IndexBuffer>(gfx, indices));
 
-	//Create shader buffers
-	auto pvs = std::make_unique<VertexShader>(gfx, L"PhongVS.cso");
+	auto pvs = std::make_unique<Bind::VertexShader>(gfx, L"PhongVS.cso");
 	auto pvsbc = pvs->GetByteCode();
 	bindablePtrs.push_back(std::move(pvs));
 
-	bindablePtrs.push_back(std::make_unique<PixelShader>(gfx, L"PhongPS.cso"));
+	bindablePtrs.push_back(std::make_unique<Bind::PixelShader>(gfx, L"PhongPS.cso"));
 
-	//Create input layout bindable
-	bindablePtrs.push_back(std::make_unique<InputLayout>(gfx, vbuf.GetLayout().GetD3DLayout(), pvsbc));
+	bindablePtrs.push_back(std::make_unique<Bind::InputLayout>(gfx, vbuf.GetLayout().GetD3DLayout(), pvsbc));
 
-	struct PSMaterialConstant {
-		DirectX::XMFLOAT3 color = { 0.6f,0.6f,0.8f };
+	struct PSMaterialConstant
+	{
 		float specularIntensity = 0.6f;
 		float specularPower = 30.0f;
-		float padding[3];
+		float padding[2];
 	} pmc;
-
-	bindablePtrs.push_back(std::make_unique<PixelConstantBuffer<PSMaterialConstant>>(gfx, pmc, 1u));
+	bindablePtrs.push_back(std::make_unique<Bind::PixelConstantBuffer<PSMaterialConstant>>(gfx, pmc, 1u));
 
 	//Returns the vector of mesh bindables
 	return std::make_unique<Mesh>(gfx, std::move(bindablePtrs));

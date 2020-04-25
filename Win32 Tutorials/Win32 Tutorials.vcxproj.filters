@@ -349,5 +349,8 @@
     <FxCompile Include="SolidPS.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
+    <FxCompile Include="PhongPS.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
