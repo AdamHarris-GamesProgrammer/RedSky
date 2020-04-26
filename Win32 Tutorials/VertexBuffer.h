@@ -12,7 +12,7 @@ namespace Bind {
 
 		void Bind(Graphics& gfx) noexcept override;
 
-		static std::shared_ptr<Bindable> Resolve(Graphics& gfx, const std::string& tag, const rsexp::VertexBuffer& vbuf);
+		static std::shared_ptr<VertexBuffer> Resolve(Graphics& gfx, const std::string& tag, const rsexp::VertexBuffer& vbuf);
 
 		template<typename...Ignore>
 		static std::string GenerateUID(const std::string& tag, Ignore&&...ignore) {

@@ -32,7 +32,7 @@ namespace Bind {
 		GetContext(gfx)->IASetVertexBuffers(0, 1, pVertexBuffer.GetAddressOf(), &stride, &offset);
 	}
 
-	std::shared_ptr<Bindable> VertexBuffer::Resolve(Graphics& gfx, const std::string& tag,
+	std::shared_ptr<VertexBuffer> VertexBuffer::Resolve(Graphics& gfx, const std::string& tag,
 		const rsexp::VertexBuffer& vbuf)
 	{
 		return Codex::Resolve<VertexBuffer>(gfx, tag, vbuf);

@@ -10,7 +10,7 @@ namespace Bind {
 			rsexp::VertexLayout layout_in,
 			ID3DBlob* pVertexShaderByteCode);
 		void Bind(Graphics& gfx) noexcept override;
-		static std::shared_ptr<Bindable> Resolve(Graphics& gfx,
+		static std::shared_ptr<InputLayout> Resolve(Graphics& gfx,
 			const rsexp::VertexLayout& layout, ID3DBlob* pVertexShaderBytecode);
 		static std::string GenerateUID(const rsexp::VertexLayout& layout, ID3DBlob* pVertexShaderBytecode = nullptr);
 		std::string GetUID() const noexcept override;
