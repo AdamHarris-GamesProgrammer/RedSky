@@ -1,6 +1,7 @@
 #pragma once
 #include "Bindable.h"
 #include "GraphicsThrowMacros.h"
+#include "BindableCodex.h"
 
 namespace Bind {
 	template<typename C>
@@ -62,6 +63,16 @@ namespace Bind {
 		void Bind(Graphics& gfx) noexcept override {
 			GetContext(gfx)->VSSetConstantBuffers(slot, 1u, pConstantBuffer.GetAddressOf());
 		}
+
+		static std::shared_ptr<Bindable>Resolve(Graphics& gfx) {
+			return Codex::Resolve<VertexConstantBuffer>(gfx);
+		}
+		static std::string GenerateUID() {
+			return typeid(VertexConstantBuffer).name();
+		}
+		std::string GetUID() const noexcept override {
+			return GenerateUID();
+		}
 	};
 
 	template<typename C>
@@ -73,6 +84,15 @@ namespace Bind {
 		using ConstantBuffer<C>::ConstantBuffer;
 		void Bind(Graphics& gfx) noexcept override {
 			GetContext(gfx)->PSSetConstantBuffers(slot, 1u, pConstantBuffer.GetAddressOf());
+		}
+		std::shared_ptr<Bindable>Resolve(Graphics& gfx) {
+			return Codex::Resolve<PixelConstantBuffer>(gfx);
+		}
+		static std::string GenerateUID() {
+			return typeid(PixelConstantBuffer).name();
+		}
+		std::string GetUID() const noexcept override {
+			return GenerateUID();
 		}
 	};
 }

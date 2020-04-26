@@ -315,7 +315,7 @@
       <Filter>Header Files\RedSky</Filter>
     </ClInclude>
     <ClInclude Include="BindableCodex.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Bindable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,22 +1,28 @@
 #pragma once
 
 #include "Bindable.h"
+#include "BindableCodex.h"
 #include <memory>
+#include <type_traits>
 #include <unordered_map>
 
-namespace Bind {
-	class Codex {
+namespace Bind
+{
+	class Codex 
+	{
 	public:
 		template<class T, typename...Params>
-		static std::shared_ptr<Bindable> Resolve(Graphics& gfx, Params&&...p) noxnd {
-			return Get.Resolve_<T>(gfx, std::forward<Params>(p)...);
+		static std::shared_ptr<Bindable> Resolve(Graphics& gfx, Params&&...p) noxnd
+		{
+			static_assert(std::is_base_of<Bindable, T>::value, "Can only resolve class derived from bindable");
+			return Get().Resolve_<T>(gfx, std::forward<Params>(p)...);
 		}
 	private:
 		template<class T, typename...Params>
-		std::shared_ptr<Bindable> Resolve_(Graphics& gfx, Params&&...p) noxnd {
+		std::shared_ptr<Bindable> Resolve_(Graphics& gfx, Params&&...p) noxnd 
+		{
 			const auto key = T::GenerateUID(std::forward<Params>(p)...);
 			const auto i = binds.find(key);
-
 			if (i == binds.end()) {
 				auto bind = std::make_shared<T>(gfx, std::forward<Params>(p)...);
 				binds[key] = bind;
