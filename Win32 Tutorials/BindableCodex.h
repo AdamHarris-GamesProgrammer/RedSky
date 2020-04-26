@@ -12,18 +12,20 @@ namespace Bind {
 			return Get.Resolve_<T>(gfx, std::forward<Params>(p)...);
 		}
 	private:
-		std::shared_ptr<Bindable> Resolve_(const std::string& key) const noxnd {
-			auto i = binds.find(key);
+		template<class T, typename...Params>
+		std::shared_ptr<Bindable> Resolve_(Graphics& gfx, Params&&...p) noxnd {
+			const auto key = T::GenerateUID(std::forward<Params>(p)...);
+			const auto i = binds.find(key);
+
 			if (i == binds.end()) {
-				return {};
+				auto bind = std::make_shared<T>(gfx, std::forward<Params>(p)...);
+				binds[key] = bind;
+				return bind;
 			}
 			else
 			{
 				return i->second;
 			}
-		}
-		void Store_(std::shared_ptr<Bindable> bind) {
-			binds[bind->GetUID()] = std::move(bind);
 		}
 		static Codex& Get() {
 			static Codex codex;
