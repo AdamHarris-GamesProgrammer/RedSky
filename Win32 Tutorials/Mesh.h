@@ -1,5 +1,5 @@
 #pragma once
-#include "DrawableBase.h"
+#include "Drawable.h"
 #include "BindableCommon.h"
 #include "Vertex.h"
 #include <optional>
@@ -22,10 +22,10 @@ private:
 
 
 //Mesh is a drawable object
-class Mesh : public DrawableBase<Mesh> {
+class Mesh : public Drawable {
 public:
 	//takes in a vector of bind ables //allows the user to pass in what bindables should comprise the mesh
-	Mesh(Graphics& gfx, std::vector<std::unique_ptr<Bindable>> bindPtrs);
+	Mesh(Graphics& gfx, std::vector<std::shared_ptr<Bindable>> bindPtrs);
 
 	void Draw(Graphics& gfx, DirectX::FXMMATRIX accumulatedTransform) const noxnd;
 	DirectX::XMMATRIX GetTransformXM() const noexcept override { return DirectX::XMLoadFloat4x4(&transform); } //This is called in the Drawable::Draw method
