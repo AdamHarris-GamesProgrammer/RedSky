@@ -99,7 +99,7 @@ void App::DoFrame()
 	}
 
 
-	//nano.Draw(wnd.Gfx());
+	nano.Draw(wnd.Gfx());
 	plane.Draw(wnd.Gfx());
 
 	light.Draw(wnd.Gfx());
@@ -107,6 +107,7 @@ void App::DoFrame()
 	SpawnBackgroundControlWindow();
 	cam.SpawnControlWindow();
 	light.SpawnControlWindow();
+	plane.SpawnControlWindow(wnd.Gfx());
 	ShowImguiDemoWindow();
 
 	nano.ShowWindow("Nanosuit");
