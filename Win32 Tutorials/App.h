@@ -5,6 +5,7 @@
 #include "Camera.h"
 #include "PointLight.h"
 #include "Mesh.h"
+#include "TestPlane.h"
 
 class App
 {
@@ -34,5 +35,6 @@ private:
 
 	Model nano{ wnd.Gfx(), "Models\\nanoTextured\\nanosuit.obj" };
 	Model nano2{ wnd.Gfx(), "Models\\nanoTextured\\nanosuit.obj" };
+	TestPlane plane;
 
 };
