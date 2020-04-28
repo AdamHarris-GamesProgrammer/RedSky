@@ -15,8 +15,15 @@ GDIPlusManager gdipm;
 
 namespace DX = DirectX;
 
-App::App() : wnd(1280, 720, "RedSky Demo Window"), light(wnd.Gfx()), plane(wnd.Gfx(), 3.0f)
+App::App() 
+	: wnd(1280, 720, "RedSky Demo Window"), 
+	light(wnd.Gfx()),
+	plane(wnd.Gfx(), 3.0f),
+	cube(wnd.Gfx(), 4.0f)
 {
+	plane.SetPos({ -5.0f, 17.0f, -1.0f });
+	cube.SetPos({ 3.0f, 14.0f, -2.0f });
+
 	wnd.Gfx().SetProjection(DX::XMMatrixPerspectiveLH(1.0f, 9.0f / 16.0f, 0.5f, 40.0f));
 }
 
@@ -101,6 +108,7 @@ void App::DoFrame()
 
 	nano.Draw(wnd.Gfx());
 	plane.Draw(wnd.Gfx());
+	cube.Draw(wnd.Gfx());
 
 	light.Draw(wnd.Gfx());
 
@@ -108,6 +116,8 @@ void App::DoFrame()
 	cam.SpawnControlWindow();
 	light.SpawnControlWindow();
 	plane.SpawnControlWindow(wnd.Gfx());
+	cube.SpawnControlWindow(wnd.Gfx());
+
 	ShowImguiDemoWindow();
 
 	nano.ShowWindow("Nanosuit");

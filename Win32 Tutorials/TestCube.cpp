@@ -55,7 +55,7 @@ DirectX::XMMATRIX TestCube::GetTransformXM() const noexcept
 
 void TestCube::SpawnControlWindow(Graphics& gfx) noexcept
 {
-	if (ImGui::Begin("Plane")) {
+	if (ImGui::Begin("Cube")) {
 		ImGui::Text("Position");
 		ImGui::SliderFloat3("Position", &pos.x, -80.0f, 80.0f, "%.1f");
 		ImGui::Text("Rotation");

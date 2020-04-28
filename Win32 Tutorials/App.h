@@ -6,6 +6,7 @@
 #include "PointLight.h"
 #include "Mesh.h"
 #include "TestPlane.h"
+#include "TestCube.h"
 
 class App
 {
@@ -35,5 +36,5 @@ private:
 
 	Model nano{ wnd.Gfx(), "Models\\nanoTextured\\nanosuit.obj" };
 	TestPlane plane;
-
+	TestCube cube;
 };
