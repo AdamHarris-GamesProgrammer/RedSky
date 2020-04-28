@@ -25,8 +25,8 @@ namespace Bind {
 		const auto modelView = parent.GetTransformXM() * gfx.GetCamera();
 		return {
 			DirectX::XMMatrixTranspose(modelView), DirectX::XMMatrixTranspose(
-			modelView * gfx.GetProjection());
-		}
+			modelView * gfx.GetProjection())
+		};
 	}
 
 	std::unique_ptr<VertexConstantBuffer<TransformCbuf::Transforms>> TransformCbuf::pVcbuf;
