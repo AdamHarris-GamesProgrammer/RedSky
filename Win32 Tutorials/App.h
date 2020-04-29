@@ -33,7 +33,8 @@ private:
 
 	DirectX::XMFLOAT4 bgColour = { 0.0f,0.0f,0.0f, 1.0f };
 
-	Model nano{ wnd.Gfx(), "Models\\nanoTextured\\nanosuit.obj" };
-	TestPlane plane;
+	Model wall{ wnd.Gfx(), "Models\\brick_wall\\brick_wall.obj" };
+	//Model nano{ wnd.Gfx(), "Models\\nanoTextured\\nanosuit.obj" };
+	
 
 };

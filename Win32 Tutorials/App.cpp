@@ -15,7 +15,7 @@ GDIPlusManager gdipm;
 
 namespace DX = DirectX;
 
-App::App() : wnd(1280, 720, "RedSky Demo Window"), light(wnd.Gfx()), plane(wnd.Gfx(), 3.0f)
+App::App() : wnd(1280, 720, "RedSky Demo Window"), light(wnd.Gfx())
 {
 	wnd.Gfx().SetProjection(DX::XMMatrixPerspectiveLH(1.0f, 9.0f / 16.0f, 0.5f, 40.0f));
 }
@@ -99,18 +99,17 @@ void App::DoFrame()
 	}
 
 
-	nano.Draw(wnd.Gfx());
-	plane.Draw(wnd.Gfx());
+	wall.Draw(wnd.Gfx());
 
 	light.Draw(wnd.Gfx());
 
 	SpawnBackgroundControlWindow();
 	cam.SpawnControlWindow();
 	light.SpawnControlWindow();
-	plane.SpawnControlWindow(wnd.Gfx());
+	
 	ShowImguiDemoWindow();
 
-	nano.ShowWindow("Nanosuit");
+	wall.ShowWindow("Wall");
 	
 
 	wnd.Gfx().EndFrame();
