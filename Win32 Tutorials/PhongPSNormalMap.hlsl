@@ -22,7 +22,7 @@ Texture2D nmap : register(t2);
 
 SamplerState splr;
 
-float4 main(float3 worldPos : Position, float3 n : Normal, float3 tan : Tangent, float3 bitan : Bitangent, float2 tc : Texcoord) : SV_Target
+float4 main(float3 viewPos : Position, float3 n : Normal, float3 tan : Tangent, float3 bitan : Bitangent, float2 tc : Texcoord) : SV_Target
 {
     if (normalMapEnabled)
     {
@@ -42,7 +42,7 @@ float4 main(float3 worldPos : Position, float3 n : Normal, float3 tan : Tangent,
     }
     
     //fragment to light vector data
-    const float3 vToL = lightPos - worldPos;
+    const float3 vToL = lightPos - viewPos;
     const float distToL = length(vToL);
     const float3 dirToL = vToL / distToL;
     
@@ -55,7 +55,7 @@ float4 main(float3 worldPos : Position, float3 n : Normal, float3 tan : Tangent,
     const float3 diffuse = diffuseColor * diffuseIntensity * att * max(0.0f, dot(dirToL, n));
     
     //Calculate Specular intensity
-    const float3 specular = att * (diffuseColor * diffuseIntensity) * specularIntensity * pow(max(0.0f, dot(normalize(-r), normalize(worldPos))), specularPower);
+    const float3 specular = att * (diffuseColor * diffuseIntensity) * specularIntensity * pow(max(0.0f, dot(normalize(-r), normalize(viewPos))), specularPower);
     
     //Calculate final colour with texture and diffuse color
     return float4(saturate((diffuse + ambient) * tex.Sample(splr, tc).rgb + specular), 1.0f);
