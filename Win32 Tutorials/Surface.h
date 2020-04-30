@@ -83,12 +83,15 @@ public:
 	//Copies a source surface to another surface
 	void Copy(const Surface& src) noxnd;
 
+	bool AlphaLoaded() const noexcept { return alphaLoaded; }
+
 private:
-	Surface(unsigned int width, unsigned int height, std::unique_ptr<Color[]> pBufferParam) noexcept : width(width), height(height), pBuffer(std::move(pBufferParam)) {}
+	Surface(unsigned int width, unsigned int height, std::unique_ptr<Color[]> pBufferParam, bool alphaLoaded) noexcept 
+		: width(width), height(height), pBuffer(std::move(pBufferParam)), alphaLoaded(alphaLoaded) {}
 private:
 	std::unique_ptr<Color[]> pBuffer;
 	unsigned int width;
 	unsigned int height;
-	
+	bool alphaLoaded = false;
 };
 

@@ -189,6 +189,7 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 	const auto base = "Models\\gobber\\"s;
 
 	bool hasSpecularMap = false;
+	bool hasAlphaGloss = false;
 	bool hasNormalMap = false;
 	bool hasDiffuseMap = false;
 	float shininess = 35.0f;
@@ -204,16 +205,20 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 		}
 
 		if (material.GetTexture(aiTextureType_SPECULAR, 0, &texFileName) == aiReturn_SUCCESS) {
-			bindablePtrs.push_back(Texture::Resolve(gfx, base + texFileName.C_Str(), 1));
-			hasSpecularMap = true;
+			auto tex = Texture::Resolve(gfx, base + texFileName.C_Str(), 1);
+			hasAlphaGloss = tex->HasAlpha();
+			bindablePtrs.push_back(std::move(tex));
+			hasAlphaGloss = true;
 		}
-		else
+		if(!hasAlphaGloss)
 		{
 			material.Get(AI_MATKEY_SHININESS, shininess);
 		}
 
 		if (material.GetTexture(aiTextureType_NORMALS, 0, &texFileName) == aiReturn_SUCCESS) {
-			bindablePtrs.push_back(Texture::Resolve(gfx, base + texFileName.C_Str(), 2));
+			auto tex = Texture::Resolve(gfx, base + texFileName.C_Str(), 2);
+			hasAlphaGloss = tex->HasAlpha();
+			bindablePtrs.push_back(std::move(tex));
 			hasNormalMap = true;
 		}
 
@@ -271,8 +276,12 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 
 		struct PSMaterialConstant_DiffNormSpec {
 			BOOL normalMapEnabled = TRUE;
-			float padding[3];
+			BOOL hasGlossMap;
+			float specularPower;
+			float padding[1];
 		} pmc;
+		pmc.specularPower = shininess;
+		pmc.hasGlossMap = hasAlphaGloss ? TRUE : FALSE;
 
 		bindablePtrs.push_back(PixelConstantBuffer<PSMaterialConstant_DiffNormSpec>::Resolve(gfx, pmc, 1u));
 	}
@@ -421,7 +430,7 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 		bindablePtrs.push_back(InputLayout::Resolve(gfx, vbuf.GetLayout(), pvsbc));
 
 		struct PSMaterialConstant_NoTex {
-			dx::XMFLOAT4 materialColor = { 0.65f,0.65f,0.65f,1.0f };
+			dx::XMFLOAT4 materialColor = { 0.45f,0.45f,0.85f,1.0f };
 			float specularIntensity = 0.18f;
 			float specularPower;
 			float padding[2];
