@@ -15,8 +15,13 @@ GDIPlusManager gdipm;
 
 namespace DX = DirectX;
 
-App::App() : wnd(1280, 720, "RedSky Demo Window"), light(wnd.Gfx())
+App::App() :
+	wnd(1280, 720, "RedSky Demo Window"), 
+	light(wnd.Gfx())
 {
+	//wall.SetRootTransform(DX::XMMatrixTranslation(-1.5f, 0.0f, 0.0f));
+	//tp.SetPos({ 1.5f,0.0f,0.0f });
+
 	wnd.Gfx().SetProjection(DX::XMMatrixPerspectiveLH(1.0f, 9.0f / 16.0f, 0.5f, 40.0f));
 }
 
@@ -41,6 +46,53 @@ void App::DoFrame()
 	wnd.Gfx().SetCamera(cam.GetMatrix());
 	light.Bind(wnd.Gfx(), cam.GetMatrix());
 
+	PollInput(dt);
+
+	while (const auto delta = wnd.mouse.ReadRawDelta()) 
+	{
+		if (!wnd.CursorEnabled()) {
+			cam.Rotate((float)delta->x, (float)delta->y);
+		}
+	}
+
+
+	//wall.Draw(wnd.Gfx());
+	//tp.Draw(wnd.Gfx());
+	goblin.Draw(wnd.Gfx());
+	light.Draw(wnd.Gfx());
+
+	SpawnBackgroundControlWindow();
+	cam.SpawnControlWindow();
+	light.SpawnControlWindow();
+	goblin.ShowWindow("Goblin");
+
+	//wall.ShowWindow("Wall");
+	//tp.SpawnControlWindow(wnd.Gfx());
+	
+	ShowImguiDemoWindow();
+
+	wnd.Gfx().EndFrame();
+}
+
+void App::SpawnBackgroundControlWindow() noexcept
+{
+	if (ImGui::Begin("Background Colour")) {
+		ImGui::Text("Background Colour");
+		ImGui::SameLine();
+		ImGui::ColorEdit3("", &bgColour.x);
+	}
+	ImGui::End();
+}
+
+void App::ShowImguiDemoWindow()
+{
+	if (showDemoWindow) {
+		ImGui::ShowDemoWindow(&showDemoWindow);
+	}
+}
+
+void App::PollInput(float dt)
+{
 	while (const auto e = wnd.kbd.ReadKey())
 	{
 		//Toggles Camera On and Off when F is pressed
@@ -90,46 +142,5 @@ void App::DoFrame()
 			wnd.EnableCursor();
 		}
 	}
-
-	while (const auto delta = wnd.mouse.ReadRawDelta()) 
-	{
-		if (!wnd.CursorEnabled()) {
-			cam.Rotate((float)delta->x, (float)delta->y);
-		}
-	}
-
-
-	wall.Draw(wnd.Gfx());
-
-	light.Draw(wnd.Gfx());
-
-	SpawnBackgroundControlWindow();
-	cam.SpawnControlWindow();
-	light.SpawnControlWindow();
-	
-	ShowImguiDemoWindow();
-
-	wall.ShowWindow("Wall");
-	
-
-	wnd.Gfx().EndFrame();
 }
-
-void App::SpawnBackgroundControlWindow() noexcept
-{
-	if (ImGui::Begin("Background Colour")) {
-		ImGui::Text("Background Colour");
-		ImGui::SameLine();
-		ImGui::ColorEdit3("", &bgColour.x);
-	}
-	ImGui::End();
-}
-
-void App::ShowImguiDemoWindow()
-{
-	if (showDemoWindow) {
-		ImGui::ShowDemoWindow(&showDemoWindow);
-	}
-}
-
 

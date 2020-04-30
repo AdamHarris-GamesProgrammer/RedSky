@@ -63,6 +63,8 @@ public:
 	void Draw(Graphics& gfx) const noxnd;
 	void ShowWindow(const char* windowName = nullptr) noexcept;
 
+	void SetRootTransform(DirectX::FXMMATRIX tf) noexcept;
+
 	static std::unique_ptr<Mesh> ParseMesh(Graphics& gfx, const aiMesh& mesh, const aiMaterial* const* pMaterials);
 
 	~Model() noexcept;

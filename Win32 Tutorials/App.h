@@ -19,6 +19,8 @@ private:
 	void SpawnBackgroundControlWindow() noexcept;
 	void ShowImguiDemoWindow();
 
+	void PollInput(float dt);
+
 private:
 	ImguiManager imgui;
 	Window wnd;
@@ -31,10 +33,10 @@ private:
 
 	PointLight light;
 
-	DirectX::XMFLOAT4 bgColour = { 0.0f,0.0f,0.0f, 1.0f };
+	DirectX::XMFLOAT4 bgColour = { 0.1f,0.1f,0.2f, 1.0f };
 
-	Model wall{ wnd.Gfx(), "Models\\brick_wall\\brick_wall.obj" };
-	//Model nano{ wnd.Gfx(), "Models\\nanoTextured\\nanosuit.obj" };
-	
+	Model goblin{ wnd.Gfx(), "Models\\gobber\\GoblinX.obj" };
+	//Model wall{ wnd.Gfx(), "Models\\brick_wall\\brick_wall.obj" };
+	//TestPlane tp{ wnd.Gfx(), 1.0f };
 
 };
