@@ -245,6 +245,19 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 
 	auto meshTag = base + "%" + mesh.mName.C_Str();
 
+	std::vector<unsigned short> indices;
+	indices.reserve(mesh.mNumFaces * 3);
+	for (unsigned int i = 0; i < mesh.mNumFaces; i++)
+	{
+		const auto& face = mesh.mFaces[i];
+		assert(face.mNumIndices == 3);
+		indices.push_back(face.mIndices[0]);
+		indices.push_back(face.mIndices[1]);
+		indices.push_back(face.mIndices[2]);
+	}
+
+	bindablePtrs.push_back(IndexBuffer::Resolve(gfx, meshTag, indices));
+
 	const float scale = 6.0f;
 	if (hasDiffuseMap && hasNormalMap && hasSpecularMap) {
 		rsexp::VertexBuffer vbuf(std::move(
@@ -267,20 +280,11 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 			);
 		}
 
-		std::vector<unsigned short> indices;
-		indices.reserve(mesh.mNumFaces * 3);
-		for (unsigned int i = 0; i < mesh.mNumFaces; i++)
-		{
-			const auto& face = mesh.mFaces[i];
-			assert(face.mNumIndices == 3);
-			indices.push_back(face.mIndices[0]);
-			indices.push_back(face.mIndices[1]);
-			indices.push_back(face.mIndices[2]);
-		}
+
 
 		bindablePtrs.push_back(VertexBuffer::Resolve(gfx, meshTag, vbuf));
 
-		bindablePtrs.push_back(IndexBuffer::Resolve(gfx, meshTag, indices));
+		
 
 		auto pvs = VertexShader::Resolve(gfx, "PhongVSNormalMap.cso");
 		auto pvsbc = pvs->GetByteCode();
@@ -319,20 +323,8 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 			);
 		}
 
-		std::vector<unsigned short> indices;
-		indices.reserve(mesh.mNumFaces * 3);
-		for (unsigned int i = 0; i < mesh.mNumFaces; i++)
-		{
-			const auto& face = mesh.mFaces[i];
-			assert(face.mNumIndices == 3);
-			indices.push_back(face.mIndices[0]);
-			indices.push_back(face.mIndices[1]);
-			indices.push_back(face.mIndices[2]);
-		}
-
 		bindablePtrs.push_back(VertexBuffer::Resolve(gfx, meshTag, vbuf));
 
-		bindablePtrs.push_back(IndexBuffer::Resolve(gfx, meshTag, indices));
 
 		auto pvs = VertexShader::Resolve(gfx, "PhongVSNormalMap.cso");
 		auto pvsbc = pvs->GetByteCode();
@@ -371,20 +363,8 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 			);
 		}
 
-		std::vector<unsigned short> indices;
-		indices.reserve(mesh.mNumFaces * 3);
-		for (unsigned int i = 0; i < mesh.mNumFaces; i++)
-		{
-			const auto& face = mesh.mFaces[i];
-			assert(face.mNumIndices == 3);
-			indices.push_back(face.mIndices[0]);
-			indices.push_back(face.mIndices[1]);
-			indices.push_back(face.mIndices[2]);
-		}
-
 		bindablePtrs.push_back(VertexBuffer::Resolve(gfx, meshTag, vbuf));
 
-		bindablePtrs.push_back(IndexBuffer::Resolve(gfx, meshTag, indices));
 
 		auto pvs = VertexShader::Resolve(gfx, "PhongVS.cso");
 		auto pvsbc = pvs->GetByteCode();
@@ -420,20 +400,8 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 			);
 		}
 
-		std::vector<unsigned short> indices;
-		indices.reserve(mesh.mNumFaces * 3);
-		for (unsigned int i = 0; i < mesh.mNumFaces; i++)
-		{
-			const auto& face = mesh.mFaces[i];
-			assert(face.mNumIndices == 3);
-			indices.push_back(face.mIndices[0]);
-			indices.push_back(face.mIndices[1]);
-			indices.push_back(face.mIndices[2]);
-		}
-
 		bindablePtrs.push_back(VertexBuffer::Resolve(gfx, meshTag, vbuf));
 
-		bindablePtrs.push_back(IndexBuffer::Resolve(gfx, meshTag, indices));
 
 		auto pvs = VertexShader::Resolve(gfx, "PhongVSNotex.cso");
 		auto pvsbc = pvs->GetByteCode();
