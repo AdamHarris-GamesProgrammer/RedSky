@@ -258,6 +258,36 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 
 	bindablePtrs.push_back(IndexBuffer::Resolve(gfx, meshTag, indices));
 
+	std::string vsShader;
+	std::string psShader;
+
+	if (hasDiffuseMap && hasNormalMap && hasSpecularMap) {
+		vsShader = "PhongVSNormalMap.cso";
+		psShader = "PhongPSSpecNormalMap.cso";
+	}
+	else if (hasDiffuseMap && hasNormalMap) {
+		vsShader = "PhongVSNormalMap.cso";
+		psShader = "PhongPSNormalMap.cso";
+	}
+	else if (hasDiffuseMap) {
+		vsShader = "PhongVS.cso";
+		psShader = "PhongPS.cso";
+	}
+	else if (!hasDiffuseMap && !hasNormalMap && !hasSpecularMap) {
+		vsShader = "PhongVSNotex.cso";
+		psShader = "PhongPSNotex.cso";
+	}
+	else
+	{
+		throw std::runtime_error("Invalid Material Combination");
+	}
+
+	auto pvs = VertexShader::Resolve(gfx, vsShader);
+	auto pvsbc = pvs->GetByteCode();
+	bindablePtrs.push_back(std::move(pvs));
+
+	bindablePtrs.push_back(PixelShader::Resolve(gfx, psShader));
+
 	const float scale = 6.0f;
 	if (hasDiffuseMap && hasNormalMap && hasSpecularMap) {
 		rsexp::VertexBuffer vbuf(std::move(
@@ -281,12 +311,6 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 		}
 
 		bindablePtrs.push_back(VertexBuffer::Resolve(gfx, meshTag, vbuf));
-
-		auto pvs = VertexShader::Resolve(gfx, "PhongVSNormalMap.cso");
-		auto pvsbc = pvs->GetByteCode();
-		bindablePtrs.push_back(std::move(pvs));
-
-		bindablePtrs.push_back(PixelShader::Resolve(gfx, "PhongPSSpecNormalMap.cso"));
 
 		bindablePtrs.push_back(InputLayout::Resolve(gfx, vbuf.GetLayout(), pvsbc));
 
@@ -321,13 +345,6 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 
 		bindablePtrs.push_back(VertexBuffer::Resolve(gfx, meshTag, vbuf));
 
-
-		auto pvs = VertexShader::Resolve(gfx, "PhongVSNormalMap.cso");
-		auto pvsbc = pvs->GetByteCode();
-		bindablePtrs.push_back(std::move(pvs));
-
-		bindablePtrs.push_back(PixelShader::Resolve(gfx, "PhongPSNormalMap.cso"));
-
 		bindablePtrs.push_back(InputLayout::Resolve(gfx, vbuf.GetLayout(), pvsbc));
 
 
@@ -356,13 +373,6 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 
 		bindablePtrs.push_back(VertexBuffer::Resolve(gfx, meshTag, vbuf));
 
-
-		auto pvs = VertexShader::Resolve(gfx, "PhongVS.cso");
-		auto pvsbc = pvs->GetByteCode();
-		bindablePtrs.push_back(std::move(pvs));
-
-		bindablePtrs.push_back(PixelShader::Resolve(gfx, "PhongPS.cso"));
-
 		bindablePtrs.push_back(InputLayout::Resolve(gfx, vbuf.GetLayout(), pvsbc));
 
 		Node::PSMaterialConstant_Diff pmc;
@@ -389,13 +399,6 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 
 		bindablePtrs.push_back(VertexBuffer::Resolve(gfx, meshTag, vbuf));
 
-
-		auto pvs = VertexShader::Resolve(gfx, "PhongVSNotex.cso");
-		auto pvsbc = pvs->GetByteCode();
-		bindablePtrs.push_back(std::move(pvs));
-
-		bindablePtrs.push_back(PixelShader::Resolve(gfx, "PhongPSNotex.cso"));
-
 		bindablePtrs.push_back(InputLayout::Resolve(gfx, vbuf.GetLayout(), pvsbc));
 
 		Node::PSMaterialConstant_Notex pmc;
@@ -404,10 +407,6 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 		pmc.materialColor = diffuseColor;
 
 		bindablePtrs.push_back(PixelConstantBuffer<Node::PSMaterialConstant_Notex>::Resolve(gfx, pmc, 1u));
-	}
-	else
-	{
-	throw std::runtime_error("Invalid Mix of textures in material\n%s");
 	}
 
 	//Returns the vector of mesh bindables
