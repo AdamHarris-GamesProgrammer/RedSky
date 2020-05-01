@@ -48,6 +48,17 @@ public:
 		DirectX::XMFLOAT3 specularColor = { 0.75f,0.75f,0.75f };
 		float specularMapWeight = 0.671f;
 	};
+	struct PSMaterialConstant_DiffNorm {
+		float specularIntensity;
+		float specularPower;
+		BOOL normalMapEnabled = TRUE;
+		float padding[1];
+	};
+	struct PSMaterialConstant_Diff {
+		float specularIntensity;
+		float specularPower;
+		float padding[2];
+	};
 	struct PSMaterialConstant_Notex {
 		DirectX::XMFLOAT4 materialColor = { 0.447970f, 0.327254f, 0.176283f,1.0f };
 		DirectX::XMFLOAT4 specularColor = { 0.65f,0.65f,0.65f,1.0f };
@@ -62,6 +73,7 @@ public:
 	void SetAppliedTransform(DirectX::FXMMATRIX transform) noexcept;
 	void ShowTree(Node*& pSelectedNode) const noexcept;
 	
+	//TODO: Add DiffNorm and Diff menus to this system
 	template<class T>
 	bool SpawnMaterialControlPanel(Graphics& gfx, T& c) {
 		if (meshPtrs.empty()) {

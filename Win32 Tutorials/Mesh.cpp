@@ -280,11 +280,7 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 			);
 		}
 
-
-
 		bindablePtrs.push_back(VertexBuffer::Resolve(gfx, meshTag, vbuf));
-
-		
 
 		auto pvs = VertexShader::Resolve(gfx, "PhongVSNormalMap.cso");
 		auto pvsbc = pvs->GetByteCode();
@@ -334,17 +330,12 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 
 		bindablePtrs.push_back(InputLayout::Resolve(gfx, vbuf.GetLayout(), pvsbc));
 
-		struct PSMaterialConstant_DiffNorm 
-		{
-			float specularIntensity;
-			float specularPower;
-			BOOL normalMapEnabled = TRUE;
-			float padding[1];
-		} pmc;
+
+		Node::PSMaterialConstant_DiffNorm pmc;
 		pmc.specularPower = shininess;
 		pmc.specularIntensity = (specularColor.x + specularColor.y + specularColor.z) / 3.0f;
 
-		bindablePtrs.push_back(PixelConstantBuffer<PSMaterialConstant_DiffNorm>::Resolve(gfx, pmc, 1u));
+		bindablePtrs.push_back(PixelConstantBuffer<Node::PSMaterialConstant_DiffNorm>::Resolve(gfx, pmc, 1u));
 	}
 	else if (hasDiffuseMap) {
 		rsexp::VertexBuffer vbuf(std::move(
@@ -374,15 +365,11 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 
 		bindablePtrs.push_back(InputLayout::Resolve(gfx, vbuf.GetLayout(), pvsbc));
 
-		struct PSMaterialConstant_Diff {
-			float specularIntensity;
-			float specularPower;
-			float padding[2];
-		}pmc;
+		Node::PSMaterialConstant_Diff pmc;
 		pmc.specularPower = shininess;
 		pmc.specularIntensity = (specularColor.x + specularColor.y + specularColor.z) / 3.0f;
 
-		bindablePtrs.push_back(PixelConstantBuffer<PSMaterialConstant_Diff>::Resolve(gfx, pmc, 1u));
+		bindablePtrs.push_back(PixelConstantBuffer<Node::PSMaterialConstant_Diff>::Resolve(gfx, pmc, 1u));
 	}
 	else if (!hasDiffuseMap && !hasNormalMap && !hasSpecularMap) 
 	{
