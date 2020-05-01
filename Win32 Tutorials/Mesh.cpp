@@ -80,7 +80,7 @@ void Node::ShowTree(Node*& pSelectedNode) const noexcept
 
 class ModelWindow {
 public:
-	void Show(const char* windowName, const Node& root) noexcept
+	void Show(Graphics& gfx, const char* windowName, const Node& root) noexcept
 	{
 		windowName = windowName ? windowName : "Model";
 
@@ -102,6 +102,10 @@ public:
 				ImGui::SliderFloat("X", &transform.x, -20.0f, 20.0f);
 				ImGui::SliderFloat("Y", &transform.y, -20.0f, 20.0f);
 				ImGui::SliderFloat("Z", &transform.z, -20.0f, 20.0f);
+				
+				if (!pSelectedNode->SpawnMaterialControlPanel(gfx, skinMaterial)) {
+					pSelectedNode->SpawnMaterialControlPanel(gfx, ringMaterial);
+				}
 			}
 
 		}
@@ -121,6 +125,8 @@ public:
 	}
 
 private:
+	Node::PSMaterialConstant_DiffNormSpec skinMaterial;
+	Node::PSMaterialConstant_Notex ringMaterial;
 	Node* pSelectedNode;
 
 	struct TransformParameters
@@ -170,8 +176,8 @@ void Model::Draw(Graphics& gfx) const noxnd {
 	pRoot->Draw(gfx, dx::XMMatrixIdentity());
 }
 
-void Model::ShowWindow(const char* windowName) noexcept {
-	pWindow->Show(windowName, *pRoot);
+void Model::ShowWindow(Graphics& gfx, const char* windowName) noexcept {
+	pWindow->Show(gfx, windowName, *pRoot);
 }
 
 void Model::SetRootTransform(DirectX::FXMMATRIX tf) noexcept
@@ -192,7 +198,9 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 	bool hasAlphaGloss = false;
 	bool hasNormalMap = false;
 	bool hasDiffuseMap = false;
-	float shininess = 35.0f;
+	float shininess = 2.0f;
+	dx::XMFLOAT4 specularColor = { 0.18f,0.18f,0.18f,1.0f };
+	dx::XMFLOAT4 diffuseColor = { 0.45f,0.45f,0.45f,1.0f };
 
 	if (mesh.mMaterialIndex >= 0) {
 		auto& material = *pMaterials[mesh.mMaterialIndex];
@@ -203,12 +211,20 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 			bindablePtrs.push_back(Texture::Resolve(gfx, base + texFileName.C_Str()));
 			hasDiffuseMap = true;
 		}
+		else
+		{
+			material.Get(AI_MATKEY_COLOR_DIFFUSE, reinterpret_cast<aiColor3D&>(diffuseColor));
+		}
 
 		if (material.GetTexture(aiTextureType_SPECULAR, 0, &texFileName) == aiReturn_SUCCESS) {
 			auto tex = Texture::Resolve(gfx, base + texFileName.C_Str(), 1);
 			hasAlphaGloss = tex->HasAlpha();
 			bindablePtrs.push_back(std::move(tex));
 			hasAlphaGloss = true;
+		}
+		else
+		{
+			material.Get(AI_MATKEY_COLOR_SPECULAR, reinterpret_cast<aiColor3D&>(specularColor));
 		}
 		if(!hasAlphaGloss)
 		{
@@ -274,16 +290,12 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 
 		bindablePtrs.push_back(InputLayout::Resolve(gfx, vbuf.GetLayout(), pvsbc));
 
-		struct PSMaterialConstant_DiffNormSpec {
-			BOOL normalMapEnabled = TRUE;
-			BOOL hasGlossMap;
-			float specularPower;
-			float padding[1];
-		} pmc;
+		Node::PSMaterialConstant_DiffNormSpec pmc;
+
 		pmc.specularPower = shininess;
 		pmc.hasGlossMap = hasAlphaGloss ? TRUE : FALSE;
 
-		bindablePtrs.push_back(PixelConstantBuffer<PSMaterialConstant_DiffNormSpec>::Resolve(gfx, pmc, 1u));
+		bindablePtrs.push_back(PixelConstantBuffer<Node::PSMaterialConstant_DiffNormSpec>::Resolve(gfx, pmc, 1u));
 	}
 	else if (hasDiffuseMap && hasNormalMap) 
 	{
@@ -332,12 +344,13 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 
 		struct PSMaterialConstant_DiffNorm 
 		{
-			float specularIntensity = 0.18f;
+			float specularIntensity;
 			float specularPower;
 			BOOL normalMapEnabled = TRUE;
 			float padding[1];
 		} pmc;
 		pmc.specularPower = shininess;
+		pmc.specularIntensity = (specularColor.x + specularColor.y + specularColor.z) / 3.0f;
 
 		bindablePtrs.push_back(PixelConstantBuffer<PSMaterialConstant_DiffNorm>::Resolve(gfx, pmc, 1u));
 	}
@@ -382,11 +395,12 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 		bindablePtrs.push_back(InputLayout::Resolve(gfx, vbuf.GetLayout(), pvsbc));
 
 		struct PSMaterialConstant_Diff {
-			float specularIntensity = 0.18f;
+			float specularIntensity;
 			float specularPower;
 			float padding[2];
 		}pmc;
 		pmc.specularPower = shininess;
+		pmc.specularIntensity = (specularColor.x + specularColor.y + specularColor.z) / 3.0f;
 
 		bindablePtrs.push_back(PixelConstantBuffer<PSMaterialConstant_Diff>::Resolve(gfx, pmc, 1u));
 	}
@@ -429,15 +443,12 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 
 		bindablePtrs.push_back(InputLayout::Resolve(gfx, vbuf.GetLayout(), pvsbc));
 
-		struct PSMaterialConstant_NoTex {
-			dx::XMFLOAT4 materialColor = { 0.45f,0.45f,0.85f,1.0f };
-			float specularIntensity = 0.18f;
-			float specularPower;
-			float padding[2];
-		}pmc;
+		Node::PSMaterialConstant_Notex pmc;
 		pmc.specularPower = shininess;
+		pmc.specularColor = specularColor;
+		pmc.materialColor = diffuseColor;
 
-		bindablePtrs.push_back(PixelConstantBuffer<PSMaterialConstant_NoTex>::Resolve(gfx, pmc, 1u));
+		bindablePtrs.push_back(PixelConstantBuffer<Node::PSMaterialConstant_Notex>::Resolve(gfx, pmc, 1u));
 	}
 	else
 	{

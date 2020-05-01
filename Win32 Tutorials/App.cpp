@@ -64,7 +64,7 @@ void App::DoFrame()
 	SpawnBackgroundControlWindow();
 	cam.SpawnControlWindow();
 	light.SpawnControlWindow();
-	goblin.ShowWindow("Goblin");
+	goblin.ShowWindow(wnd.Gfx(), "Goblin");
 
 	//wall.ShowWindow("Wall");
 	//tp.SpawnControlWindow(wnd.Gfx());
