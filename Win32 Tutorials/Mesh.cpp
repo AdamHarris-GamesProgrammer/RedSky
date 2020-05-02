@@ -103,9 +103,9 @@ public:
 				ImGui::SliderFloat("Y", &transform.y, -20.0f, 20.0f);
 				ImGui::SliderFloat("Z", &transform.z, -20.0f, 20.0f);
 				
-				if (!pSelectedNode->SpawnMaterialControlPanel(gfx, skinMaterial)) {
-					pSelectedNode->SpawnMaterialControlPanel(gfx, ringMaterial);
-				}
+				pSelectedNode->SpawnMaterialControlPanel(gfx, skinMaterial);
+				pSelectedNode->SpawnMaterialControlPanel(gfx, ringMaterial);
+				pSelectedNode->SpawnMaterialControlPanel(gfx, eyeMaterial);
 			}
 
 		}
@@ -123,10 +123,12 @@ public:
 	Node* GetSelectedNode() const noexcept {
 		return pSelectedNode;
 	}
-
+	//TODO: Add support for editing multiple materials on each mesh
 private:
 	Node::PSMaterialConstant_DiffNormSpec skinMaterial;
+	Node::PSMaterialConstant_Diff eyeMaterial;
 	Node::PSMaterialConstant_Notex ringMaterial;
+
 	Node* pSelectedNode;
 
 	struct TransformParameters

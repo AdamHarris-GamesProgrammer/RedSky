@@ -49,14 +49,14 @@ public:
 		float specularMapWeight = 0.671f;
 	};
 	struct PSMaterialConstant_DiffNorm {
-		float specularIntensity;
-		float specularPower;
+		float specularIntensity = 1.0f;
+		float specularPower = 1.0f;
 		BOOL normalMapEnabled = TRUE;
 		float padding[1];
 	};
 	struct PSMaterialConstant_Diff {
-		float specularIntensity;
-		float specularPower;
+		float specularIntensity = 25.0f;
+		float specularPower = 1.0f;
 		float padding[2];
 	};
 	struct PSMaterialConstant_Notex {
@@ -100,6 +100,34 @@ public:
 				c.normalMapEnabled = normalMapEnabled ? TRUE : FALSE;
 				c.specularMapEnabled = specularMapEnabled ? TRUE : FALSE;
 				c.hasGlossMap = hasGlossMap ? TRUE : FALSE;
+
+				pcb->Update(gfx, c);
+				return true;
+			}
+		}
+		else if constexpr (std::is_same<T, PSMaterialConstant_DiffNorm>::value) {
+			if (auto pcb = meshPtrs.front()->QueryBindable<Bind::PixelConstantBuffer<T>>()) {
+				ImGui::Text("Material");
+
+				bool normalMapEnabled = (bool)c.normalMapEnabled;
+
+				ImGui::Checkbox("Normal Map", &normalMapEnabled);
+
+				ImGui::SliderFloat("Specular Power", &c.specularPower, 0.0f, 1000.0f, "%f", 5.0f);
+				ImGui::SliderFloat("Specular Intensity", &c.specularIntensity, 0.0f, 2.0f);
+
+				c.normalMapEnabled = normalMapEnabled ? TRUE : FALSE;
+
+				pcb->Update(gfx, c);
+				return true;
+			}
+		}
+		else if constexpr (std::is_same<T, PSMaterialConstant_Diff>::value) {
+			if (auto pcb = meshPtrs.front()->QueryBindable<Bind::PixelConstantBuffer<T>>()) {
+				ImGui::Text("Material");
+
+				ImGui::SliderFloat("Specular Power", &c.specularPower, 0.0f, 1000.0f, "%f", 5.0f);
+				ImGui::SliderFloat("Specular Intensity", &c.specularIntensity, 0.0f, 2.0f);
 
 				pcb->Update(gfx, c);
 				return true;
