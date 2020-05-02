@@ -221,6 +221,7 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 			hasAlphaGloss = tex->HasAlpha();
 			bindablePtrs.push_back(std::move(tex));
 			hasAlphaGloss = true;
+			hasSpecularMap = true;
 		}
 		else
 		{
