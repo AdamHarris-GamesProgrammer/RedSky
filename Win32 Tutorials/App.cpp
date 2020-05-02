@@ -19,8 +19,10 @@ App::App() :
 	wnd(1280, 720, "RedSky Demo Window"), 
 	light(wnd.Gfx())
 {
-	//wall.SetRootTransform(DX::XMMatrixTranslation(-1.5f, 0.0f, 0.0f));
-	//tp.SetPos({ 1.5f,0.0f,0.0f });
+	wall.SetRootTransform(DX::XMMatrixTranslation(-12.0f, 0.0f, 0.0f));
+	tp.SetPos({ 12.0f,0.0f,0.0f });
+	goblin.SetRootTransform(DX::XMMatrixTranslation(0.0f, 0.0f, -4.0f));
+	nano.SetRootTransform(DX::XMMatrixTranslation(0.0f, -7.0f, 6.0f));
 
 	wnd.Gfx().SetProjection(DX::XMMatrixPerspectiveLH(1.0f, 9.0f / 16.0f, 0.5f, 40.0f));
 }
@@ -56,15 +58,22 @@ void App::DoFrame()
 	}
 
 
-	//wall.Draw(wnd.Gfx());
-	//tp.Draw(wnd.Gfx());
+	wall.Draw(wnd.Gfx());
+	tp.Draw(wnd.Gfx());
+	nano.Draw(wnd.Gfx());
 	goblin.Draw(wnd.Gfx());
+
+
+
 	light.Draw(wnd.Gfx());
 
 	SpawnBackgroundControlWindow();
 	cam.SpawnControlWindow();
 	light.SpawnControlWindow();
 	goblin.ShowWindow(wnd.Gfx(), "Goblin");
+	wall.ShowWindow(wnd.Gfx(), "Wall");
+	tp.SpawnControlWindow(wnd.Gfx());
+	nano.ShowWindow(wnd.Gfx(), "Nano");
 
 	//wall.ShowWindow("Wall");
 	//tp.SpawnControlWindow(wnd.Gfx());

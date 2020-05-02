@@ -167,14 +167,14 @@ private:
 
 class Model {
 public:
-	Model(Graphics& gfx, const std::string& pathString);
+	Model(Graphics& gfx, const std::string& pathString, float scale = 1.0f);
 
 	void Draw(Graphics& gfx) const noxnd;
 	void ShowWindow(Graphics& gfx,const char* windowName = nullptr) noexcept;
 
 	void SetRootTransform(DirectX::FXMMATRIX tf) noexcept;
 
-	static std::unique_ptr<Mesh> ParseMesh(Graphics& gfx, const aiMesh& mesh, const aiMaterial* const* pMaterials, const std::filesystem::path& path);
+	static std::unique_ptr<Mesh> ParseMesh(Graphics& gfx, const aiMesh& mesh, const aiMaterial* const* pMaterials, const std::filesystem::path& path, const float scale);
 
 	~Model() noexcept;
 

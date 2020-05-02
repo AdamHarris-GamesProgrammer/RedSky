@@ -144,7 +144,7 @@ private:
 	std::unordered_map<int, TransformParameters> transforms;
 };
 
-Model::Model(Graphics& gfx, const std::string& pathString) :
+Model::Model(Graphics& gfx, const std::string& pathString, const float scale) :
 	pWindow(std::make_unique<ModelWindow>()) {
 	//Create Assimp object and load file
 	Assimp::Importer imp;
@@ -162,7 +162,7 @@ Model::Model(Graphics& gfx, const std::string& pathString) :
 
 	//load all meshes and store them 
 	for (size_t i = 0; i < pScene->mNumMeshes; i++) {
-		meshPtrs.push_back(ParseMesh(gfx, *pScene->mMeshes[i], pScene->mMaterials, pathString));
+		meshPtrs.push_back(ParseMesh(gfx, *pScene->mMeshes[i], pScene->mMaterials, pathString, scale));
 	}
 
 	int nextId = 0;
@@ -188,7 +188,7 @@ void Model::SetRootTransform(DirectX::FXMMATRIX tf) noexcept
 	pRoot->SetAppliedTransform(tf);
 }
 
-std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const aiMaterial* const* pMaterials, const std::filesystem::path& path) {
+std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const aiMaterial* const* pMaterials, const std::filesystem::path& path, const float scale) {
 	using namespace std::string_literals;
 	using rsexp::VertexLayout;
 	using namespace Bind;
@@ -292,7 +292,6 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 
 	bindablePtrs.push_back(PixelShader::Resolve(gfx, psShader));
 
-	const float scale = 6.0f;
 	if (hasDiffuseMap && hasNormalMap && hasSpecularMap) {
 		rsexp::VertexBuffer vbuf(std::move(
 			VertexLayout{}
