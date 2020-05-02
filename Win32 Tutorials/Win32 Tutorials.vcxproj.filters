@@ -385,5 +385,11 @@
     <FxCompile Include="PhongVSNotex.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
+    <FxCompile Include="PointLight.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="ShaderOperations.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

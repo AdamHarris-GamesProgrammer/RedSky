@@ -5,6 +5,7 @@
 #include <optional>
 #include "ConstantBuffers.h"
 #include <type_traits>
+#include <filesystem>
 #include "imgui/imgui.h"
 
 #include <assimp/Importer.hpp>
@@ -166,14 +167,14 @@ private:
 
 class Model {
 public:
-	Model(Graphics& gfx, const std::string fileName);
+	Model(Graphics& gfx, const std::string& pathString);
 
 	void Draw(Graphics& gfx) const noxnd;
 	void ShowWindow(Graphics& gfx,const char* windowName = nullptr) noexcept;
 
 	void SetRootTransform(DirectX::FXMMATRIX tf) noexcept;
 
-	static std::unique_ptr<Mesh> ParseMesh(Graphics& gfx, const aiMesh& mesh, const aiMaterial* const* pMaterials);
+	static std::unique_ptr<Mesh> ParseMesh(Graphics& gfx, const aiMesh& mesh, const aiMaterial* const* pMaterials, const std::filesystem::path& path);
 
 	~Model() noexcept;
 
