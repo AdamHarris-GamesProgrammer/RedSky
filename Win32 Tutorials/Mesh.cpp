@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <sstream>
 #include <filesystem>
+#include "RedSkyXM.h"
 
 namespace dx = DirectX;
 
@@ -50,6 +51,11 @@ void Node::SetAppliedTransform(DirectX::FXMMATRIX transform) noexcept
 	dx::XMStoreFloat4x4(&appliedTransform, transform);
 }
 
+const DirectX::XMFLOAT4X4& Node::GetAppliedTransform() const noexcept
+{
+	return appliedTransform;
+}
+
 void Node::AddChild(std::unique_ptr<Node> pChild) noxnd {
 	assert(pChild);
 	childPtrs.push_back(std::move(pChild));
@@ -93,7 +99,23 @@ public:
 
 			ImGui::NextColumn();
 			if (pSelectedNode != nullptr) { //if there is a selected node
-				auto& transform = transforms[pSelectedNode->GetID()];
+				const auto id = pSelectedNode->GetID();
+				auto i = transforms.find(id);
+				if (i == transforms.end()) {
+					const auto& applied = pSelectedNode->GetAppliedTransform();
+					const auto angles = ExtractEulerAngles(applied);
+					const auto translation = ExtractTranslation(applied);
+					TransformParameters tp;
+					tp.roll = angles.z;
+					tp.pitch = angles.x;
+					tp.yaw = angles.y;
+					tp.x = translation.x;
+					tp.y = translation.y;
+					tp.z = translation.z;
+					std::tie(i, std::ignore) = transforms.insert({ id,tp });
+				}
+				auto transform = i->second;
+
 				ImGui::Text("Orientation");
 				ImGui::SliderAngle("Roll", &transform.roll, -180.0f, 180.0f);
 				ImGui::SliderAngle("Pitch", &transform.pitch, -180.0f, 180.0f);

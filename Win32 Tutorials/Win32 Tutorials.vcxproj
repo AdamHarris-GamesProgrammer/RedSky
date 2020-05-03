@@ -203,6 +203,7 @@
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="RedSkyException.cpp" />
     <ClCompile Include="RedSkyTimer.cpp" />
+    <ClCompile Include="RedSkyXM.cpp" />
     <ClCompile Include="Sampler.cpp" />
     <ClCompile Include="SolidSphere.cpp" />
     <ClCompile Include="Surface.cpp" />
@@ -258,6 +259,7 @@
     <ClInclude Include="RedSkyMath.h" />
     <ClInclude Include="RedSkyTimer.h" />
     <ClInclude Include="RedSkyWin.h" />
+    <ClInclude Include="RedSkyXM.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Sampler.h" />
     <ClInclude Include="SolidSphere.h" />

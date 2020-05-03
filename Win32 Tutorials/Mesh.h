@@ -72,6 +72,7 @@ public:
 	int GetID() const noexcept { return id; }
 	void Draw(Graphics& gfx, DirectX::FXMMATRIX accumulatedTransforms) const noxnd;
 	void SetAppliedTransform(DirectX::FXMMATRIX transform) noexcept;
+	const DirectX::XMFLOAT4X4& GetAppliedTransform() const noexcept;
 	void ShowTree(Node*& pSelectedNode) const noexcept;
 	
 	//TODO: Add DiffNorm and Diff menus to this system
