@@ -391,5 +391,11 @@
     <FxCompile Include="ShaderOperations.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
+    <FxCompile Include="Transform.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="LightVectorData.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
