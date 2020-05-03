@@ -332,6 +332,9 @@
     <ClInclude Include="TransformCBufDoubleSlot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="NormalTweaker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="RedSky.rc">

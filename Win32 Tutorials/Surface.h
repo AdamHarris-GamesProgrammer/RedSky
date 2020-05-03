@@ -80,6 +80,9 @@ public:
 	//Loads a image from file
 	static Surface FromFile(const std::string& name);
 
+	//Saves a surface as a image
+	void Save(const std::string& filename) const;
+
 	//Copies a source surface to another surface
 	void Copy(const Surface& src) noxnd;
 

@@ -10,7 +10,7 @@
 class App
 {
 public:
-	App();
+	App(const std::string& commandLine = "");
 	~App();
 	int Go();
 private:
@@ -22,6 +22,7 @@ private:
 	void PollInput(float dt);
 
 private:
+	std::string commandLine;
 	ImguiManager imgui;
 	Window wnd;
 	RedSkyTimer timer;

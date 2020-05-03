@@ -12,7 +12,7 @@ int CALLBACK WinMain( //CALLBACK is a modifier which edits how the parameters ar
 
 	try {
 		//creates an instance of the apps class and calls it Go function starting the game loop
-		App{}.Go();
+		return App{ lpCmdLine }.Go();
 
 	} 
 	//Message boxes for all exception types

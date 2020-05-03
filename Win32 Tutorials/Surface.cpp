@@ -1,6 +1,9 @@
 #define FULL_WINDOWS
 #include "Surface.h"
 #include <algorithm>
+#include <filesystem>
+
+
 namespace Gdiplus {
 	using std::min;
 	using std::max;
@@ -72,6 +75,67 @@ Surface Surface::FromFile(const std::string& name)
 	}
 
 	return Surface(width, height, std::move(pBuffer), alphaLoaded);
+}
+
+void Surface::Save(const std::string& filename) const
+{
+	auto GetEncoderClsid = [&filename](const WCHAR* format, CLSID* pClsid) -> void
+	{
+		UINT  num = 0;          // number of image encoders
+		UINT  size = 0;         // size of the image encoder array in bytes
+
+		Gdiplus::ImageCodecInfo* pImageCodecInfo = nullptr;
+
+		Gdiplus::GetImageEncodersSize(&num, &size);
+		if (size == 0)
+		{
+			std::stringstream ss;
+			ss << "Saving surface to [" << filename << "]: failed to get encoder; size == 0.";
+			throw Exception(__LINE__, __FILE__, ss.str());
+		}
+
+		pImageCodecInfo = (Gdiplus::ImageCodecInfo*)(malloc(size));
+		if (pImageCodecInfo == nullptr)
+		{
+			std::stringstream ss;
+			ss << "Saving surface to [" << filename << "]: failed to get encoder; failed to allocate memory.";
+			throw Exception(__LINE__, __FILE__, ss.str());
+		}
+
+		GetImageEncoders(num, size, pImageCodecInfo);
+
+		for (UINT j = 0; j < num; ++j)
+		{
+			if (wcscmp(pImageCodecInfo[j].MimeType, format) == 0)
+			{
+				*pClsid = pImageCodecInfo[j].Clsid;
+				free(pImageCodecInfo);
+				return;
+			}
+		}
+
+		free(pImageCodecInfo);
+		std::stringstream ss;
+		ss << "Saving surface to [" << filename <<
+			"]: failed to get encoder; failed to find matching encoder.";
+		throw Exception(__LINE__, __FILE__, ss.str());
+	};
+
+	CLSID bmpID;
+	GetEncoderClsid(L"image/bmp", &bmpID);
+
+
+	// convert filename to wide string (for Gdiplus)
+	wchar_t wideName[512];
+	mbstowcs_s(nullptr, wideName, filename.c_str(), _TRUNCATE);
+
+	Gdiplus::Bitmap bitmap(width, height, width * sizeof(Color), PixelFormat32bppARGB, (BYTE*)pBuffer.get());
+	if (bitmap.Save(wideName, &bmpID, nullptr) != Gdiplus::Status::Ok)
+	{
+		std::stringstream ss;
+		ss << "Saving surface to [" << filename << "]: failed to save.";
+		throw Exception(__LINE__, __FILE__, ss.str());
+	}
 }
 
 void Surface::Copy(const Surface& src) noxnd

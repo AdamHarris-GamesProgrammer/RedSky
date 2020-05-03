@@ -10,15 +10,33 @@
 #include "GDIPlusManager.h"
 #include "imgui/imgui.h"
 #include "Vertex.h"
+#include "NormalTweaker.h"
+#include <shellapi.h>
 
 GDIPlusManager gdipm;
 
 namespace DX = DirectX;
 
-App::App() :
+App::App(const std::string& commandLine) :
+	commandLine(commandLine),
 	wnd(1280, 720, "RedSky Demo Window"), 
 	light(wnd.Gfx())
 {
+	if (this->commandLine != "") {
+		int nArgs;
+		const auto pLineW = GetCommandLineW();
+		const auto pArgs = CommandLineToArgvW(pLineW, &nArgs);
+		if (nArgs >= 4 && std::wstring(pArgs[1]) == L"--ntwerk-rotx180") {
+			const std::wstring pathInWide = pArgs[2];
+			const std::wstring pathOutWide = pArgs[3];
+			NormalMapTwerker::RotateXAxis180(
+				std::string(pathInWide.begin(), pathInWide.end()),
+				std::string(pathOutWide.begin(), pathOutWide.end())
+			);
+		}
+	}
+
+
 	wall.SetRootTransform(DX::XMMatrixTranslation(-12.0f, 0.0f, 0.0f));
 	tp.SetPos({ 12.0f,0.0f,0.0f });
 	goblin.SetRootTransform(DX::XMMatrixTranslation(0.0f, 0.0f, -4.0f));
