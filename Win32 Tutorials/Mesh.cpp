@@ -269,6 +269,10 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 		vsShader = "PhongVSNormalMap.cso";
 		psShader = "PhongPSSpecNormalMap.cso";
 	}
+	else if (hasDiffuseMap && !hasNormalMap && hasSpecularMap) {
+		vsShader = "PhongVS.cso";
+		psShader = "PhongPSSpec.cso";
+	}
 	else if (hasDiffuseMap && hasNormalMap) {
 		vsShader = "PhongVSNormalMap.cso";
 		psShader = "PhongPSNormalMap.cso";
@@ -323,6 +327,39 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 		pmc.hasGlossMap = hasAlphaGloss ? TRUE : FALSE;
 
 		bindablePtrs.push_back(PixelConstantBuffer<Node::PSMaterialConstant_DiffNormSpec>::Resolve(gfx, pmc, 1u));
+	}
+	else if (hasDiffuseMap && !hasNormalMap && hasSpecularMap)
+	{
+		rsexp::VertexBuffer vbuf(std::move(
+			VertexLayout{}
+			.Append(VertexLayout::Position3D)
+			.Append(VertexLayout::Normal)
+			.Append(VertexLayout::Texture2D)
+		));
+
+		for (unsigned int i = 0; i < mesh.mNumVertices; i++) {
+			vbuf.EmplaceBack(
+				dx::XMFLOAT3(mesh.mVertices[i].x* scale, mesh.mVertices[i].y* scale, mesh.mVertices[i].z* scale),
+				*reinterpret_cast<dx::XMFLOAT3*>(&mesh.mNormals[i]),
+				*reinterpret_cast<dx::XMFLOAT2*>(&mesh.mTextureCoords[0][i])
+			);
+		}
+
+		bindablePtrs.push_back(VertexBuffer::Resolve(gfx, meshTag, vbuf));
+
+		bindablePtrs.push_back(InputLayout::Resolve(gfx, vbuf.GetLayout(), pvsbc));
+
+		struct PSMaterialConstant_DiffSpec {
+			float specularPowerConst;
+			BOOL hasGloss;
+			float specularMapWeight;
+			float padding;
+		} pmc;
+		pmc.specularPowerConst = shininess;
+		pmc.hasGloss = hasAlphaGloss ? TRUE : FALSE;
+		pmc.specularMapWeight = 1.0f;
+
+		bindablePtrs.push_back(PixelConstantBuffer<PSMaterialConstant_DiffSpec>::Resolve(gfx, pmc, 1u));
 	}
 	else if (hasDiffuseMap && hasNormalMap) 
 	{
