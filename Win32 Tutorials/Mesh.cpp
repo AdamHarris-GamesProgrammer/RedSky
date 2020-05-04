@@ -98,10 +98,12 @@ public:
 			root.ShowTree(pSelectedNode);
 
 			ImGui::NextColumn();
-			if (pSelectedNode != nullptr) { //if there is a selected node
+			if (pSelectedNode != nullptr) 
+			{ //if there is a selected node
 				const auto id = pSelectedNode->GetID();
 				auto i = transforms.find(id);
-				if (i == transforms.end()) {
+				if (i == transforms.end())
+				{
 					const auto& applied = pSelectedNode->GetAppliedTransform();
 					const auto angles = ExtractEulerAngles(applied);
 					const auto translation = ExtractTranslation(applied);
@@ -114,7 +116,7 @@ public:
 					tp.z = translation.z;
 					std::tie(i, std::ignore) = transforms.insert({ id,tp });
 				}
-				auto transform = i->second;
+				auto& transform = i->second;
 
 				ImGui::Text("Orientation");
 				ImGui::SliderAngle("Roll", &transform.roll, -180.0f, 180.0f);
@@ -126,9 +128,11 @@ public:
 				ImGui::SliderFloat("Y", &transform.y, -20.0f, 20.0f);
 				ImGui::SliderFloat("Z", &transform.z, -20.0f, 20.0f);
 				
-				pSelectedNode->SpawnMaterialControlPanel(gfx, skinMaterial);
-				pSelectedNode->SpawnMaterialControlPanel(gfx, ringMaterial);
-				pSelectedNode->SpawnMaterialControlPanel(gfx, eyeMaterial);
+
+				if (!pSelectedNode->SpawnMaterialControlPanel(gfx, skinMaterial))
+				{
+					pSelectedNode->SpawnMaterialControlPanel(gfx, ringMaterial);
+				}
 			}
 
 		}
