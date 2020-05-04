@@ -10,7 +10,7 @@
 #include "GDIPlusManager.h"
 #include "imgui/imgui.h"
 #include "Vertex.h"
-#include "NormalTweaker.h"
+#include "TexturePreprocessor.h"
 #include <shellapi.h>
 
 GDIPlusManager gdipm;
@@ -26,10 +26,15 @@ App::App(const std::string& commandLine) :
 		int nArgs;
 		const auto pLineW = GetCommandLineW();
 		const auto pArgs = CommandLineToArgvW(pLineW, &nArgs);
-		if (nArgs >= 4 && std::wstring(pArgs[1]) == L"--ntwerk-rotx180") {
+		if (nArgs >= 3 && std::wstring(pArgs[1]) == L"--twerk-objnorm") {
+			const std::wstring pathInWide = pArgs[2];
+			TexturePreprocessor::FlipYAllNormalMapsInObj(
+				std::string(pathInWide.begin(), pathInWide.end()));
+		}
+		else if (nArgs >= 3 && std::wstring(pArgs[1]) == L"--twerk-flipy") {
 			const std::wstring pathInWide = pArgs[2];
 			const std::wstring pathOutWide = pArgs[3];
-			NormalMapTwerker::RotateXAxis180(
+			TexturePreprocessor::FlipYNormalMap(
 				std::string(pathInWide.begin(), pathInWide.end()),
 				std::string(pathOutWide.begin(), pathOutWide.end())
 			);
@@ -37,12 +42,12 @@ App::App(const std::string& commandLine) :
 	}
 
 
-	wall.SetRootTransform(DX::XMMatrixTranslation(-12.0f, 0.0f, 0.0f));
-	tp.SetPos({ 12.0f,0.0f,0.0f });
-	goblin.SetRootTransform(DX::XMMatrixTranslation(0.0f, 0.0f, -4.0f));
-	nano.SetRootTransform(DX::XMMatrixTranslation(0.0f, -7.0f, 6.0f));
+	//wall.SetRootTransform(DX::XMMatrixTranslation(-12.0f, 0.0f, 0.0f));
+	//tp.SetPos({ 12.0f,0.0f,0.0f });
+	//goblin.SetRootTransform(DX::XMMatrixTranslation(0.0f, 0.0f, -4.0f));
+	//nano.SetRootTransform(DX::XMMatrixTranslation(0.0f, -7.0f, 6.0f));
 
-	wnd.Gfx().SetProjection(DX::XMMatrixPerspectiveLH(1.0f, 9.0f / 16.0f, 0.5f, 40.0f));
+	wnd.Gfx().SetProjection(DX::XMMatrixPerspectiveLH(1.0f, 9.0f / 16.0f, 0.5f, 400.0f));
 }
 
 App::~App() {}
@@ -76,22 +81,23 @@ void App::DoFrame()
 	}
 
 
-	wall.Draw(wnd.Gfx());
-	tp.Draw(wnd.Gfx());
-	nano.Draw(wnd.Gfx());
-	goblin.Draw(wnd.Gfx());
+	//wall.Draw(wnd.Gfx());
+	//tp.Draw(wnd.Gfx());
+	//nano.Draw(wnd.Gfx());
+	//goblin.Draw(wnd.Gfx());
 
 
-
+	sponza.Draw(wnd.Gfx());
 	light.Draw(wnd.Gfx());
 
 	SpawnBackgroundControlWindow();
 	cam.SpawnControlWindow();
 	light.SpawnControlWindow();
-	goblin.ShowWindow(wnd.Gfx(), "Goblin");
-	wall.ShowWindow(wnd.Gfx(), "Wall");
-	tp.SpawnControlWindow(wnd.Gfx());
-	nano.ShowWindow(wnd.Gfx(), "Nano");
+	//goblin.ShowWindow(wnd.Gfx(), "Goblin");
+	//wall.ShowWindow(wnd.Gfx(), "Wall");
+	//tp.SpawnControlWindow(wnd.Gfx());
+	//nano.ShowWindow(wnd.Gfx(), "Nano");
+	sponza.ShowWindow(wnd.Gfx(), "Sponza");
 
 	//wall.ShowWindow("Wall");
 	//tp.SpawnControlWindow(wnd.Gfx());

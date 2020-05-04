@@ -209,6 +209,7 @@
     <ClCompile Include="Surface.cpp" />
     <ClCompile Include="TestPlane.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TexturePreprocessor.cpp" />
     <ClCompile Include="Topology.cpp" />
     <ClCompile Include="TransformCbuf.cpp" />
     <ClCompile Include="TransformCBufDoubleSlot.cpp" />
@@ -268,6 +269,7 @@
     <ClInclude Include="TestObjects.h" />
     <ClInclude Include="TestPlane.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="TexturePreprocessor.h" />
     <ClInclude Include="Topology.h" />
     <ClInclude Include="TransformCbuf.h" />
     <ClInclude Include="TransformCBufDoubleSlot.h" />

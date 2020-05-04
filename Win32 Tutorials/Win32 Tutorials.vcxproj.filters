@@ -165,8 +165,11 @@
     <ClCompile Include="TestPlane.cpp">
       <Filter>Source Files\Drawable</Filter>
     </ClCompile>
-    <ClCompile Include="RedSkyXM.cpp">
+    <ClCompile Include="TexturePreprocessor.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RedSkyXM.cpp">
+      <Filter>Source Files\RedSky</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -340,6 +343,9 @@
     </ClInclude>
     <ClInclude Include="RedSkyXM.h">
       <Filter>Header Files\RedSky</Filter>
+    </ClInclude>
+    <ClInclude Include="TexturePreprocessor.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
