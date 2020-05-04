@@ -39,13 +39,21 @@ App::App(const std::string& commandLine) :
 				std::string(pathOutWide.begin(), pathOutWide.end())
 			);
 		}
+		else if (nArgs >= 4 && std::wstring(pArgs[1]) == L"--twerk-validate") {
+			const std::wstring minWide = pArgs[2];
+			const std::wstring maxWide = pArgs[3];
+			const std::wstring pathWide = pArgs[4];
+			TexturePreprocessor::ValidateNormalMap(
+				std::string(pathWide.begin(), pathWide.end()), std::stof(minWide), std::stof(maxWide)
+			);
+		}
 	}
 
 
 	//wall.SetRootTransform(DX::XMMatrixTranslation(-12.0f, 0.0f, 0.0f));
 	//tp.SetPos({ 12.0f,0.0f,0.0f });
 	//goblin.SetRootTransform(DX::XMMatrixTranslation(0.0f, 0.0f, -4.0f));
-	nano.SetRootTransform(DX::XMMatrixTranslation(0.0f, -7.0f, 6.0f));
+	//nano.SetRootTransform(DX::XMMatrixTranslation(0.0f, -7.0f, 6.0f));
 
 	wnd.Gfx().SetProjection(DX::XMMatrixPerspectiveLH(1.0f, 9.0f / 16.0f, 0.5f, 400.0f));
 }
@@ -83,7 +91,7 @@ void App::DoFrame()
 
 	//wall.Draw(wnd.Gfx());
 	//tp.Draw(wnd.Gfx());
-	nano.Draw(wnd.Gfx());
+	//nano.Draw(wnd.Gfx());
 	//goblin.Draw(wnd.Gfx());
 
 
@@ -96,7 +104,7 @@ void App::DoFrame()
 	//goblin.ShowWindow(wnd.Gfx(), "Goblin");
 	//wall.ShowWindow(wnd.Gfx(), "Wall");
 	//tp.SpawnControlWindow(wnd.Gfx());
-	nano.ShowWindow(wnd.Gfx(), "Nano");
+	//nano.ShowWindow(wnd.Gfx(), "Nano");
 	sponza.ShowWindow(wnd.Gfx(), "Sponza");
 
 	//wall.ShowWindow("Wall");

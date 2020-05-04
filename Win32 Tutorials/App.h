@@ -40,6 +40,6 @@ private:
 	/*Model goblin{ wnd.Gfx(), "Models\\gobber\\GoblinX.obj", 6.0f };
 	Model wall{ wnd.Gfx(), "Models\\brick_wall\\brick_wall.obj", 6.0f };
 	TestPlane tp{ wnd.Gfx(), 6.0f };*/
-	Model nano{ wnd.Gfx(), "Models\\nanoTextured\\nanosuit.obj", 2.0f };
+	//Model nano{ wnd.Gfx(), "Models\\nanoTextured\\nanosuit.obj", 2.0f };
 
 };
