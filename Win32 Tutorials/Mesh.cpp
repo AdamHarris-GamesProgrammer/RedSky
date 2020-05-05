@@ -98,7 +98,7 @@ public:
 			root.ShowTree(pSelectedNode);
 
 			ImGui::NextColumn();
-			if (pSelectedNode != nullptr) 
+			if (pSelectedNode != nullptr)
 			{ //if there is a selected node
 				const auto id = pSelectedNode->GetID();
 				auto i = transforms.find(id);
@@ -127,7 +127,7 @@ public:
 				ImGui::SliderFloat("X", &transform.x, -20.0f, 20.0f);
 				ImGui::SliderFloat("Y", &transform.y, -20.0f, 20.0f);
 				ImGui::SliderFloat("Z", &transform.z, -20.0f, 20.0f);
-				
+
 
 				if (!pSelectedNode->SpawnMaterialControlPanel(gfx, skinMaterial))
 				{
@@ -180,7 +180,7 @@ Model::Model(Graphics& gfx, const std::string& pathString, const float scale) :
 		aiProcess_ConvertToLeftHanded |
 		aiProcess_GenNormals |
 		aiProcess_CalcTangentSpace
-		);
+	);
 
 	if (pScene == nullptr) {
 		throw ModelException(__LINE__, __FILE__, imp.GetErrorString());
@@ -259,7 +259,7 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 		{
 			material.Get(AI_MATKEY_COLOR_SPECULAR, reinterpret_cast<aiColor3D&>(specularColor));
 		}
-		if(!hasAlphaGloss)
+		if (!hasAlphaGloss)
 		{
 			material.Get(AI_MATKEY_SHININESS, shininess);
 		}
@@ -346,9 +346,7 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 			);
 		}
 
-		bindablePtrs.push_back(VertexBuffer::Resolve(gfx, meshTag, vbuf));
-
-		bindablePtrs.push_back(InputLayout::Resolve(gfx, vbuf.GetLayout(), pvsbc));
+		BindBuffer(gfx, bindablePtrs, meshTag, vbuf, *pvsbc);
 
 		Node::PSMaterialConstant_DiffNormSpec pmc;
 
@@ -368,29 +366,22 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 
 		for (unsigned int i = 0; i < mesh.mNumVertices; i++) {
 			vbuf.EmplaceBack(
-				dx::XMFLOAT3(mesh.mVertices[i].x* scale, mesh.mVertices[i].y* scale, mesh.mVertices[i].z* scale),
+				dx::XMFLOAT3(mesh.mVertices[i].x * scale, mesh.mVertices[i].y * scale, mesh.mVertices[i].z * scale),
 				*reinterpret_cast<dx::XMFLOAT3*>(&mesh.mNormals[i]),
 				*reinterpret_cast<dx::XMFLOAT2*>(&mesh.mTextureCoords[0][i])
 			);
 		}
 
-		bindablePtrs.push_back(VertexBuffer::Resolve(gfx, meshTag, vbuf));
+		BindBuffer(gfx, bindablePtrs, meshTag, vbuf, *pvsbc);
 
-		bindablePtrs.push_back(InputLayout::Resolve(gfx, vbuf.GetLayout(), pvsbc));
-
-		struct PSMaterialConstant_DiffSpec {
-			float specularPowerConst;
-			BOOL hasGloss;
-			float specularMapWeight;
-			float padding;
-		} pmc;
+		Node::PSMaterialConstant_DiffSpec pmc;
 		pmc.specularPowerConst = shininess;
 		pmc.hasGloss = hasAlphaGloss ? TRUE : FALSE;
 		pmc.specularMapWeight = 1.0f;
 
-		bindablePtrs.push_back(PixelConstantBuffer<PSMaterialConstant_DiffSpec>::Resolve(gfx, pmc, 1u));
+		bindablePtrs.push_back(PixelConstantBuffer<Node::PSMaterialConstant_DiffSpec>::Resolve(gfx, pmc, 1u));
 	}
-	else if (hasDiffuseMap && hasNormalMap) 
+	else if (hasDiffuseMap && hasNormalMap)
 	{
 		rsexp::VertexBuffer vbuf(std::move(
 			VertexLayout{}
@@ -412,9 +403,7 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 			);
 		}
 
-		bindablePtrs.push_back(VertexBuffer::Resolve(gfx, meshTag, vbuf));
-
-		bindablePtrs.push_back(InputLayout::Resolve(gfx, vbuf.GetLayout(), pvsbc));
+		BindBuffer(gfx, bindablePtrs, meshTag, vbuf, *pvsbc);
 
 
 		Node::PSMaterialConstant_DiffNorm pmc;
@@ -430,7 +419,7 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 			.Append(VertexLayout::Normal)
 			.Append(VertexLayout::Texture2D)
 		));
-		
+
 		for (unsigned int i = 0; i < mesh.mNumVertices; i++)
 		{
 			vbuf.EmplaceBack(
@@ -440,9 +429,7 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 			);
 		}
 
-		bindablePtrs.push_back(VertexBuffer::Resolve(gfx, meshTag, vbuf));
-
-		bindablePtrs.push_back(InputLayout::Resolve(gfx, vbuf.GetLayout(), pvsbc));
+		BindBuffer(gfx, bindablePtrs, meshTag, vbuf, *pvsbc);
 
 		Node::PSMaterialConstant_Diff pmc;
 		pmc.specularPower = shininess;
@@ -450,7 +437,7 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 
 		bindablePtrs.push_back(PixelConstantBuffer<Node::PSMaterialConstant_Diff>::Resolve(gfx, pmc, 1u));
 	}
-	else if (!hasDiffuseMap && !hasNormalMap && !hasSpecularMap) 
+	else if (!hasDiffuseMap && !hasNormalMap && !hasSpecularMap)
 	{
 		rsexp::VertexBuffer vbuf(std::move(
 			VertexLayout{}
@@ -466,9 +453,7 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 			);
 		}
 
-		bindablePtrs.push_back(VertexBuffer::Resolve(gfx, meshTag, vbuf));
-
-		bindablePtrs.push_back(InputLayout::Resolve(gfx, vbuf.GetLayout(), pvsbc));
+		BindBuffer(gfx, bindablePtrs, meshTag, vbuf, *pvsbc);
 
 		Node::PSMaterialConstant_Notex pmc;
 		pmc.specularPower = shininess;
@@ -493,7 +478,7 @@ std::unique_ptr<Node> Model::ParseNode(int& nextId, const aiNode& node) noexcept
 	//converts to column major for gpu processing
 	const auto transform = dx::XMMatrixTranspose(dx::XMLoadFloat4x4(
 		reinterpret_cast<const dx::XMFLOAT4X4*>(&node.mTransformation)
-		));
+	));
 
 	//array of meshes
 	std::vector<Mesh*> curMeshPtrs;
@@ -509,6 +494,13 @@ std::unique_ptr<Node> Model::ParseNode(int& nextId, const aiNode& node) noexcept
 	}
 
 	return pNode;
+}
+
+void Model::BindBuffer(Graphics& gfx, std::vector<std::shared_ptr<Bindable>>& bindablePtrs, std::string& meshTag, rsexp::VertexBuffer& vbuf, ID3DBlob& pvsbc)
+{
+	bindablePtrs.push_back(VertexBuffer::Resolve(gfx, meshTag, vbuf));
+
+	bindablePtrs.push_back(InputLayout::Resolve(gfx, vbuf.GetLayout(), &pvsbc));
 }
 
 #pragma region 

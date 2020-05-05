@@ -49,6 +49,12 @@ public:
 		DirectX::XMFLOAT3 specularColor = { 0.75f,0.75f,0.75f };
 		float specularMapWeight = 0.671f;
 	};
+	struct PSMaterialConstant_DiffSpec {
+		float specularPowerConst;
+		BOOL hasGloss;
+		float specularMapWeight;
+		float padding;
+	};
 	struct PSMaterialConstant_DiffNorm {
 		float specularIntensity = 1.0f;
 		float specularPower = 1.0f;
@@ -181,6 +187,7 @@ public:
 
 	std::unique_ptr<Node> ParseNode(int& nextId, const aiNode& node) noexcept;
 private:
+	static void BindBuffer(Graphics& gfx,std::vector<std::shared_ptr<Bindable>>& bindablePtrs,std::string& meshTag, rsexp::VertexBuffer& vbuf, ID3DBlob& pvsbc);
 	std::unique_ptr<Node> pRoot;
 	std::vector<std::unique_ptr<Mesh>> meshPtrs;
 	std::unique_ptr<class ModelWindow> pWindow;
