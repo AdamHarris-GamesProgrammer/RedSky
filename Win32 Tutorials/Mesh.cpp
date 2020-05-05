@@ -239,7 +239,8 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 
 		if (material.GetTexture(aiTextureType_DIFFUSE, 0, &texFileName) == aiReturn_SUCCESS) {
 			auto tex = Texture::Resolve(gfx, rootPath + texFileName.C_Str());
-			hasAlphaDiffuse = true;
+			hasAlphaDiffuse = tex->HasAlpha();
+			bindablePtrs.push_back(std::move(tex));
 			hasDiffuseMap = true;
 		}
 		else
@@ -476,8 +477,6 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 
 		bindablePtrs.push_back(PixelConstantBuffer<Node::PSMaterialConstant_Notex>::Resolve(gfx, pmc, 1u));
 	}
-
-	bindablePtrs.push_back(Blender::Resolve(gfx, hasAlphaDiffuse));
 
 	//Returns the vector of mesh bindables
 	return std::make_unique<Mesh>(gfx, std::move(bindablePtrs));

@@ -171,6 +171,9 @@
     <ClCompile Include="RedSkyXM.cpp">
       <Filter>Source Files\RedSky</Filter>
     </ClCompile>
+    <ClCompile Include="Blender.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -345,6 +348,9 @@
       <Filter>Header Files\RedSky</Filter>
     </ClInclude>
     <ClInclude Include="TexturePreprocessor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Blender.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
