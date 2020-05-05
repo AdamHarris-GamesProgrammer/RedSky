@@ -55,6 +55,8 @@ App::App(const std::string& commandLine) :
 	//goblin.SetRootTransform(DX::XMMatrixTranslation(0.0f, 0.0f, -4.0f));
 	//nano.SetRootTransform(DX::XMMatrixTranslation(0.0f, -7.0f, 6.0f));
 
+	bluePlane.SetPos(cam.GetPos());
+
 	wnd.Gfx().SetProjection(DX::XMMatrixPerspectiveLH(1.0f, 9.0f / 16.0f, 0.5f, 400.0f));
 }
 
@@ -94,9 +96,9 @@ void App::DoFrame()
 	//nano.Draw(wnd.Gfx());
 	//goblin.Draw(wnd.Gfx());
 
-
-	sponza.Draw(wnd.Gfx());
 	light.Draw(wnd.Gfx());
+	sponza.Draw(wnd.Gfx());
+	bluePlane.Draw(wnd.Gfx());
 
 	SpawnBackgroundControlWindow();
 	cam.SpawnControlWindow();
@@ -106,7 +108,7 @@ void App::DoFrame()
 	//tp.SpawnControlWindow(wnd.Gfx());
 	//nano.ShowWindow(wnd.Gfx(), "Nano");
 	sponza.ShowWindow(wnd.Gfx(), "Sponza");
-
+	bluePlane.SpawnControlWindow(wnd.Gfx());
 	//wall.ShowWindow("Wall");
 	//tp.SpawnControlWindow(wnd.Gfx());
 	

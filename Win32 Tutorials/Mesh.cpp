@@ -482,6 +482,8 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 	//anything with a alpha diffuse will be a two sided object
 	bindablePtrs.push_back(Rasterizer::Resolve(gfx, hasAlphaDiffuse));
 
+	bindablePtrs.push_back(Blender::Resolve(gfx, false));
+
 	//Returns the vector of mesh bindables
 	return std::make_unique<Mesh>(gfx, std::move(bindablePtrs));
 }
