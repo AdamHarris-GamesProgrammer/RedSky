@@ -56,7 +56,9 @@ float4 main(float3 viewFragPos : Position, float3 viewNormal : Normal, float3 vi
         lv.vToL, viewFragPos, att, specularPower
     );
   
+    float4 dtex = tex.Sample(splr, tc);
+    
     //Calculate final colour with texture and diffuse color
-    return float4(saturate((diffuse + ambient) * tex.Sample(splr, tc).rgb + specularReflected), 1.0f);
+    return float4(saturate((diffuse + ambient) * dtex.rgb + specularReflected), dtex.a);
 
 }

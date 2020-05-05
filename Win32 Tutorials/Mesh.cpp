@@ -227,6 +227,7 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 	bool hasAlphaGloss = false;
 	bool hasNormalMap = false;
 	bool hasDiffuseMap = false;
+	bool hasAlphaDiffuse = false;
 	float shininess = 2.0f;
 	dx::XMFLOAT4 specularColor = { 0.18f,0.18f,0.18f,1.0f };
 	dx::XMFLOAT4 diffuseColor = { 0.45f,0.45f,0.45f,1.0f };
@@ -237,7 +238,8 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 		aiString texFileName;
 
 		if (material.GetTexture(aiTextureType_DIFFUSE, 0, &texFileName) == aiReturn_SUCCESS) {
-			bindablePtrs.push_back(Texture::Resolve(gfx, rootPath + texFileName.C_Str()));
+			auto tex = Texture::Resolve(gfx, rootPath + texFileName.C_Str());
+			hasAlphaDiffuse = true;
 			hasDiffuseMap = true;
 		}
 		else
@@ -474,6 +476,8 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 
 		bindablePtrs.push_back(PixelConstantBuffer<Node::PSMaterialConstant_Notex>::Resolve(gfx, pmc, 1u));
 	}
+
+	bindablePtrs.push_back(Blender::Resolve(gfx, hasAlphaDiffuse));
 
 	//Returns the vector of mesh bindables
 	return std::make_unique<Mesh>(gfx, std::move(bindablePtrs));
