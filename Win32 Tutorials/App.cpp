@@ -56,6 +56,7 @@ App::App(const std::string& commandLine) :
 	//nano.SetRootTransform(DX::XMMatrixTranslation(0.0f, -7.0f, 6.0f));
 
 	bluePlane.SetPos(cam.GetPos());
+	redPlane.SetPos({-47.0f, 10.0f, 5.0f});
 
 	wnd.Gfx().SetProjection(DX::XMMatrixPerspectiveLH(1.0f, 9.0f / 16.0f, 0.5f, 400.0f));
 }
@@ -99,6 +100,7 @@ void App::DoFrame()
 	light.Draw(wnd.Gfx());
 	sponza.Draw(wnd.Gfx());
 	bluePlane.Draw(wnd.Gfx());
+	redPlane.Draw(wnd.Gfx());
 
 	SpawnBackgroundControlWindow();
 	cam.SpawnControlWindow();
@@ -108,7 +110,10 @@ void App::DoFrame()
 	//tp.SpawnControlWindow(wnd.Gfx());
 	//nano.ShowWindow(wnd.Gfx(), "Nano");
 	sponza.ShowWindow(wnd.Gfx(), "Sponza");
-	bluePlane.SpawnControlWindow(wnd.Gfx());
+
+	bluePlane.SpawnControlWindow(wnd.Gfx(), "Blue Plane");
+	redPlane.SpawnControlWindow(wnd.Gfx(), "Red Plane");
+	
 	//wall.ShowWindow("Wall");
 	//tp.SpawnControlWindow(wnd.Gfx());
 	
