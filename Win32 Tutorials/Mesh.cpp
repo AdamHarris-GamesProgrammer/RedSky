@@ -296,7 +296,7 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 
 	if (hasDiffuseMap && hasNormalMap && hasSpecularMap) {
 		vsShader = "PhongVSNormalMap.cso";
-		psShader = "PhongPSSpecNormalMap.cso";
+		psShader = hasAlphaDiffuse ? "PhongPSSpecNormalMask.cso" : "PhongPSSpecNormalMap.cso";
 	}
 	else if (hasDiffuseMap && !hasNormalMap && hasSpecularMap) {
 		vsShader = "PhongVS.cso";
@@ -477,6 +477,10 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 
 		bindablePtrs.push_back(PixelConstantBuffer<Node::PSMaterialConstant_Notex>::Resolve(gfx, pmc, 1u));
 	}
+
+
+	//anything with a alpha diffuse will be a two sided object
+	bindablePtrs.push_back(Rasterizer::Resolve(gfx, hasAlphaDiffuse));
 
 	//Returns the vector of mesh bindables
 	return std::make_unique<Mesh>(gfx, std::move(bindablePtrs));

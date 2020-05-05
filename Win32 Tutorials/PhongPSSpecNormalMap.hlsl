@@ -23,8 +23,16 @@ float4 main(float3 viewFragPos : Position, float3 viewNormal : Normal, float3 vi
 {
       
     float4 dtex = tex.Sample(splr, tc);
+    
+    #ifdef MASKED_OBJECT
     clip(dtex.a < 0.1f ? -1 : 1);
     
+    if (dot(viewNormal, viewFragPos) >= 0.0f)
+    {
+        viewNormal = -viewNormal;
+    }
+    #endif    
+
     viewNormal = normalize(viewNormal);
     
     if (normalMapEnabled)
