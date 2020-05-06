@@ -31,7 +31,7 @@ namespace Bind {
 		GFX_THROW_INFO(GetDevice(gfx)->CreateTexture2D(&textureDesc, nullptr, &pTexture));
 
 		GetContext(gfx)->UpdateSubresource(
-			pTexture.Get(), 0u, nullptr, s.GetBufferPtr(), s.GetWidth() * sizeof(Surface::Color), 0u
+			pTexture.Get(), 0u, nullptr, s.GetBufferPtrConst(), s.GetWidth() * sizeof(Surface::Color), 0u
 		);
 
 		//Create the resource view

@@ -1,10 +1,10 @@
-#pragma once
+     #pragma once
 #include "RedSkyWin.h"
 #include "RedSkyException.h"
 #include <string>
-#include <assert.h>
-#include <memory>
+#include <optional>
 #include "ConditionalNoexcept.h"
+#include <dxtex/DirectXTex.h>
 
 class Surface
 {
@@ -15,15 +15,20 @@ public:
 	public:
 		constexpr Color() noexcept : dword() {}
 
-		constexpr Color(const Color& col) noexcept : dword(col.dword) {}
+		constexpr Color(const Color& col) noexcept 
+			: dword(col.dword) {}
 
-		constexpr Color(unsigned int dw) noexcept : dword(dw) {}
+		constexpr Color(unsigned int dw) noexcept 
+			: dword(dw) {}
 
-		constexpr Color(unsigned char x, unsigned char r, unsigned char g, unsigned char b) noexcept : dword((x << 24u) | (r << 16u) | (g << 8u) | b) {}
+		constexpr Color(unsigned char x, unsigned char r, unsigned char g, unsigned char b) noexcept 
+			: dword((x << 24u) | (r << 16u) | (g << 8u) | b) {}
 
-		constexpr Color(unsigned char r, unsigned char g, unsigned char b) noexcept : dword((r << 16u) | (g << 8u) | b) {}
+		constexpr Color(unsigned char r, unsigned char g, unsigned char b) noexcept 
+			: dword((255u << 24u) | (r << 16u) | (g << 8u) | b) {}
 
-		constexpr Color(Color col, unsigned char x) noexcept : Color((x << 24u) | col.dword) {}
+		constexpr Color(Color col, unsigned char x) noexcept 
+			: Color((x << 24u) | col.dword) {}
 
 		Color& operator=(Color color) noexcept {
 			dword = color.dword;
@@ -48,20 +53,22 @@ public:
 public:
 	class Exception : public RedSkyException {
 	public:
-		Exception(int line, const char* file, std::string note) noexcept : RedSkyException(line, file), note(std::move(note)) {}
+		Exception(int line, const char* file, std::string note, std::optional<HRESULT> hr = {}) noexcept;
+		Exception(int line, const char* file, std::string fileName, std::string note_in, std::optional<HRESULT> hr = {}) noexcept;
+
 		const char* what() const noexcept override;
-		const char* GetType() const noexcept override { return "RedSky Graphic Exception"; }
+		const char* GetType() const noexcept override { return "RedSky Surface Exception"; }
 		const std::string& GetNote() const noexcept { return note; }
 	private:
+		std::optional<HRESULT> hr;
 		std::string note;
 	};
 public:
-	Surface(unsigned int width, unsigned int height) noexcept 
-		: pBuffer(std::make_unique<Color[]>(width * height)), width(width), height(height) {}
+	Surface(unsigned int width, unsigned int height);
 
-	Surface(Surface&& source) noexcept : width(source.width), height(source.height), pBuffer(std::move(source.pBuffer)) {}
+	Surface(Surface&& source) noexcept = default;
 	Surface(Surface&) = delete;
-	Surface& operator=(Surface&& donor) noexcept;
+	Surface& operator=(Surface&& donor) noexcept = default;
 	Surface& operator=(const Surface&) = delete;
 	~Surface() = default;
 
@@ -72,10 +79,13 @@ public:
 	Color GetPixel(unsigned int x, unsigned int y) const  noxnd;
 
 	//Getters/Setters for the surface as a whole
-	unsigned int GetWidth() const noexcept { return width; }
-	unsigned int GetHeight() const noexcept { return height; }
-	Color* GetBufferPtr() noexcept { return pBuffer.get(); }
-	const Color* GetBufferPtr() const noexcept { return pBuffer.get(); }
+	unsigned int GetWidth() const noexcept;
+	unsigned int GetHeight() const noexcept;
+
+	Color* GetBufferPtr() noexcept;
+	const Color* GetBufferPtr() const noexcept;
+	const Color* GetBufferPtrConst() const noexcept;
+
 
 	//Loads a image from file
 	static Surface FromFile(const std::string& name);
@@ -86,15 +96,12 @@ public:
 	//Copies a source surface to another surface
 	void Copy(const Surface& src) noxnd;
 
-	bool AlphaLoaded() const noexcept { return alphaLoaded; }
+	bool AlphaLoaded() const noexcept;
 
 private:
-	Surface(unsigned int width, unsigned int height, std::unique_ptr<Color[]> pBufferParam, bool alphaLoaded) noexcept 
-		: width(width), height(height), pBuffer(std::move(pBufferParam)), alphaLoaded(alphaLoaded) {}
+	Surface(DirectX::ScratchImage scratch) noexcept;
 private:
-	std::unique_ptr<Color[]> pBuffer;
-	unsigned int width;
-	unsigned int height;
-	bool alphaLoaded = false;
+	static constexpr DXGI_FORMAT format = DXGI_FORMAT::DXGI_FORMAT_B8G8R8A8_UNORM;
+	DirectX::ScratchImage scratch;
 };
 

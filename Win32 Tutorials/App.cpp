@@ -7,14 +7,11 @@
 #include <algorithm>
 #include <random>
 #include "Surface.h"
-#include "GDIPlusManager.h"
 #include "imgui/imgui.h"
 #include "Vertex.h"
 #include "TexturePreprocessor.h"
 #include <shellapi.h>
 #include <dxtex/DirectXTex.h>
-
-GDIPlusManager gdipm;
 
 namespace DX = DirectX;
 
@@ -23,11 +20,6 @@ App::App(const std::string& commandLine) :
 	wnd(1280, 720, "RedSky Demo Window"), 
 	light(wnd.Gfx())
 {
-	auto scratch = DirectX::ScratchImage{};
-	DirectX::LoadFromWICFile(L"Images\\brickwall.jpg", DirectX::WIC_FLAGS_NONE, nullptr, scratch);
-	auto image = scratch.GetImage(0, 0, 0);
-	auto a = image->pixels[0];
-	auto b = image->pixels[1];
 
 
 	if (this->commandLine != "") {
@@ -107,8 +99,8 @@ void App::DoFrame()
 
 	light.Draw(wnd.Gfx());
 	sponza.Draw(wnd.Gfx());
-	bluePlane.Draw(wnd.Gfx());
-	redPlane.Draw(wnd.Gfx());
+	//bluePlane.Draw(wnd.Gfx());
+	//redPlane.Draw(wnd.Gfx());
 
 	SpawnBackgroundControlWindow();
 	cam.SpawnControlWindow();
@@ -119,8 +111,8 @@ void App::DoFrame()
 	//nano.ShowWindow(wnd.Gfx(), "Nano");
 	sponza.ShowWindow(wnd.Gfx(), "Sponza");
 
-	bluePlane.SpawnControlWindow(wnd.Gfx(), "Blue Plane");
-	redPlane.SpawnControlWindow(wnd.Gfx(), "Red Plane");
+	//bluePlane.SpawnControlWindow(wnd.Gfx(), "Blue Plane");
+	//redPlane.SpawnControlWindow(wnd.Gfx(), "Red Plane");
 	
 	//wall.ShowWindow("Wall");
 	//tp.SpawnControlWindow(wnd.Gfx());
