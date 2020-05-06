@@ -346,7 +346,7 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 			);
 		}
 
-		BindBuffer(gfx, bindablePtrs, meshTag, vbuf, *pvsbc);
+		BindVBuf(gfx, bindablePtrs, meshTag, vbuf, *pvsbc);
 
 		Node::PSMaterialConstant_DiffNormSpec pmc;
 
@@ -372,7 +372,7 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 			);
 		}
 
-		BindBuffer(gfx, bindablePtrs, meshTag, vbuf, *pvsbc);
+		BindVBuf(gfx, bindablePtrs, meshTag, vbuf, *pvsbc);
 
 		Node::PSMaterialConstant_DiffSpec pmc;
 		pmc.specularPowerConst = shininess;
@@ -403,7 +403,7 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 			);
 		}
 
-		BindBuffer(gfx, bindablePtrs, meshTag, vbuf, *pvsbc);
+		BindVBuf(gfx, bindablePtrs, meshTag, vbuf, *pvsbc);
 
 
 		Node::PSMaterialConstant_DiffNorm pmc;
@@ -429,7 +429,7 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 			);
 		}
 
-		BindBuffer(gfx, bindablePtrs, meshTag, vbuf, *pvsbc);
+		BindVBuf(gfx, bindablePtrs, meshTag, vbuf, *pvsbc);
 
 		Node::PSMaterialConstant_Diff pmc;
 		pmc.specularPower = shininess;
@@ -453,7 +453,7 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 			);
 		}
 
-		BindBuffer(gfx, bindablePtrs, meshTag, vbuf, *pvsbc);
+		BindVBuf(gfx, bindablePtrs, meshTag, vbuf, *pvsbc);
 
 		Node::PSMaterialConstant_Notex pmc;
 		pmc.specularPower = shininess;
@@ -496,10 +496,9 @@ std::unique_ptr<Node> Model::ParseNode(int& nextId, const aiNode& node) noexcept
 	return pNode;
 }
 
-void Model::BindBuffer(Graphics& gfx, std::vector<std::shared_ptr<Bindable>>& bindablePtrs, std::string& meshTag, rsexp::VertexBuffer& vbuf, ID3DBlob& pvsbc)
+void Model::BindVBuf(Graphics& gfx, std::vector<std::shared_ptr<Bindable>>& bindablePtrs, const std::string& meshTag, rsexp::VertexBuffer& vbuf, ID3DBlob& pvsbc)
 {
 	bindablePtrs.push_back(VertexBuffer::Resolve(gfx, meshTag, vbuf));
-
 	bindablePtrs.push_back(InputLayout::Resolve(gfx, vbuf.GetLayout(), &pvsbc));
 }
 

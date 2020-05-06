@@ -187,7 +187,7 @@ public:
 
 	std::unique_ptr<Node> ParseNode(int& nextId, const aiNode& node) noexcept;
 private:
-	static void BindBuffer(Graphics& gfx,std::vector<std::shared_ptr<Bindable>>& bindablePtrs,std::string& meshTag, rsexp::VertexBuffer& vbuf, ID3DBlob& pvsbc);
+	static void BindVBuf(Graphics& gfx,std::vector<std::shared_ptr<Bindable>>& bindablePtrs,const std::string& meshTag, rsexp::VertexBuffer& vbuf, ID3DBlob& pvsbc);
 	std::unique_ptr<Node> pRoot;
 	std::vector<std::unique_ptr<Mesh>> meshPtrs;
 	std::unique_ptr<class ModelWindow> pWindow;
