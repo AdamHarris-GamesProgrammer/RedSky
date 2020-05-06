@@ -12,6 +12,7 @@
 #include "Vertex.h"
 #include "TexturePreprocessor.h"
 #include <shellapi.h>
+#include <dxtex/DirectXTex.h>
 
 GDIPlusManager gdipm;
 
@@ -22,6 +23,13 @@ App::App(const std::string& commandLine) :
 	wnd(1280, 720, "RedSky Demo Window"), 
 	light(wnd.Gfx())
 {
+	auto scratch = DirectX::ScratchImage{};
+	DirectX::LoadFromWICFile(L"Images\\brickwall.jpg", DirectX::WIC_FLAGS_NONE, nullptr, scratch);
+	auto image = scratch.GetImage(0, 0, 0);
+	auto a = image->pixels[0];
+	auto b = image->pixels[1];
+
+
 	if (this->commandLine != "") {
 		int nArgs;
 		const auto pLineW = GetCommandLineW();
