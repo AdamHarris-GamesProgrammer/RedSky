@@ -12471,14 +12471,14 @@ namespace nlohmann
             // such a conversion is required to allow values greater than 128.
             // See <https://github.com/nlohmann/json/issues/1286> for a discussion.
             template < typename C = CharType,
-                enable_if_t < std::is_signed<C>::valueand std::is_signed<char>::value >* = nullptr >
+                enable_if_t < std::is_signed<C>::value and std::is_signed<char>::value >* = nullptr >
                 static constexpr CharType to_char_type(std::uint8_t x) noexcept
             {
                 return *reinterpret_cast<char*>(&x);
             }
 
             template < typename C = CharType,
-                enable_if_t < std::is_signed<C>::valueand std::is_unsigned<char>::value >* = nullptr >
+                enable_if_t < std::is_signed<C>::value and std::is_unsigned<char>::value >* = nullptr >
                 static CharType to_char_type(std::uint8_t x) noexcept
             {
                 static_assert(sizeof(std::uint8_t) == sizeof(CharType), "size of CharType must be equal to std::uint8_t");
@@ -12497,8 +12497,8 @@ namespace nlohmann
 
             template < typename InputCharType, typename C = CharType,
                 enable_if_t <
-                std::is_signed<C>::valueand
-                std::is_signed<char>::valueand
+                std::is_signed<C>::value and
+                std::is_signed<char>::value and
                 std::is_same<char, typename std::remove_cv<InputCharType>::type>::value
             >* = nullptr >
                 static constexpr CharType to_char_type(InputCharType x) noexcept
@@ -15682,7 +15682,7 @@ namespace nlohmann
         template <typename CompatibleType,
             typename U = detail::uncvref_t<CompatibleType>,
             detail::enable_if_t<
-            not detail::is_basic_json<U>::valueand detail::is_compatible_type<basic_json_t, U>::value, int> = 0>
+            not detail::is_basic_json<U>::value and detail::is_compatible_type<basic_json_t, U>::value, int> = 0>
             basic_json(CompatibleType&& val) noexcept(noexcept(
                 JSONSerializer<U>::to_json(std::declval<basic_json_t&>(),
                     std::forward<CompatibleType>(val))))
@@ -16310,9 +16310,9 @@ namespace nlohmann
         @since version 1.0.0
         */
         basic_json& operator=(basic_json other) noexcept (
-            std::is_nothrow_move_constructible<value_t>::valueand
-            std::is_nothrow_move_assignable<value_t>::valueand
-            std::is_nothrow_move_constructible<json_value>::valueand
+            std::is_nothrow_move_constructible<value_t>::value and
+            std::is_nothrow_move_assignable<value_t>::value and
+            std::is_nothrow_move_constructible<json_value>::value and
             std::is_nothrow_move_assignable<json_value>::value
             )
         {
@@ -16962,7 +16962,7 @@ namespace nlohmann
         @since version 3.2.0
         */
         template<typename BasicJsonType, detail::enable_if_t<
-            not std::is_same<BasicJsonType, basic_json>::valueand
+            not std::is_same<BasicJsonType, basic_json>::value and
             detail::is_basic_json<BasicJsonType>::value, int> = 0>
             BasicJsonType get() const
         {
@@ -17010,7 +17010,7 @@ namespace nlohmann
         */
         template<typename ValueTypeCV, typename ValueType = detail::uncvref_t<ValueTypeCV>,
             detail::enable_if_t <
-            not detail::is_basic_json<ValueType>::valueand
+            not detail::is_basic_json<ValueType>::value and
             detail::has_from_json<basic_json_t, ValueType>::value and
             not detail::has_non_default_from_json<basic_json_t, ValueType>::value,
             int> = 0>
@@ -17062,7 +17062,7 @@ namespace nlohmann
         @since version 2.1.0
         */
         template<typename ValueTypeCV, typename ValueType = detail::uncvref_t<ValueTypeCV>,
-            detail::enable_if_t<not std::is_same<basic_json_t, ValueType>::valueand
+            detail::enable_if_t<not std::is_same<basic_json_t, ValueType>::value and
             detail::has_non_default_from_json<basic_json_t, ValueType>::value,
             int> = 0>
             ValueType get() const noexcept(noexcept(
@@ -17108,7 +17108,7 @@ namespace nlohmann
         */
         template<typename ValueType,
             detail::enable_if_t <
-            not detail::is_basic_json<ValueType>::valueand
+            not detail::is_basic_json<ValueType>::value and
             detail::has_from_json<basic_json_t, ValueType>::value,
             int> = 0>
             ValueType& get_to(ValueType& v) const noexcept(noexcept(
@@ -17171,7 +17171,7 @@ namespace nlohmann
         @copydoc get_ptr()
         */
         template<typename PointerType, typename std::enable_if<
-            std::is_pointer<PointerType>::valueand
+            std::is_pointer<PointerType>::value and
             std::is_const<typename std::remove_pointer<PointerType>::type>::value, int>::type = 0>
             constexpr auto get_ptr() const noexcept -> decltype(std::declval<const basic_json_t&>().get_impl_ptr(std::declval<PointerType>()))
         {
@@ -17265,7 +17265,7 @@ namespace nlohmann
         @copydoc get_ref()
         */
         template<typename ReferenceType, typename std::enable_if<
-            std::is_reference<ReferenceType>::valueand
+            std::is_reference<ReferenceType>::value and
             std::is_const<typename std::remove_reference<ReferenceType>::type>::value, int>::type = 0>
             ReferenceType get_ref() const
         {
@@ -19895,9 +19895,9 @@ namespace nlohmann
         @since version 1.0.0
         */
         void swap(reference other) noexcept (
-            std::is_nothrow_move_constructible<value_t>::valueand
-            std::is_nothrow_move_assignable<value_t>::valueand
-            std::is_nothrow_move_constructible<json_value>::valueand
+            std::is_nothrow_move_constructible<value_t>::value and
+            std::is_nothrow_move_assignable<value_t>::value and
+            std::is_nothrow_move_constructible<json_value>::value and
             std::is_nothrow_move_assignable<json_value>::value
             )
         {
