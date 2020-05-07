@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <filesystem>
 #include <cassert>
-#include "ScriptCommander.h"
 #include <sstream>
 
 Surface::Surface(unsigned int width, unsigned int height)

@@ -20,33 +20,35 @@ ScriptCommander::ScriptCommander(const std::vector<std::string>& args)
 		jso::json top;
 		script >> top;
 
-		if (!top.is_array()) {
-			throw SCRIPT_ERROR("Top level should be array of commands"s);
-		}
-		bool abort = false;
-		for (const auto& j : top) {
-			const auto commandName = j["command"].get<std::string>();
-			const auto params = j["params"];
-			if (commandName == "flip-y") {
-				const auto source = params["source"];
-				TexturePreprocessor::FlipYNormalMap(source, params.value("dest", source));
-				abort = true;
+		if (top.at("enabled")) {
+			if (!top.is_array()) {
+				throw SCRIPT_ERROR("Top level should be array of commands"s);
 			}
-			else if (commandName == "flip-y-obj") {
-				TexturePreprocessor::FlipYAllNormalMapsInObj(params["source"]);
-				abort = true;
+			bool abort = false;
+			for (const auto& j : top) {
+				const auto commandName = j.at("command").get<std::string>();
+				const auto params = j.at("params");
+				if (commandName == "flip-y") {
+					const auto source = params.at("source");
+					TexturePreprocessor::FlipYNormalMap(source, params.value("dest", source));
+					abort = true;
+				}
+				else if (commandName == "flip-y-obj") {
+					TexturePreprocessor::FlipYAllNormalMapsInObj(params.at("source"));
+					abort = true;
+				}
+				else if (commandName == "validate-nmap") {
+					TexturePreprocessor::ValidateNormalMap(params.at("source"), params.at("min"), params.at("max"));
+					abort = true;
+				}
+				else
+				{
+					throw SCRIPT_ERROR("Unknown command: "s + commandName);
+				}
 			}
-			else if (commandName == "validate-nmap") {
-				TexturePreprocessor::ValidateNormalMap(params["source"], params["min"], params["max"]);
-				abort = true;
+			if (abort) {
+				throw Completion("Command(s) completed successfully");
 			}
-			else
-			{
-				throw SCRIPT_ERROR("Unknown command: "s + commandName);
-			}
-		}
-		if (abort) {
-			throw Completion("Command(s) completed successfully");
 		}
 	}
 }
