@@ -12,44 +12,16 @@
 #include "TexturePreprocessor.h"
 #include <shellapi.h>
 #include <dxtex/DirectXTex.h>
+#include "RedSkyUtility.h"
 
 namespace DX = DirectX;
 
 App::App(const std::string& commandLine) :
 	commandLine(commandLine),
 	wnd(1280, 720, "RedSky Demo Window"), 
+	scriptCommander(TokenizeQuoted(commandLine)),
 	light(wnd.Gfx())
 {
-
-
-	if (this->commandLine != "") {
-		int nArgs;
-		const auto pLineW = GetCommandLineW();
-		const auto pArgs = CommandLineToArgvW(pLineW, &nArgs);
-		if (nArgs >= 3 && std::wstring(pArgs[1]) == L"--twerk-objnorm") {
-			const std::wstring pathInWide = pArgs[2];
-			TexturePreprocessor::FlipYAllNormalMapsInObj(
-				std::string(pathInWide.begin(), pathInWide.end()));
-		}
-		else if (nArgs >= 3 && std::wstring(pArgs[1]) == L"--twerk-flipy") {
-			const std::wstring pathInWide = pArgs[2];
-			const std::wstring pathOutWide = pArgs[3];
-			TexturePreprocessor::FlipYNormalMap(
-				std::string(pathInWide.begin(), pathInWide.end()),
-				std::string(pathOutWide.begin(), pathOutWide.end())
-			);
-		}
-		else if (nArgs >= 4 && std::wstring(pArgs[1]) == L"--twerk-validate") {
-			const std::wstring minWide = pArgs[2];
-			const std::wstring maxWide = pArgs[3];
-			const std::wstring pathWide = pArgs[4];
-			TexturePreprocessor::ValidateNormalMap(
-				std::string(pathWide.begin(), pathWide.end()), std::stof(minWide), std::stof(maxWide)
-			);
-		}
-	}
-
-
 	//wall.SetRootTransform(DX::XMMatrixTranslation(-12.0f, 0.0f, 0.0f));
 	//tp.SetPos({ 12.0f,0.0f,0.0f });
 	//goblin.SetRootTransform(DX::XMMatrixTranslation(0.0f, 0.0f, -4.0f));

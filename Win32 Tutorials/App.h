@@ -6,6 +6,7 @@
 #include "PointLight.h"
 #include "Mesh.h"
 #include "TestPlane.h"
+#include "ScriptCommander.h"
 
 class App
 {
@@ -26,6 +27,7 @@ private:
 	ImguiManager imgui;
 	Window wnd;
 	RedSkyTimer timer;
+	ScriptCommander scriptCommander;
 	float simSpeed = 1.0f;
 
 	bool showDemoWindow = false;
