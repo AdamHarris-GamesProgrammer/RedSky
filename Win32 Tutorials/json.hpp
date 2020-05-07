@@ -2508,7 +2508,7 @@ namespace nlohmann
         template <typename BasicJsonType, typename CompatibleObjectType>
         struct is_compatible_object_type_impl <
             BasicJsonType, CompatibleObjectType,
-            enable_if_t<is_detected<mapped_type_t, CompatibleObjectType>::valueand
+            enable_if_t<is_detected<mapped_type_t, CompatibleObjectType>::value and
             is_detected<key_type_t, CompatibleObjectType>::value >>
         {
 
@@ -2533,7 +2533,7 @@ namespace nlohmann
         template <typename BasicJsonType, typename ConstructibleObjectType>
         struct is_constructible_object_type_impl <
             BasicJsonType, ConstructibleObjectType,
-            enable_if_t<is_detected<mapped_type_t, ConstructibleObjectType>::valueand
+            enable_if_t<is_detected<mapped_type_t, ConstructibleObjectType>::value and
             is_detected<key_type_t, ConstructibleObjectType>::value >>
         {
             using object_t = typename BasicJsonType::object_t;
@@ -2602,7 +2602,7 @@ namespace nlohmann
         template <typename BasicJsonType, typename CompatibleArrayType>
         struct is_compatible_array_type_impl <
             BasicJsonType, CompatibleArrayType,
-            enable_if_t<is_detected<value_type_t, CompatibleArrayType>::valueand
+            enable_if_t<is_detected<value_type_t, CompatibleArrayType>::value and
             is_detected<iterator_t, CompatibleArrayType>::value and
             // This is needed because json_reverse_iterator has a ::iterator type...
             // Therefore it is detected as a CompatibleArrayType.
@@ -2633,12 +2633,12 @@ namespace nlohmann
         struct is_constructible_array_type_impl <
             BasicJsonType, ConstructibleArrayType,
             enable_if_t<not std::is_same<ConstructibleArrayType,
-            typename BasicJsonType::value_type>::valueand
+            typename BasicJsonType::value_type>::value and
             std::is_default_constructible<ConstructibleArrayType>::value and
             (std::is_move_assignable<ConstructibleArrayType>::value or
                 std::is_copy_assignable<ConstructibleArrayType>::value) and
-            is_detected<value_type_t, ConstructibleArrayType>::valueand
-            is_detected<iterator_t, ConstructibleArrayType>::valueand
+            is_detected<value_type_t, ConstructibleArrayType>::value and
+            is_detected<iterator_t, ConstructibleArrayType>::value and
             is_complete_type<
             detected_t<value_type_t, ConstructibleArrayType>>::value >>
         {
@@ -2669,7 +2669,7 @@ namespace nlohmann
         template <typename RealIntegerType, typename CompatibleNumberIntegerType>
         struct is_compatible_integer_type_impl <
             RealIntegerType, CompatibleNumberIntegerType,
-            enable_if_t<std::is_integral<RealIntegerType>::valueand
+            enable_if_t<std::is_integral<RealIntegerType>::value and
             std::is_integral<CompatibleNumberIntegerType>::value and
             not std::is_same<bool, CompatibleNumberIntegerType>::value >>
         {
@@ -4112,7 +4112,7 @@ namespace nlohmann
             /// input adapter for buffer
             template<typename CharT,
                 typename std::enable_if<
-                std::is_pointer<CharT>::valueand
+                std::is_pointer<CharT>::value and
                 std::is_integral<typename std::remove_pointer<CharT>::type>::value and
                 sizeof(typename std::remove_pointer<CharT>::type) == 1,
                 int>::type = 0>
@@ -4124,7 +4124,7 @@ namespace nlohmann
             /// input adapter for string literal
             template<typename CharT,
                 typename std::enable_if<
-                std::is_pointer<CharT>::valueand
+                std::is_pointer<CharT>::value and
                 std::is_integral<typename std::remove_pointer<CharT>::type>::value and
                 sizeof(typename std::remove_pointer<CharT>::type) == 1,
                 int>::type = 0>
@@ -4177,7 +4177,7 @@ namespace nlohmann
 
             /// input adapter for contiguous container
             template<class ContiguousContainer, typename
-                std::enable_if<not std::is_pointer<ContiguousContainer>::valueand
+                std::enable_if<not std::is_pointer<ContiguousContainer>::value and
                 std::is_base_of<std::random_access_iterator_tag, typename iterator_traits<decltype(std::begin(std::declval<ContiguousContainer const>()))>::iterator_category>::value,
                 int>::type = 0>
                 input_adapter(const ContiguousContainer& c)
@@ -22515,7 +22515,7 @@ namespace std
     */
     template<>
     inline void swap<nlohmann::json>(nlohmann::json& j1, nlohmann::json& j2) noexcept(
-        is_nothrow_move_constructible<nlohmann::json>::valueand
+        is_nothrow_move_constructible<nlohmann::json>::value and
         is_nothrow_move_assignable<nlohmann::json>::value
         )
     {
