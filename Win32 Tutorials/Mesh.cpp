@@ -93,13 +93,17 @@ public:
 
 		int nodeIndexTracker = 0;
 
+		using namespace std::string_literals;
 		if (ImGui::Begin(windowName)) {
-			ImGui::Columns(2, nullptr, true);
 			root.ShowTree(pSelectedNode);
 
-			ImGui::NextColumn();
+
 			if (pSelectedNode != nullptr)
 			{ //if there is a selected node
+				ImGui::Begin("Inspector");
+
+				ImGui::Text(pSelectedNode->GetName().c_str());
+
 				const auto id = pSelectedNode->GetID();
 				auto i = transforms.find(id);
 				if (i == transforms.end())
@@ -129,10 +133,13 @@ public:
 				ImGui::SliderFloat("Z", &transform.z, -20.0f, 20.0f);
 
 
+
+
 				if (!pSelectedNode->SpawnMaterialControlPanel(gfx, skinMaterial))
 				{
 					pSelectedNode->SpawnMaterialControlPanel(gfx, ringMaterial);
 				}
+				ImGui::End();
 			}
 
 		}

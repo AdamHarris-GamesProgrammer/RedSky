@@ -80,7 +80,8 @@ public:
 	void SetAppliedTransform(DirectX::FXMMATRIX transform) noexcept;
 	const DirectX::XMFLOAT4X4& GetAppliedTransform() const noexcept;
 	void ShowTree(Node*& pSelectedNode) const noexcept;
-	
+	std::string GetName() const noexcept { return name; }
+
 	//TODO: Add DiffNorm and Diff menus to this system
 	template<class T>
 	bool SpawnMaterialControlPanel(Graphics& gfx, T& c) {
@@ -145,7 +146,6 @@ public:
 			if (auto pcb = meshPtrs.front()->QueryBindable<Bind::PixelConstantBuffer<T>>()) {
 				ImGui::Text("Material");
 
-				
 				ImGui::SliderFloat("Specular Power", &c.specularPower, 0.0f, 1000.0f, "%f", 5.0f);
 
 				ImGui::ColorPicker3("Specular Color", reinterpret_cast<float*>(&c.specularColor));
@@ -162,7 +162,7 @@ public:
 private:
 	//Add a child to a node //this is private as models only want to be able to add a child 
 	void AddChild(std::unique_ptr<Node> pChild) noxnd;
-	
+
 private:
 	std::string name;
 	int id;
@@ -177,7 +177,7 @@ public:
 	Model(Graphics& gfx, const std::string& pathString, float scale = 1.0f);
 
 	void Draw(Graphics& gfx) const noxnd;
-	void ShowWindow(Graphics& gfx,const char* windowName = nullptr) noexcept;
+	void ShowWindow(Graphics& gfx, const char* windowName = nullptr) noexcept;
 
 	void SetRootTransform(DirectX::FXMMATRIX tf) noexcept;
 
@@ -187,7 +187,7 @@ public:
 
 	std::unique_ptr<Node> ParseNode(int& nextId, const aiNode& node) noexcept;
 private:
-	static void BindVBuf(Graphics& gfx,std::vector<std::shared_ptr<Bindable>>& bindablePtrs,const std::string& meshTag, rsexp::VertexBuffer& vbuf, ID3DBlob& pvsbc);
+	static void BindVBuf(Graphics& gfx, std::vector<std::shared_ptr<Bindable>>& bindablePtrs, const std::string& meshTag, rsexp::VertexBuffer& vbuf, ID3DBlob& pvsbc);
 	std::unique_ptr<Node> pRoot;
 	std::vector<std::unique_ptr<Mesh>> meshPtrs;
 	std::unique_ptr<class ModelWindow> pWindow;
