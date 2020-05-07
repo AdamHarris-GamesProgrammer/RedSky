@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <cassert>
 #include <sstream>
+#include "RedSkyUtility.h"
 
 Surface::Surface(unsigned int width, unsigned int height)
 {
@@ -72,11 +73,8 @@ const Surface::Color* Surface::GetBufferPtrConst() const noexcept
 
 Surface Surface::FromFile(const std::string& name)
 {
-	wchar_t wideName[512];
-	mbstowcs_s(nullptr, wideName, name.c_str(), _TRUNCATE);
-
 	DirectX::ScratchImage scratch;
-	HRESULT hr = DirectX::LoadFromWICFile(wideName, DirectX::WIC_FLAGS_NONE, nullptr, scratch);
+	HRESULT hr = DirectX::LoadFromWICFile(ToWide(name).c_str(), DirectX::WIC_FLAGS_NONE, nullptr, scratch);
 
 	if (FAILED(hr)) {
 		throw Surface::Exception(__LINE__, __FILE__, name, "Failed to load image", hr);
@@ -119,13 +117,11 @@ void Surface::Save(const std::string& filename) const
 		throw Exception(__LINE__, __FILE__, filename, "Image format not supported");
 	};
 
-	wchar_t wideName[512];
-	mbstowcs_s(nullptr, wideName, filename.c_str(), _TRUNCATE);
 	HRESULT hr = DirectX::SaveToWICFile(
 		*scratch.GetImage(0, 0, 0),
 		DirectX::WIC_FLAGS_NONE,
 		GetWICCodec(GetCodecID(filename)),
-		wideName
+		ToWide(filename).c_str()
 	);
 
 	if (FAILED(hr)) {
