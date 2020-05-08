@@ -103,7 +103,7 @@ public:
 
 			if (pSelectedNode != nullptr)
 			{ //if there is a selected node
-				
+
 
 				ImGui::Text(pSelectedNode->GetName().c_str());
 
@@ -142,7 +142,7 @@ public:
 				{
 					pSelectedNode->SpawnMaterialControlPanel(gfx, ringMaterial);
 				}
-				
+
 			}
 			ImGui::End();
 		}
@@ -415,18 +415,18 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 
 		BindVBuf(gfx, bindablePtrs, meshTag, vbuf, *pvsbc);
 
-		auto layout = std::make_shared<Dcb::Struct>(0);
-		layout->Add<Dcb::Float>("specularIntensity");
-		layout->Add<Dcb::Float>("specularPower");
-		layout->Add<Dcb::Bool>("normalMapEnabled");
-		layout->Add<Dcb::Float>("padding");
+		Dcb::Layout layout;
+		layout.Add<Dcb::Float>("specularIntensity");
+		layout.Add<Dcb::Float>("specularPower");
+		layout.Add<Dcb::Bool>("normalMapEnabled");
+		layout.Add<Dcb::Float>("padding");
 
-		Dcb::Buffer cbuf{ std::move(layout) };
+		Dcb::Buffer cbuf{ layout };
 		cbuf["specularIntensity"] = (specularColor.x + specularColor.y + specularColor.z) / 3.0f;
 		cbuf["specularPower"] = shininess;
 		cbuf["normalMapEnabled"] = TRUE;
 		bindablePtrs.push_back(std::make_shared<PixelConstantBufferEX>(gfx, cbuf, 1u));
-		
+
 	}
 	else if (hasDiffuseMap) {
 		rsexp::VertexBuffer vbuf(std::move(

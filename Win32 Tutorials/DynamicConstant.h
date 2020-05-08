@@ -153,11 +153,36 @@ namespace Dcb {
 		std::unique_ptr<LayoutElement> pElement;
 	};
 
+	class Layout {
+	public:
+		Layout() : pLayout(std::make_shared<Struct>(0)) {}
+
+		LayoutElement& operator[](const char* key) {
+			assert(!finalized && "Cannot modify finalized layout");
+			return (*pLayout)[key];
+		}
+		size_t GetSizeInBytes() const noexcept {
+			return pLayout->GetSizeInBytes();
+		}
+		template<typename T>
+		LayoutElement& Add(const std::string& key) noxnd {
+			assert(!finalized && "Cannot modify finalized layout");
+			return pLayout->Add<T>(key);
+		}
+		std::shared_ptr<LayoutElement> Finalize() {
+			finalized = true;
+			return pLayout;
+		}
+
+	private:
+		bool finalized = false;
+		std::shared_ptr<LayoutElement> pLayout;
+	};
 	class ElementRef {
 	public:
-		class ElementPtr {
+		class Ptr {
 		public:
-			ElementPtr(ElementRef& ref) : ref(ref) {}
+			Ptr(ElementRef& ref) : ref(ref) {}
 
 			PTR_CONVERSION(Matrix)
 			PTR_CONVERSION(Float4)
@@ -179,7 +204,7 @@ namespace Dcb {
 			const auto& t = pLayout->T();
 			return { &t, pBytes, offset + t.GetSizeInBytes() * index };
 		}
-		ElementPtr operator&() noxnd {
+		Ptr operator&() noxnd {
 			return { *this };
 		}
 		
@@ -198,8 +223,9 @@ namespace Dcb {
 
 	class Buffer {
 	public:
-		Buffer(std::shared_ptr<Struct> pLayout)
-			: pLayout(pLayout), bytes(pLayout->GetOffsetEnd()) {}
+		Buffer(Layout& lay)
+			: pLayout(std::static_pointer_cast<Struct>(lay.Finalize())) 
+				,bytes(pLayout->GetOffsetEnd()) {}
 
 		ElementRef operator[](const char* key) noxnd {
 			return { &(*pLayout)[key],bytes.data(),0u };
