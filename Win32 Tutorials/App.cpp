@@ -51,6 +51,7 @@ App::App(const std::string& commandLine) :
 	float u = b["testStruct"]["testStructFloat"];
 	float er = b["arr"][2]["testArrayArray"][5];
 	DX::XMFLOAT4X4 eq = b["arr"][2]["meta"][5][3];
+
 	//wall.SetRootTransform(DX::XMMatrixTranslation(-12.0f, 0.0f, 0.0f));
 	//tp.SetPos({ 12.0f,0.0f,0.0f });
 	//goblin.SetRootTransform(DX::XMMatrixTranslation(0.0f, 0.0f, -4.0f));

@@ -54,6 +54,8 @@ namespace Dcb {
 	public:
 		LayoutElement(size_t offset) : offset(offset) {}
 
+		virtual ~LayoutElement() {}
+
 		virtual LayoutElement& operator[](const char*) {
 			assert(false && "Cannot access member on non struct");
 			return *this;
