@@ -27,6 +27,12 @@ public: \
 	{ \
 		return GetOffsetBegin() + sizeof( systype ); \
 	} \
+protected: \
+	size_t Finalize(size_t offset_in) override \
+	{\
+		offset = offset_in; \
+		return offset_in + sizeof(systype); \
+	}\
 };
 
 #define REF_CONVERSION(eltype) \
@@ -48,11 +54,14 @@ operator eltype::SystemType*() noxnd \
 namespace Dcb {
 	class Struct;
 	class Array;
+	class Layout;
 
 	namespace dx = DirectX;
 	class LayoutElement {
+		friend class Layout;
+		friend class Array;
+		friend class Struct;
 	public:
-		LayoutElement(size_t offset) : offset(offset) {}
 
 		virtual ~LayoutElement() {}
 
@@ -93,10 +102,12 @@ namespace Dcb {
 		RESOLVE_BASE(Float2)
 		RESOLVE_BASE(Float)
 		RESOLVE_BASE(Bool)
-
-	private:
-		size_t offset;
+	protected:
+		virtual size_t Finalize(size_t offset) = 0;
+	protected:
+		size_t offset = 0u;
 	};
+
 	LEAF_ELEMENT(Matrix, dx::XMFLOAT4X4)
 	LEAF_ELEMENT(Float4, dx::XMFLOAT4)
 	LEAF_ELEMENT(Float3, dx::XMFLOAT3)
@@ -106,7 +117,6 @@ namespace Dcb {
 
 	class Struct : public LayoutElement {
 	public:
-		using LayoutElement::LayoutElement;
 		LayoutElement& operator[](const char* key) override final {
 			return *map.at(key);
 		}
@@ -118,11 +128,21 @@ namespace Dcb {
 		}
 		template<typename T>
 		Struct& Add(const std::string& name) noxnd{
-			elements.push_back(std::make_unique<T>(GetOffsetEnd()));
+			elements.push_back(std::make_unique<T>());
 			if (!map.emplace(name, elements.back().get()).second) {
 				assert(false);
 			}
 			return *this;
+		}
+	protected:
+		size_t Finalize(size_t offset_in) {
+			assert(elements.size() != 0u);
+			offset = offset_in;
+			auto offsetNext = offset;
+			for (auto& el : elements) {
+				offsetNext = (*el).Finalize(offsetNext);
+			}
+			return GetOffsetEnd();
 		}
 	private:
 		std::unordered_map<std::string,LayoutElement*> map;
@@ -131,14 +151,13 @@ namespace Dcb {
 
 	class Array : public LayoutElement {
 	public:
-		using LayoutElement::LayoutElement;
 		size_t GetOffsetEnd() const noexcept override final {
 			assert(pElement);
 			return GetOffsetBegin() + pElement->GetSizeInBytes() * size;
 		}
 		template<typename T>
 		Array& Set(size_t size_in) noxnd {
-			pElement = std::make_unique<T>(GetOffsetBegin());
+			pElement = std::make_unique<T>();
 			size = size_in;
 			return *this;
 		}
@@ -148,6 +167,13 @@ namespace Dcb {
 		const LayoutElement& T() const override final {
 			return *pElement;
 		}
+	protected:
+		size_t Finalize(size_t offset_in) override {
+			assert(size != 0u && pElement);
+			offset = offset_in;
+			pElement->Finalize(offset_in);
+			return offset + pElement->GetSizeInBytes() * size;
+		}
 	private:
 		size_t size = 0u;
 		std::unique_ptr<LayoutElement> pElement;
@@ -155,7 +181,7 @@ namespace Dcb {
 
 	class Layout {
 	public:
-		Layout() : pLayout(std::make_shared<Struct>(0)) {}
+		Layout() : pLayout(std::make_shared<Struct>()) {}
 
 		LayoutElement& operator[](const char* key) {
 			assert(!finalized && "Cannot modify finalized layout");
@@ -170,6 +196,7 @@ namespace Dcb {
 			return pLayout->Add<T>(key);
 		}
 		std::shared_ptr<LayoutElement> Finalize() {
+			pLayout->Finalize(0);
 			finalized = true;
 			return pLayout;
 		}
