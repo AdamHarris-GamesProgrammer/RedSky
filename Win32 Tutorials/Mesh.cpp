@@ -5,6 +5,8 @@
 #include <sstream>
 #include <filesystem>
 #include "RedSkyXM.h"
+#include "DynamicConstant.h"
+#include "ConstantBufferEx.h"
 
 namespace dx = DirectX;
 
@@ -413,12 +415,18 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 
 		BindVBuf(gfx, bindablePtrs, meshTag, vbuf, *pvsbc);
 
+		auto layout = std::make_shared<Dcb::Struct>(0);
+		layout->Add<Dcb::Float>("specularIntensity");
+		layout->Add<Dcb::Float>("specularPower");
+		layout->Add<Dcb::Bool>("normalMapEnabled");
+		layout->Add<Dcb::Float>("padding");
 
-		Node::PSMaterialConstant_DiffNorm pmc;
-		pmc.specularPower = shininess;
-		pmc.specularIntensity = (specularColor.x + specularColor.y + specularColor.z) / 3.0f;
-
-		bindablePtrs.push_back(PixelConstantBuffer<Node::PSMaterialConstant_DiffNorm>::Resolve(gfx, pmc, 1u));
+		Dcb::Buffer cbuf{ std::move(layout) };
+		cbuf["specularIntensity"] = (specularColor.x + specularColor.y + specularColor.z) / 3.0f;
+		cbuf["specularPower"] = shininess;
+		cbuf["normalMapEnabled"] = TRUE;
+		bindablePtrs.push_back(std::make_shared<PixelConstantBufferEX>(gfx, cbuf, 1u));
+		
 	}
 	else if (hasDiffuseMap) {
 		rsexp::VertexBuffer vbuf(std::move(

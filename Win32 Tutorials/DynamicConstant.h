@@ -173,14 +173,26 @@ namespace Dcb {
 
 	class Buffer {
 	public:
-		Buffer(const Struct& pLayout)
-			: pLayout(&pLayout), bytes(pLayout.GetOffsetEnd()) {}
+		Buffer(std::shared_ptr<Struct> pLayout)
+			: pLayout(pLayout), bytes(pLayout->GetOffsetEnd()) {}
 
 		ElementRef operator[](const char* key) noxnd {
 			return { &(*pLayout)[key],bytes.data(),0u };
 		}
+		const char* GetData() const noexcept {
+			return bytes.data();
+		}
+		size_t GetSizeInBytes() const noexcept {
+			return bytes.size();
+		}
+		const LayoutElement& GetLayout() const noexcept {
+			return *pLayout;
+		}
+		std::shared_ptr<LayoutElement> CloneLayout() const {
+			return pLayout;
+		}
 	private:
-		const class Struct* pLayout;
+		std::shared_ptr<Struct> pLayout;
 		std::vector<char> bytes;
 	};
 

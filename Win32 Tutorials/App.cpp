@@ -23,7 +23,8 @@ App::App(const std::string& commandLine) :
 	scriptCommander(TokenizeQuoted(commandLine)),
 	light(wnd.Gfx())
 {
-	Dcb::Struct s(0);
+	auto ps = std::make_shared<Dcb::Struct>(0);
+	Dcb::Struct& s = *ps;
 	s.Add<Dcb::Struct>("testStruct");
 	s["testStruct"].Add<Dcb::Float3>("testStructFloat3");
 	s["testStruct"].Add<Dcb::Float>("testStructFloat");
@@ -36,7 +37,7 @@ App::App(const std::string& commandLine) :
 	s["arr"].T().Add<Dcb::Array>("meta");
 	s["arr"].T()["meta"].Set<Dcb::Array>(6);
 	s["arr"].T()["meta"].T().Set<Dcb::Matrix>(4);
-	Dcb::Buffer b(s);
+	Dcb::Buffer b(std::move(ps));
 	b["testStruct"]["testStructFloat3"] = DirectX::XMFLOAT3{ 69.0f,0.0f,0.0f };
 	b["testStruct"]["testStructFloat"] = 420.0f;
 	b["testFloat"] = 42.0f;
