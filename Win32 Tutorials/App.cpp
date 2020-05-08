@@ -25,10 +25,13 @@ App::App(const std::string& commandLine) :
 {
 	Dcb::Struct s(0);
 	s.Add<Dcb::Struct>("testStruct");
-	static_cast<Dcb::Struct&>(s["testStruct"]).Add<Dcb::Float3>("testFloat");
+	s["testStruct"].AsStruct().Add<Dcb::Float3>("testFloat3");
+	s["testStruct"].AsStruct().Add<Dcb::Float>("testFloat");
 	Dcb::Buffer b(s);
-	b["testStruct"]["testFloat"] = DirectX::XMFLOAT3{ 1.1,2.2,3.3 };
-	DX::XMFLOAT3 v = b["testStruct"]["testFloat"];
+	b["testStruct"]["testFloat3"] = DirectX::XMFLOAT3{ 1.1,2.2,3.3 };
+	b["testStruct"]["testFloat"] = 42.0f;
+	DX::XMFLOAT3 v = b["testStruct"]["testFloat3"];
+	float u = b["testStruct"]["testFloat"];
 
 	//wall.SetRootTransform(DX::XMMatrixTranslation(-12.0f, 0.0f, 0.0f));
 	//tp.SetPos({ 12.0f,0.0f,0.0f });
