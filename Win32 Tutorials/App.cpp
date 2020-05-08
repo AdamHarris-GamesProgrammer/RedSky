@@ -43,7 +43,7 @@ App::App(const std::string& commandLine) :
 	b["testFloat"] = 42.0f;
 	b["arr"][2]["testArrayArray"][5] = 111.0f;
 	DX::XMStoreFloat4x4(
-		&(DX::XMFLOAT4X4&)b["arr"][2]["meta"][5][3],
+		&b["arr"][2]["meta"][5][3],
 		DX::XMMatrixIdentity()
 	);
 	float k = b["testFloat"];
