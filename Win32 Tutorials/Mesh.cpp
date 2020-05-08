@@ -97,10 +97,11 @@ public:
 		if (ImGui::Begin(windowName)) {
 			root.ShowTree(pSelectedNode);
 
+			ImGui::Begin("Inspector");
 
 			if (pSelectedNode != nullptr)
 			{ //if there is a selected node
-				ImGui::Begin("Inspector");
+				
 
 				ImGui::Text(pSelectedNode->GetName().c_str());
 
@@ -139,9 +140,9 @@ public:
 				{
 					pSelectedNode->SpawnMaterialControlPanel(gfx, ringMaterial);
 				}
-				ImGui::End();
+				
 			}
-
+			ImGui::End();
 		}
 		ImGui::End();
 	}

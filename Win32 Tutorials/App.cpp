@@ -13,6 +13,7 @@
 #include <shellapi.h>
 #include <dxtex/DirectXTex.h>
 #include "RedSkyUtility.h"
+#include "DynamicConstant.h"
 
 namespace DX = DirectX;
 
@@ -22,6 +23,13 @@ App::App(const std::string& commandLine) :
 	scriptCommander(TokenizeQuoted(commandLine)),
 	light(wnd.Gfx())
 {
+	Dcb::Struct s(0);
+	s.Add<Dcb::Struct>("testStruct");
+	static_cast<Dcb::Struct&>(s["testStruct"]).Add<Dcb::Float3>("testFloat");
+	Dcb::Buffer b(s);
+	b["testStruct"]["testFloat"] = DirectX::XMFLOAT3{ 1.1,2.2,3.3 };
+	DX::XMFLOAT3 v = b["testStruct"]["testFloat"];
+
 	//wall.SetRootTransform(DX::XMMatrixTranslation(-12.0f, 0.0f, 0.0f));
 	//tp.SetPos({ 12.0f,0.0f,0.0f });
 	//goblin.SetRootTransform(DX::XMMatrixTranslation(0.0f, 0.0f, -4.0f));
