@@ -25,8 +25,8 @@ App::App(const std::string& commandLine) :
 {
 	Dcb::Struct s(0);
 	s.Add<Dcb::Struct>("testStruct");
-	s["testStruct"].AsStruct().Add<Dcb::Float3>("testFloat3");
-	s["testStruct"].AsStruct().Add<Dcb::Float>("testFloat");
+	s["testStruct"].Add<Dcb::Float3>("testFloat3");
+	s["testStruct"].Add<Dcb::Float>("testFloat");
 	Dcb::Buffer b(s);
 	b["testStruct"]["testFloat3"] = DirectX::XMFLOAT3{ 1.1,2.2,3.3 };
 	b["testStruct"]["testFloat"] = 42.0f;
