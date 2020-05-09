@@ -44,3 +44,46 @@ reftype::Ptr::operator __VA_ARGS__ eltype::SystemType*() noxnd \
 { \
 	return &static_cast<__VA_ARGS__ eltype::SystemType&>(ref); \
 }
+
+namespace Dcb {
+	LayoutElement& LayoutElement::operator[](const std::string&) {
+		assert(false && "Cannot access member on non struct");
+		return *this;
+	}
+	const LayoutElement& LayoutElement::operator[](const std::string&) const {
+		assert(false && "Cannot access member on non struct");
+		return *this;
+	}
+	LayoutElement& LayoutElement::T() {
+		assert(false);
+		return *this;
+	}
+	const LayoutElement& LayoutElement::T() const {
+		assert(false);
+		return *this;
+	}
+	size_t LayoutElement::GetOffsetBegin() const noexcept
+	{
+		return offset;
+	}
+	size_t LayoutElement::GetSizeInBytes() const noexcept {
+		return GetOffsetEnd() - GetOffsetBegin();
+	}
+	size_t LayoutElement::GetNextBoundaryOffset(size_t offset) {
+		return offset + (16u - offset % 16u) % 16u;
+	}
+
+	DCB_RESOLVE_BASE(Matrix)
+	DCB_RESOLVE_BASE(Float4)
+	DCB_RESOLVE_BASE(Float3)
+	DCB_RESOLVE_BASE(Float2)
+	DCB_RESOLVE_BASE(Float)
+	DCB_RESOLVE_BASE(Bool)
+
+	DCB_LEAF_ELEMENT(Matrix, dx::XMFLOAT4X4)
+	DCB_LEAF_ELEMENT(Float4, dx::XMFLOAT4)
+	DCB_LEAF_ELEMENT(Float3, dx::XMFLOAT3)
+	DCB_LEAF_ELEMENT(Float2, dx::XMFLOAT2)
+	DCB_LEAF_ELEMENT(Float, float)
+	DCB_LEAF_ELEMENT_IMPL(Bool, bool, 4u)
+}
