@@ -7,6 +7,7 @@
 #include "RedSkyXM.h"
 #include "DynamicConstant.h"
 #include "ConstantBufferEx.h"
+#include "LayoutCodex.h"
 
 namespace dx = DirectX;
 
@@ -416,9 +417,19 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 		BindVBuf(gfx, bindablePtrs, meshTag, vbuf, *pvsbc);
 
 		Dcb::Layout layout;
-		layout.Add<Dcb::Float>("specularIntensity");
-		layout.Add<Dcb::Float>("specularPower");
-		layout.Add<Dcb::Bool>("normalMapEnabled");
+		bool loaded = false;
+		auto tag = "diff&nrm";
+		if (LayoutCodex::Has(tag)) {
+			layout = LayoutCodex::Load(tag);
+			loaded = true;
+		}
+		else
+		{
+			layout.Add<Dcb::Float>("specularIntensity");
+			layout.Add<Dcb::Float>("specularPower");
+			layout.Add<Dcb::Bool>("normalMapEnabled");
+		}
+
 
 		Dcb::Buffer cbuf{ layout };
 		cbuf["specularIntensity"] = (specularColor.x + specularColor.y + specularColor.z) / 3.0f;
@@ -426,6 +437,9 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 		cbuf["normalMapEnabled"] = TRUE;
 		bindablePtrs.push_back(std::make_shared<PixelConstantBufferEX>(gfx, cbuf, 1u));
 
+		if (!loaded) {
+			LayoutCodex::Store(tag, layout);
+		}
 	}
 	else if (hasDiffuseMap) {
 		rsexp::VertexBuffer vbuf(std::move(

@@ -223,6 +223,9 @@ namespace Dcb {
 			assert(!finalized && "Cannot modify finalized layout");
 			return (*pLayout)[key];
 		}
+		Layout(std::shared_ptr<LayoutElement> pLayout)
+			: pLayout(std::move(pLayout)) {}
+
 		size_t GetSizeInBytes() const noexcept {
 			return pLayout->GetSizeInBytes();
 		}
