@@ -34,6 +34,7 @@ void TestDynamicConstant()
 		s["testArray"].T().Add<Dcb::Array>("testArrayInArray");
 		s["testArray"].T()["testArrayInArray"].Set<Dcb::Array>(6);
 		s["testArray"].T()["testArrayInArray"].T().Set<Dcb::Matrix>(4);
+		s["testArray"].T().Add<Dcb::Bool>("testArrayBool");
 		Dcb::Buffer b(s);
 
 		{
@@ -69,6 +70,18 @@ void TestDynamicConstant()
 			b["testArray"][2]["testArrayInArray"][5][3] = exp;
 			DX::XMFLOAT4X4 act = b["testArray"][2]["testArrayInArray"][5][3];
 			assert(!std::memcmp(&exp, &act, sizeof(DirectX::XMFLOAT4X4)));
+		}
+		{
+			auto exp = true;
+			b["testArray"][2]["testArrayBool"] = exp;
+			bool act = b["testArray"][2]["testArrayBool"];
+			assert(act == exp);
+		}
+		{
+			auto exp = false;
+			b["testArray"][2]["testArrayBool"] = exp;
+			bool act = b["testArray"][2]["testArrayBool"];
+			assert(act == exp);
 		}
 	}
 	// size test testArray of testArrays
