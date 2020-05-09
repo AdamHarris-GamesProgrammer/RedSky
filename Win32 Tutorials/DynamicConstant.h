@@ -12,53 +12,30 @@
 virtual size_t Resolve ## eltype() const noxnd \
 { \
 	assert(false && "Cannot resolve to" #eltype); return 0u; \
-}
+#define DCB_RESOLVE_BASE(eltype) \
 
 #define LEAF_ELEMENT_IMPL(eltype, systype, hlslSize) \
 class eltype : public LayoutElement \
 { \
 public: \
 	using SystemType = systype; \
-	using LayoutElement::LayoutElement; \
-	size_t Resolve ## eltype() const noxnd override final \
-	{ \
-		return GetOffsetBegin(); \
-	} \
-	size_t GetOffsetEnd() const noexcept override final \
-	{ \
-		return GetOffsetBegin() + sizeof( systype ); \
-	} \
+	size_t Resolve ## eltype() const noxnd override final;\
+	size_t GetOffsetEnd() const noexcept override final;\
 protected: \
-	size_t Finalize(size_t offset_in) override final \
-	{\
-		offset = offset_in; \
-		return offset_in + ComputeSize(); \
-	}\
-	size_t ComputeSize() const noxnd override final \
-	{ \
-		return (hlslSize); \
-	} \
+	size_t Finalize( size_t offset_in ) override final;\
+	size_t ComputeSize() const noxnd override final;\
 };
-#define LEAF_ELEMENT(eltype, systype) LEAF_ELEMENT_IMPL(eltype,systype,sizeof(systype))
+#define DCB_LEAF_ELEMENT(eltype,systype) DCB_LEAF_ELEMENT_IMPL(eltype,systype,sizeof(systype))
 
-#define REF_CONVERSION(eltype) \
-operator eltype::SystemType&() noxnd \
-{ \
-	return *reinterpret_cast<eltype::SystemType*>(pBytes + offset + pLayout->Resolve ## eltype()); \
-} \
-eltype::SystemType& operator=(const eltype::SystemType& rhs) noxnd \
-{ \
-	return static_cast<eltype::SystemType&>(*this) = rhs; \
-}
+#define DCB_REF_CONVERSION(eltype,...) \
+operator __VA_ARGS__ eltype::SystemType&() noxnd;
+#define DCB_REF_ASSIGN(eltype) \
+eltype::SystemType& operator=( const eltype::SystemType& rhs ) noxnd;
+#define DCB_REF_NONCONST(eltype) DCB_REF_CONVERSION(eltype) DCB_REF_ASSIGN(eltype)
+#define DCB_REF_CONST(eltype) DCB_REF_CONVERSION(eltype,const)
 
-#define REF_NONCONST(eltype) REF_CONVERSION(eltype) REF_ASSIGN(eltype)
-#define REF_CONST(eltype) REF_CONVERSION(eltype, const)
-
-#define PTR_CONVERSION(eltype,...)\
-operator __VA_ARGS__ eltype::SystemType*() noxnd \
-{ \
-	return &static_cast<__VA_ARGS__ eltype::SystemType&>(ref);\
-}
+#define DCB_PTR_CONVERSION(eltype,...) \
+operator __VA_ARGS__ eltype::SystemType*() noxnd;
 
 namespace Dcb {
 	class Struct;
@@ -114,12 +91,12 @@ namespace Dcb {
 			return offset + (16u - offset % 16u) % 16u;
 		}
 
-		RESOLVE_BASE(Matrix)
-		RESOLVE_BASE(Float4)
-		RESOLVE_BASE(Float3)
-		RESOLVE_BASE(Float2)
-		RESOLVE_BASE(Float)
-		RESOLVE_BASE(Bool)
+		DCB_RESOLVE_BASE(Matrix)
+		DCB_RESOLVE_BASE(Float4)
+		DCB_RESOLVE_BASE(Float3)
+		DCB_RESOLVE_BASE(Float2)
+		DCB_RESOLVE_BASE(Float)
+		DCB_RESOLVE_BASE(Bool)
 	protected:
 		//sets all offsets for elements and sub-elements 
 		virtual size_t Finalize(size_t offset) = 0;
@@ -129,12 +106,12 @@ namespace Dcb {
 		size_t offset = 0u;
 	};
 
-	LEAF_ELEMENT(Matrix, dx::XMFLOAT4X4)
-	LEAF_ELEMENT(Float4, dx::XMFLOAT4)
-	LEAF_ELEMENT(Float3, dx::XMFLOAT3)
-	LEAF_ELEMENT(Float2, dx::XMFLOAT2)
-	LEAF_ELEMENT(Float, float)
-	LEAF_ELEMENT(Bool, bool, 4u)
+	DCB_LEAF_ELEMENT(Matrix, dx::XMFLOAT4X4)
+	DCB_LEAF_ELEMENT(Float4, dx::XMFLOAT4)
+	DCB_LEAF_ELEMENT(Float3, dx::XMFLOAT3)
+	DCB_LEAF_ELEMENT(Float2, dx::XMFLOAT2)
+	DCB_LEAF_ELEMENT(Float, float)
+	DCB_LEAF_ELEMENT_IMPL(Bool, bool, 4u)
 
 	class Struct : public LayoutElement {
 	public:
@@ -251,12 +228,12 @@ namespace Dcb {
 		public:
 			Ptr(ConstElementRef& ref) : ref(ref) {}
 
-			PTR_CONVERSION(Matrix, const)
-			PTR_CONVERSION(Float4, const)
-			PTR_CONVERSION(Float3, const)
-			PTR_CONVERSION(Float2, const)
-			PTR_CONVERSION(Float, const)
-			PTR_CONVERSION(Bool, const)
+			DCB_PTR_CONVERSION(Matrix, const)
+			DCB_PTR_CONVERSION(Float4, const)
+			DCB_PTR_CONVERSION(Float3, const)
+			DCB_PTR_CONVERSION(Float2, const)
+			DCB_PTR_CONVERSION(Float, const)
+			DCB_PTR_CONVERSION(Bool, const)
 		private:
 			ConstElementRef& ref;
 		};
@@ -278,12 +255,12 @@ namespace Dcb {
 			return { *this };
 		}
 
-		REF_CONST(Matrix)
-		REF_CONST(Float4)
-		REF_CONST(Float3)
-		REF_CONST(Float2)
-		REF_CONST(Float)
-		REF_CONST(Bool)
+		DCB_REF_CONST(Matrix)
+		DCB_REF_CONST(Float4)
+		DCB_REF_CONST(Float3)
+		DCB_REF_CONST(Float2)
+		DCB_REF_CONST(Float)
+		DCB_REF_CONST(Bool)
 	private:
 		size_t offset;
 		const class LayoutElement* pLayout;
@@ -296,12 +273,12 @@ namespace Dcb {
 		public:
 			Ptr(ElementRef& ref) : ref(ref) {}
 
-			PTR_CONVERSION(Matrix)
-			PTR_CONVERSION(Float4)
-			PTR_CONVERSION(Float3)
-			PTR_CONVERSION(Float2)
-			PTR_CONVERSION(Float)
-			PTR_CONVERSION(Bool)
+			DCB_PTR_CONVERSION(Matrix)
+			DCB_PTR_CONVERSION(Float4)
+			DCB_PTR_CONVERSION(Float3)
+			DCB_PTR_CONVERSION(Float2)
+			DCB_PTR_CONVERSION(Float)
+			DCB_PTR_CONVERSION(Bool)
 		private:
 			ElementRef& ref;
 		};
@@ -325,12 +302,12 @@ namespace Dcb {
 			return { *this };
 		}
 		
-		REF_NONCONST(Matrix)
-		REF_NONCONST(Float4)
-		REF_NONCONST(Float3)
-		REF_NONCONST(Float2)
-		REF_NONCONST(Float)
-		REF_NONCONST(Bool)
+		DCB_REF_NONCONST(Matrix)
+		DCB_REF_NONCONST(Float4)
+		DCB_REF_NONCONST(Float3)
+		DCB_REF_NONCONST(Float2)
+		DCB_REF_NONCONST(Float)
+		DCB_REF_NONCONST(Bool)
 
 	private:
 		const class LayoutElement* pLayout;
