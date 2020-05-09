@@ -51,10 +51,13 @@ eltype::SystemType& operator=(const eltype::SystemType& rhs) noxnd \
 	return static_cast<eltype::SystemType&>(*this) = rhs; \
 }
 
-#define PTR_CONVERSION(eltype)\
-operator eltype::SystemType*() noxnd \
+#define REF_NONCONST(eltype) REF_CONVERSION(eltype) REF_ASSIGN(eltype)
+#define REF_CONST(eltype) REF_CONVERSION(eltype, const)
+
+#define PTR_CONVERSION(eltype,...)\
+operator __VA_ARGS__ eltype::SystemType*() noxnd \
 { \
-	return &static_cast<eltype::SystemType&>(ref);\
+	return &static_cast<__VA_ARGS__ eltype::SystemType&>(ref);\
 }
 
 namespace Dcb {
@@ -245,6 +248,52 @@ namespace Dcb {
 		bool finalized = false;
 		std::shared_ptr<LayoutElement> pLayout;
 	};
+
+	class ConstElementRef {
+	public:
+		class Ptr {
+		public:
+			Ptr(ConstElementRef& ref) : ref(ref) {}
+
+			PTR_CONVERSION(Matrix, const)
+			PTR_CONVERSION(Float4, const)
+			PTR_CONVERSION(Float3, const)
+			PTR_CONVERSION(Float2, const)
+			PTR_CONVERSION(Float, const)
+			PTR_CONVERSION(Bool, const)
+		private:
+			ConstElementRef& ref;
+		};
+
+	public:
+		ConstElementRef(const LayoutElement* pLayout, char* pBytes, size_t offset) 
+			: offset(offset), pLayout(pLayout), pBytes(pBytes) {}
+
+		ConstElementRef operator[](const std::string& key) noxnd {
+			return { &(*pLayout)[key],pBytes,offset };
+		}
+		ConstElementRef operator[](int index) noxnd {
+			const auto& t = pLayout->T();
+			const auto elementSize = LayoutElement::GetNextBoundaryOffset(t.GetSizeInBytes());
+			return { &t, pBytes, offset + elementSize * index };
+		}
+
+		Ptr operator&() noxnd {
+			return { *this };
+		}
+
+		REF_CONST(Matrix)
+		REF_CONST(Float4)
+		REF_CONST(Float3)
+		REF_CONST(Float2)
+		REF_CONST(Float)
+		REF_CONST(Bool)
+	private:
+		size_t offset;
+		const class LayoutElement* pLayout;
+		char* pBytes;
+	};
+
 	class ElementRef {
 	public:
 		class Ptr {
@@ -264,6 +313,10 @@ namespace Dcb {
 		ElementRef(const LayoutElement* pLayout, char* pBytes, size_t offset)
 			: pLayout(pLayout), pBytes(pBytes), offset(offset) {}
 
+		operator ConstElementRef() const noexcept {
+			return { pLayout, pBytes, offset };
+		}
+
 		ElementRef operator[](const std::string& key) noxnd {
 			return { &(*pLayout)[key], pBytes,offset };
 		}
@@ -276,12 +329,12 @@ namespace Dcb {
 			return { *this };
 		}
 		
-		REF_CONVERSION(Matrix)
-		REF_CONVERSION(Float4)
-		REF_CONVERSION(Float3)
-		REF_CONVERSION(Float2)
-		REF_CONVERSION(Float)
-		REF_CONVERSION(Bool)
+		REF_NONCONST(Matrix)
+		REF_NONCONST(Float4)
+		REF_NONCONST(Float3)
+		REF_NONCONST(Float2)
+		REF_NONCONST(Float)
+		REF_NONCONST(Bool)
 
 	private:
 		const class LayoutElement* pLayout;
@@ -297,6 +350,9 @@ namespace Dcb {
 
 		ElementRef operator[](const std::string& key) noxnd {
 			return { &(*pLayout)[key],bytes.data(),0u };
+		}
+		ConstElementRef operator[](const std::string& key) const noxnd {
+			return const_cast<Buffer&>(*this)[key];
 		}
 		const char* GetData() const noexcept {
 			return bytes.data();

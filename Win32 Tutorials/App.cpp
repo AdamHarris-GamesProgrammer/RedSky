@@ -84,6 +84,12 @@ void TestDynamicConstant()
 			bool act = b["testArray"][2]["testArrayBool"];
 			assert(act == exp);
 		}
+
+		const auto& cb = b;
+		{
+			DX::XMFLOAT4X4 act = cb["testArray"][2]["testArrayInArray"][5][3];
+			assert(act._11 == 1.0f);
+		}
 	}
 	// size test testArray of testArrays
 	{
