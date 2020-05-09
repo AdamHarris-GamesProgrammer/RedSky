@@ -48,6 +48,7 @@ reftype::Ptr::operator __VA_ARGS__ eltype::SystemType*() noxnd \
 
 namespace Dcb
 {
+#pragma region Layout Element Class
 	LayoutElement::~LayoutElement()
 	{}
 	LayoutElement& LayoutElement::operator[](const std::string&)
@@ -80,27 +81,27 @@ namespace Dcb
 	{
 		return offset + (16u - offset % 16u) % 16u;
 	}
-
+#pragma endregion Layout Element Class
 
 	DCB_RESOLVE_BASE(Matrix)
-		DCB_RESOLVE_BASE(Float4)
-		DCB_RESOLVE_BASE(Float3)
-		DCB_RESOLVE_BASE(Float2)
-		DCB_RESOLVE_BASE(Float)
-		DCB_RESOLVE_BASE(Bool)
+	DCB_RESOLVE_BASE(Float4)
+	DCB_RESOLVE_BASE(Float3)
+	DCB_RESOLVE_BASE(Float2)
+	DCB_RESOLVE_BASE(Float)
+	DCB_RESOLVE_BASE(Bool)
 
 
 
-		DCB_LEAF_ELEMENT(Matrix, dx::XMFLOAT4X4)
-		DCB_LEAF_ELEMENT(Float4, dx::XMFLOAT4)
-		DCB_LEAF_ELEMENT(Float3, dx::XMFLOAT3)
-		DCB_LEAF_ELEMENT(Float2, dx::XMFLOAT2)
-		DCB_LEAF_ELEMENT(Float, float)
-		DCB_LEAF_ELEMENT_IMPL(Bool, bool, 4u)
+	DCB_LEAF_ELEMENT(Matrix, dx::XMFLOAT4X4)
+	DCB_LEAF_ELEMENT(Float4, dx::XMFLOAT4)
+	DCB_LEAF_ELEMENT(Float3, dx::XMFLOAT3)
+	DCB_LEAF_ELEMENT(Float2, dx::XMFLOAT2)
+	DCB_LEAF_ELEMENT(Float, float)
+	DCB_LEAF_ELEMENT_IMPL(Bool, bool, 4u)
 
 
-
-		LayoutElement& Struct::operator[](const std::string& key)
+#pragma region Struct Class
+	LayoutElement& Struct::operator[](const std::string& key)
 	{
 		return *map.at(key);
 	}
@@ -149,9 +150,9 @@ namespace Dcb
 		}
 		return offset;
 	}
+#pragma endregion Struct Class
 
-
-
+#pragma region Array Class
 	size_t Array::GetOffsetEnd() const noexcept
 	{
 		// arrays are not packed in hlsl
@@ -178,9 +179,9 @@ namespace Dcb
 		// arrays are not packed in hlsl
 		return LayoutElement::GetNextBoundaryOffset(pElement->ComputeSize()) * size;
 	}
+#pragma endregion Array Class
 
-
-
+#pragma region Layout Class
 	Layout::Layout()
 		:
 		pLayout(std::make_shared<Struct>())
@@ -204,20 +205,20 @@ namespace Dcb
 		finalized = true;
 		return pLayout;
 	}
+#pragma endregion Layout Class
 
-
-
+#pragma region Constant Element Reference Class
 	ConstElementRef::Ptr::Ptr(ConstElementRef& ref)
 		:
 		ref(ref)
 	{}
 	DCB_PTR_CONVERSION(ConstElementRef, Matrix, const)
-		DCB_PTR_CONVERSION(ConstElementRef, Float4, const)
-		DCB_PTR_CONVERSION(ConstElementRef, Float3, const)
-		DCB_PTR_CONVERSION(ConstElementRef, Float2, const)
-		DCB_PTR_CONVERSION(ConstElementRef, Float, const)
-		DCB_PTR_CONVERSION(ConstElementRef, Bool, const)
-		ConstElementRef::ConstElementRef(const LayoutElement* pLayout, char* pBytes, size_t offset)
+	DCB_PTR_CONVERSION(ConstElementRef, Float4, const)
+	DCB_PTR_CONVERSION(ConstElementRef, Float3, const)
+	DCB_PTR_CONVERSION(ConstElementRef, Float2, const)
+	DCB_PTR_CONVERSION(ConstElementRef, Float, const)
+	DCB_PTR_CONVERSION(ConstElementRef, Bool, const)
+	ConstElementRef::ConstElementRef(const LayoutElement* pLayout, char* pBytes, size_t offset)
 		:
 		offset(offset),
 		pLayout(pLayout),
@@ -239,24 +240,25 @@ namespace Dcb
 		return { *this };
 	}
 	DCB_REF_CONST(ConstElementRef, Matrix)
-		DCB_REF_CONST(ConstElementRef, Float4)
-		DCB_REF_CONST(ConstElementRef, Float3)
-		DCB_REF_CONST(ConstElementRef, Float2)
-		DCB_REF_CONST(ConstElementRef, Float)
-		DCB_REF_CONST(ConstElementRef, Bool)
+	DCB_REF_CONST(ConstElementRef, Float4)
+	DCB_REF_CONST(ConstElementRef, Float3)
+	DCB_REF_CONST(ConstElementRef, Float2)
+	DCB_REF_CONST(ConstElementRef, Float)
+	DCB_REF_CONST(ConstElementRef, Bool)
+#pragma endregion Constant Element Reference Class
 
-
-		ElementRef::Ptr::Ptr(ElementRef& ref)
+#pragma region Element Reference Class
+	ElementRef::Ptr::Ptr(ElementRef& ref)
 		:
 		ref(ref)
 	{}
 	DCB_PTR_CONVERSION(ElementRef, Matrix)
-		DCB_PTR_CONVERSION(ElementRef, Float4)
-		DCB_PTR_CONVERSION(ElementRef, Float3)
-		DCB_PTR_CONVERSION(ElementRef, Float2)
-		DCB_PTR_CONVERSION(ElementRef, Float)
-		DCB_PTR_CONVERSION(ElementRef, Bool)
-		ElementRef::ElementRef(const LayoutElement* pLayout, char* pBytes, size_t offset)
+	DCB_PTR_CONVERSION(ElementRef, Float4)
+	DCB_PTR_CONVERSION(ElementRef, Float3)
+	DCB_PTR_CONVERSION(ElementRef, Float2)
+	DCB_PTR_CONVERSION(ElementRef, Float)
+	DCB_PTR_CONVERSION(ElementRef, Bool)
+	ElementRef::ElementRef(const LayoutElement* pLayout, char* pBytes, size_t offset)
 		:
 		offset(offset),
 		pLayout(pLayout),
@@ -282,16 +284,16 @@ namespace Dcb
 		return { *this };
 	}
 	DCB_REF_NONCONST(ElementRef, Matrix)
-		DCB_REF_NONCONST(ElementRef, Float4)
-		DCB_REF_NONCONST(ElementRef, Float3)
-		DCB_REF_NONCONST(ElementRef, Float2)
-		DCB_REF_NONCONST(ElementRef, Float)
-		DCB_REF_NONCONST(ElementRef, Bool)
+	DCB_REF_NONCONST(ElementRef, Float4)
+	DCB_REF_NONCONST(ElementRef, Float3)
+	DCB_REF_NONCONST(ElementRef, Float2)
+	DCB_REF_NONCONST(ElementRef, Float)
+	DCB_REF_NONCONST(ElementRef, Bool)
+#pragma endregion Element Reference Class
 
 
-
-
-		Buffer::Buffer(Layout& lay)
+#pragma region Buffer Class
+	Buffer::Buffer(Layout& lay)
 		:
 		pLayout(std::static_pointer_cast<Struct>(lay.Finalize())),
 		bytes(pLayout->GetOffsetEnd())
@@ -320,4 +322,5 @@ namespace Dcb
 	{
 		return pLayout;
 	}
+#pragma endregion Buffer Class
 }
