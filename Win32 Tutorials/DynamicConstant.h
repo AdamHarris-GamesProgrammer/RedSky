@@ -71,11 +71,11 @@ namespace Dcb {
 
 		virtual ~LayoutElement() {}
 		//[] only works for structs, access member by name
-		virtual LayoutElement& operator[](const char*) {
+		virtual LayoutElement& operator[](const std::string&) {
 			assert(false && "Cannot access member on non struct");
 			return *this;
 		}
-		virtual const LayoutElement& operator[](const char* key) const {
+		virtual const LayoutElement& operator[](const std::string&) const {
 			assert(false && "Cannot access member on non struct");
 			return *this;
 		}
@@ -135,10 +135,10 @@ namespace Dcb {
 
 	class Struct : public LayoutElement {
 	public:
-		LayoutElement& operator[](const char* key) override final {
+		LayoutElement& operator[](const std::string& key) override final {
 			return *map.at(key);
 		}
-		const LayoutElement& operator[](const char* key) const override final {
+		const LayoutElement& operator[](const std::string& key) const override final {
 			return *map.at(key);
 		}
 		size_t GetOffsetEnd() const noexcept override final {
@@ -220,7 +220,7 @@ namespace Dcb {
 	public:
 		Layout() : pLayout(std::make_shared<Struct>()) {}
 
-		LayoutElement& operator[](const char* key) {
+		LayoutElement& operator[](const std::string& key) {
 			assert(!finalized && "Cannot modify finalized layout");
 			return (*pLayout)[key];
 		}
@@ -264,7 +264,7 @@ namespace Dcb {
 		ElementRef(const LayoutElement* pLayout, char* pBytes, size_t offset)
 			: pLayout(pLayout), pBytes(pBytes), offset(offset) {}
 
-		ElementRef operator[](const char* key) noxnd {
+		ElementRef operator[](const std::string& key) noxnd {
 			return { &(*pLayout)[key], pBytes,offset };
 		}
 		ElementRef operator[](size_t index) noxnd {
@@ -295,7 +295,7 @@ namespace Dcb {
 			: pLayout(std::static_pointer_cast<Struct>(lay.Finalize())) 
 				,bytes(pLayout->GetOffsetEnd()) {}
 
-		ElementRef operator[](const char* key) noxnd {
+		ElementRef operator[](const std::string& key) noxnd {
 			return { &(*pLayout)[key],bytes.data(),0u };
 		}
 		const char* GetData() const noexcept {

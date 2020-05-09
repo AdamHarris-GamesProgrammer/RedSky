@@ -19,6 +19,7 @@ namespace DX = DirectX;
 
 void TestDynamicConstant()
 {
+	using namespace std::string_literals;
 	// data roundtrip tests
 	{
 		Dcb::Layout s;
@@ -100,8 +101,8 @@ void TestDynamicConstant()
 		Dcb::Layout s;
 		s.Add<Dcb::Array>("testArray");
 		s["testArray"].Set<Dcb::Struct>(6);
-		s["testArray"].T().Add<Dcb::Float2>("a");
-		s["testArray"].T().Add<Dcb::Float3>("b");
+		s["testArray"s].T().Add<Dcb::Float2>("a");
+		s["testArray"].T().Add<Dcb::Float3>("b"s);
 		Dcb::Buffer b(s);
 
 		auto act = b.GetSizeInBytes();
