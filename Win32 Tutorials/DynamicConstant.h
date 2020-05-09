@@ -6,6 +6,7 @@
 #include <memory>
 #include <unordered_map>
 #include <type_traits>
+#include <numeric>
 
 #define RESOLVE_BASE(eltype) \
 virtual size_t Resolve ## eltype() const noxnd \
@@ -28,11 +29,15 @@ public: \
 		return GetOffsetBegin() + sizeof( systype ); \
 	} \
 protected: \
-	size_t Finalize(size_t offset_in) override \
+	size_t Finalize(size_t offset_in) override final \
 	{\
 		offset = offset_in; \
-		return offset_in + sizeof(systype); \
+		return offset_in + ComputeSize(); \
 	}\
+	size_t ComputeSize() const noxnd override final \
+	{ \
+		return sizeof(SystemType); \
+	} \
 };
 
 #define REF_CONVERSION(eltype) \
@@ -64,7 +69,7 @@ namespace Dcb {
 	public:
 
 		virtual ~LayoutElement() {}
-
+		//[] only works for structs, access member by name
 		virtual LayoutElement& operator[](const char*) {
 			assert(false && "Cannot access member on non struct");
 			return *this;
@@ -73,6 +78,7 @@ namespace Dcb {
 			assert(false && "Cannot access member on non struct");
 			return *this;
 		}
+		//T() only works for arrays
 		virtual LayoutElement& T() {
 			assert(false);
 			return *this;
@@ -81,20 +87,28 @@ namespace Dcb {
 			assert(false);
 			return *this;
 		}
-
+		//offset based -only works after finalization
 		size_t GetOffsetBegin() const noexcept
 		{
 			return offset;
 		}
 		virtual size_t GetOffsetEnd() const noexcept = 0;
+		//Gets size in bytes derived from offsets
 		size_t GetSizeInBytes() const noexcept {
 			return GetOffsetEnd() - GetOffsetBegin();
 		}
 
+		//Only works for structs
 		template<typename T>
 		Struct& Add(const std::string& key) noxnd;
+		//Only works for arrays
 		template<typename T>
 		Array& Set(size_t size) noxnd;
+
+		//Returns the value of the offset up to the next 16byte boundary
+		static size_t GetNextBoundaryOffset(size_t offset) {
+			return offset + (16u - offset % 16u) % 16u;
+		}
 
 		RESOLVE_BASE(Matrix)
 		RESOLVE_BASE(Float4)
@@ -103,7 +117,10 @@ namespace Dcb {
 		RESOLVE_BASE(Float)
 		RESOLVE_BASE(Bool)
 	protected:
+		//sets all offsets for elements and sub-elements 
 		virtual size_t Finalize(size_t offset) = 0;
+
+		virtual size_t ComputeSize() const noxnd = 0;
 	protected:
 		size_t offset = 0u;
 	};
@@ -124,7 +141,7 @@ namespace Dcb {
 			return *map.at(key);
 		}
 		size_t GetOffsetEnd() const noexcept override final {
-			return elements.empty() ? GetOffsetBegin() : elements.back()->GetOffsetEnd();
+			return LayoutElement::GetNextBoundaryOffset(elements.back()->GetOffsetEnd());
 		}
 		template<typename T>
 		Struct& Add(const std::string& name) noxnd{
@@ -135,7 +152,7 @@ namespace Dcb {
 			return *this;
 		}
 	protected:
-		size_t Finalize(size_t offset_in) {
+		size_t Finalize(size_t offset_in) override final {
 			assert(elements.size() != 0u);
 			offset = offset_in;
 			auto offsetNext = offset;
@@ -143,6 +160,22 @@ namespace Dcb {
 				offsetNext = (*el).Finalize(offsetNext);
 			}
 			return GetOffsetEnd();
+		}
+		size_t ComputeSize() const noxnd override final {
+			size_t offsetNext = 0u;
+			for (auto& el : elements) {
+				const auto elSize = el->ComputeSize();
+				offsetNext += CalculatePaddingBeforeElement(offsetNext, elSize) + elSize;
+			}
+
+			return GetNextBoundaryOffset(offsetNext);
+		}
+	private:
+		static size_t CalculatePaddingBeforeElement(size_t offset, size_t size) noexcept {
+			if (offset / 16u != (offset + size - 1) / 16u) {
+				return GetNextBoundaryOffset(offset) - offset;
+			}
+			return offset;
 		}
 	private:
 		std::unordered_map<std::string,LayoutElement*> map;
@@ -153,7 +186,7 @@ namespace Dcb {
 	public:
 		size_t GetOffsetEnd() const noexcept override final {
 			assert(pElement);
-			return GetOffsetBegin() + pElement->GetSizeInBytes() * size;
+			return GetOffsetBegin() + LayoutElement::GetNextBoundaryOffset(pElement->GetSizeInBytes()) * size;
 		}
 		template<typename T>
 		Array& Set(size_t size_in) noxnd {
@@ -168,11 +201,14 @@ namespace Dcb {
 			return *pElement;
 		}
 	protected:
-		size_t Finalize(size_t offset_in) override {
+		size_t Finalize(size_t offset_in) override final {
 			assert(size != 0u && pElement);
 			offset = offset_in;
 			pElement->Finalize(offset_in);
-			return offset + pElement->GetSizeInBytes() * size;
+			return GetOffsetEnd();
+		}
+		size_t ComputeSize() const noxnd override final {
+			return LayoutElement::GetNextBoundaryOffset(pElement->ComputeSize()) * size;
 		}
 	private:
 		size_t size = 0u;
@@ -229,7 +265,8 @@ namespace Dcb {
 		}
 		ElementRef operator[](size_t index) noxnd {
 			const auto& t = pLayout->T();
-			return { &t, pBytes, offset + t.GetSizeInBytes() * index };
+			const auto elementSize = LayoutElement::GetNextBoundaryOffset(t.GetSizeInBytes());
+			return { &t, pBytes, offset + elementSize * index };
 		}
 		Ptr operator&() noxnd {
 			return { *this };

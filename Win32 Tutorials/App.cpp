@@ -17,40 +17,102 @@
 
 namespace DX = DirectX;
 
+void TestDynamicConstant()
+{
+	// data roundtrip tests
+	{
+		Dcb::Layout s;
+		s.Add<Dcb::Struct>("testStruct");
+		s["testStruct"].Add<Dcb::Float3>("testStructFloat3");
+		s["testStruct"].Add<Dcb::Float>("testStructFloat");
+		s.Add<Dcb::Float>("testFloat");
+		s.Add<Dcb::Array>("testArray");
+		s["testArray"].Set<Dcb::Struct>(4);
+		s["testArray"].T().Add<Dcb::Float3>("testArrayFloat3");
+		s["testArray"].T().Add<Dcb::Array>("testArrayFloat3Float");
+		s["testArray"].T()["testArrayFloat3Float"].Set<Dcb::Float>(6);
+		s["testArray"].T().Add<Dcb::Array>("testArrayInArray");
+		s["testArray"].T()["testArrayInArray"].Set<Dcb::Array>(6);
+		s["testArray"].T()["testArrayInArray"].T().Set<Dcb::Matrix>(4);
+		Dcb::Buffer b(s);
+
+		{
+			auto exp = 42.0f;
+			b["testFloat"] = exp;
+			float act = b["testFloat"];
+			assert(act == exp);
+		}
+		{
+			auto exp = 420.0f;
+			b["testStruct"]["testStructFloat"] = exp;
+			float act = b["testStruct"]["testStructFloat"];
+			assert(act == exp);
+		}
+		{
+			auto exp = 111.0f;
+			b["testArray"][2]["testArrayFloat3Float"][5] = exp;
+			float act = b["testArray"][2]["testArrayFloat3Float"][5];
+			assert(act == exp);
+		}
+		{
+			auto exp = DirectX::XMFLOAT3{ 69.0f,0.0f,0.0f };
+			b["testStruct"]["testStructFloat3"] = exp;
+			DX::XMFLOAT3 act = b["testStruct"]["testStructFloat3"];
+			assert(!std::memcmp(&exp, &act, sizeof(DirectX::XMFLOAT3)));
+		}
+		{
+			DirectX::XMFLOAT4X4 exp;
+			DX::XMStoreFloat4x4(
+				&exp,
+				DX::XMMatrixIdentity()
+			);
+			b["testArray"][2]["testArrayInArray"][5][3] = exp;
+			DX::XMFLOAT4X4 act = b["testArray"][2]["testArrayInArray"][5][3];
+			assert(!std::memcmp(&exp, &act, sizeof(DirectX::XMFLOAT4X4)));
+		}
+	}
+	// size test testArray of testArrays
+	{
+		Dcb::Layout s;
+		s.Add<Dcb::Array>("testArray");
+		s["testArray"].Set<Dcb::Array>(6);
+		s["testArray"].T().Set<Dcb::Matrix>(4);
+		Dcb::Buffer b(s);
+
+		auto act = b.GetSizeInBytes();
+		assert(act == 16u * 4u * 4u * 6u);
+	}
+	// size test testArrayay of structs with padding
+	{
+		Dcb::Layout s;
+		s.Add<Dcb::Array>("testArray");
+		s["testArray"].Set<Dcb::Struct>(6);
+		s["testArray"].T().Add<Dcb::Float2>("a");
+		s["testArray"].T().Add<Dcb::Float3>("b");
+		Dcb::Buffer b(s);
+
+		auto act = b.GetSizeInBytes();
+		assert(act == 16u * 2u * 6u);
+	}
+	// size test testArrayay of primitive that needs padding
+	{
+		Dcb::Layout s;
+		s.Add<Dcb::Array>("testArray");
+		s["testArray"].Set<Dcb::Float3>(6);
+		Dcb::Buffer b(s);
+
+		auto act = b.GetSizeInBytes();
+		assert(act == 16u * 6u);
+	}
+}
+
 App::App(const std::string& commandLine) :
 	commandLine(commandLine),
 	wnd(1280, 720, "RedSky Demo Window"), 
 	scriptCommander(TokenizeQuoted(commandLine)),
 	light(wnd.Gfx())
 {
-	Dcb::Layout s;
-
-	s.Add<Dcb::Struct>("testStruct");
-	s["testStruct"].Add<Dcb::Float3>("testStructFloat3");
-	s["testStruct"].Add<Dcb::Float>("testStructFloat");
-	s.Add<Dcb::Float>("testFloat");
-	s.Add<Dcb::Array>("arr");
-	s["arr"].Set<Dcb::Struct>(4);
-	s["arr"].T().Add<Dcb::Float3>("testArrayFloat3");
-	s["arr"].T().Add<Dcb::Array>("testArrayArray");
-	s["arr"].T()["testArrayArray"].Set<Dcb::Float>(6);
-	s["arr"].T().Add<Dcb::Array>("meta");
-	s["arr"].T()["meta"].Set<Dcb::Array>(6);
-	s["arr"].T()["meta"].T().Set<Dcb::Matrix>(4);
-	Dcb::Buffer b(s);
-	b["testStruct"]["testStructFloat3"] = DirectX::XMFLOAT3{ 69.0f,0.0f,0.0f };
-	b["testStruct"]["testStructFloat"] = 420.0f;
-	b["testFloat"] = 42.0f;
-	b["arr"][2]["testArrayArray"][5] = 111.0f;
-	DX::XMStoreFloat4x4(
-		&b["arr"][2]["meta"][5][3],
-		DX::XMMatrixIdentity()
-	);
-	float k = b["testFloat"];
-	DX::XMFLOAT3 v = b["testStruct"]["testStructFloat3"];
-	float u = b["testStruct"]["testStructFloat"];
-	float er = b["arr"][2]["testArrayArray"][5];
-	DX::XMFLOAT4X4 eq = b["arr"][2]["meta"][5][3];
+	TestDynamicConstant();
 
 	//wall.SetRootTransform(DX::XMMatrixTranslation(-12.0f, 0.0f, 0.0f));
 	//tp.SetPos({ 12.0f,0.0f,0.0f });
