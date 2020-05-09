@@ -156,4 +156,94 @@ namespace Dcb {
 		return LayoutElement::GetNextBoundaryOffset(pElement->ComputeSize()) * size;
 	}
 #pragma endregion Array Class
+
+#pragma region Layout Class
+	LayoutElement& Layout::operator[](const std::string& key) {
+		assert(!finalized && "Cannot modify finalized layout");
+		return (*pLayout)[key];
+	}
+	size_t Layout::GetSizeInBytes() const noexcept {
+		return pLayout->GetSizeInBytes();
+	}
+	std::shared_ptr<LayoutElement> Layout::Finalize() {
+		pLayout->Finalize(0);
+		finalized = true;
+		return pLayout;
+	}
+#pragma endregion Layout Class
+
+#pragma region Constant Element Reference Class
+	DCB_REF_CONST(ConstElementRef, Matrix, const)
+	DCB_REF_CONST(ConstElementRef, Float4, const)
+	DCB_REF_CONST(ConstElementRef, Float3, const)
+	DCB_REF_CONST(ConstElementRef, Float2, const)
+	DCB_REF_CONST(ConstElementRef, Float, const)
+	DCB_REF_CONST(ConstElementRef, Bool, const)
+
+	ConstElementRef ConstElementRef::operator[](const std::string& key) noxnd {
+		return { &(*pLayout)[key],pBytes,offset };
+	}
+	ConstElementRef ConstElementRef::operator[](int index) noxnd {
+		const auto& t = pLayout->T();
+		const auto elementSize = LayoutElement::GetNextBoundaryOffset(t.GetSizeInBytes());
+		return { &t, pBytes, offset + elementSize * index };
+	}
+	ConstElementRef::Ptr ConstElementRef::operator&() noxnd {
+		return { *this };
+	}
+
+#pragma endregion Constant Element Reference Class
+
+#pragma region Element Reference Class
+	DCB_PTR_CONVERSION(ElementRef, Matrix)
+	DCB_PTR_CONVERSION(ElementRef, Float4)
+	DCB_PTR_CONVERSION(ElementRef, Float3)
+	DCB_PTR_CONVERSION(ElementRef, Float2)
+	DCB_PTR_CONVERSION(ElementRef, Float)
+	DCB_PTR_CONVERSION(ElementRef, Bool)
+
+	ElementRef::operator ConstElementRef() const noexcept {
+		return { pLayout, pBytes, offset };
+	}
+
+	ElementRef ElementRef::operator[](const std::string& key) noxnd {
+		return { &(*pLayout)[key], pBytes,offset };
+	}
+	ElementRef ElementRef::operator[](size_t index) noxnd {
+		const auto& t = pLayout->T();
+		const auto elementSize = LayoutElement::GetNextBoundaryOffset(t.GetSizeInBytes());
+		return { &t, pBytes, offset + elementSize * index };
+	}
+	ElementRef::Ptr ElementRef::operator&() noxnd {
+		return { *this };
+	}
+
+	DCB_REF_NONCONST(ElementRef, Matrix)
+	DCB_REF_NONCONST(ElementRef, Float4)
+	DCB_REF_NONCONST(ElementRef, Float3)
+	DCB_REF_NONCONST(ElementRef, Float2)
+	DCB_REF_NONCONST(ElementRef, Float)
+	DCB_REF_NONCONST(ElementRef, Bool)
+#pragma endregion Element Reference Class
+
+#pragma region Buffer Class
+	ElementRef Buffer::operator[](const std::string& key) noxnd {
+		return { &(*pLayout)[key],bytes.data(),0u };
+	}
+	ConstElementRef Buffer::operator[](const std::string& key) const noxnd {
+		return const_cast<Buffer&>(*this)[key];
+	}
+	const char* Buffer::GetData() const noexcept {
+		return bytes.data();
+	}
+	size_t Buffer::GetSizeInBytes() const noexcept {
+		return bytes.size();
+	}
+	const LayoutElement& Buffer::GetLayout() const noexcept {
+		return *pLayout;
+	}
+	std::shared_ptr<LayoutElement> Buffer::CloneLayout() const {
+		return pLayout;
+	}
+#pragma endregion BufferClass
 }

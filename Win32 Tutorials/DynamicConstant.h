@@ -125,26 +125,17 @@ namespace Dcb {
 	public:
 		Layout() : pLayout(std::make_shared<Struct>()) {}
 
-		LayoutElement& operator[](const std::string& key) {
-			assert(!finalized && "Cannot modify finalized layout");
-			return (*pLayout)[key];
-		}
+		LayoutElement& operator[](const std::string& key);
 		Layout(std::shared_ptr<LayoutElement> pLayout)
 			: pLayout(std::move(pLayout)) {}
 
-		size_t GetSizeInBytes() const noexcept {
-			return pLayout->GetSizeInBytes();
-		}
+		size_t GetSizeInBytes() const noexcept;
 		template<typename T>
 		LayoutElement& Add(const std::string& key) noxnd {
 			assert(!finalized && "Cannot modify finalized layout");
 			return pLayout->Add<T>(key);
 		}
-		std::shared_ptr<LayoutElement> Finalize() {
-			pLayout->Finalize(0);
-			finalized = true;
-			return pLayout;
-		}
+		std::shared_ptr<LayoutElement> Finalize();
 
 	private:
 		bool finalized = false;
@@ -171,18 +162,10 @@ namespace Dcb {
 		ConstElementRef(const LayoutElement* pLayout, char* pBytes, size_t offset) 
 			: offset(offset), pLayout(pLayout), pBytes(pBytes) {}
 
-		ConstElementRef operator[](const std::string& key) noxnd {
-			return { &(*pLayout)[key],pBytes,offset };
-		}
-		ConstElementRef operator[](int index) noxnd {
-			const auto& t = pLayout->T();
-			const auto elementSize = LayoutElement::GetNextBoundaryOffset(t.GetSizeInBytes());
-			return { &t, pBytes, offset + elementSize * index };
-		}
+		ConstElementRef operator[](const std::string& key) noxnd;
+		ConstElementRef operator[](int index) noxnd;
 
-		Ptr operator&() noxnd {
-			return { *this };
-		}
+		Ptr operator&() noxnd;
 
 		DCB_REF_CONST(Matrix)
 		DCB_REF_CONST(Float4)
@@ -215,21 +198,11 @@ namespace Dcb {
 		ElementRef(const LayoutElement* pLayout, char* pBytes, size_t offset)
 			: pLayout(pLayout), pBytes(pBytes), offset(offset) {}
 
-		operator ConstElementRef() const noexcept {
-			return { pLayout, pBytes, offset };
-		}
+		operator ConstElementRef() const noexcept;
 
-		ElementRef operator[](const std::string& key) noxnd {
-			return { &(*pLayout)[key], pBytes,offset };
-		}
-		ElementRef operator[](size_t index) noxnd {
-			const auto& t = pLayout->T();
-			const auto elementSize = LayoutElement::GetNextBoundaryOffset(t.GetSizeInBytes());
-			return { &t, pBytes, offset + elementSize * index };
-		}
-		Ptr operator&() noxnd {
-			return { *this };
-		}
+		ElementRef operator[](const std::string& key) noxnd;
+		ElementRef operator[](size_t index) noxnd;
+		Ptr operator&() noxnd;
 		
 		DCB_REF_NONCONST(Matrix)
 		DCB_REF_NONCONST(Float4)
@@ -250,24 +223,12 @@ namespace Dcb {
 			: pLayout(std::static_pointer_cast<Struct>(lay.Finalize())) 
 				,bytes(pLayout->GetOffsetEnd()) {}
 
-		ElementRef operator[](const std::string& key) noxnd {
-			return { &(*pLayout)[key],bytes.data(),0u };
-		}
-		ConstElementRef operator[](const std::string& key) const noxnd {
-			return const_cast<Buffer&>(*this)[key];
-		}
-		const char* GetData() const noexcept {
-			return bytes.data();
-		}
-		size_t GetSizeInBytes() const noexcept {
-			return bytes.size();
-		}
-		const LayoutElement& GetLayout() const noexcept {
-			return *pLayout;
-		}
-		std::shared_ptr<LayoutElement> CloneLayout() const {
-			return pLayout;
-		}
+		ElementRef operator[](const std::string& key) noxnd;
+		ConstElementRef operator[](const std::string& key) const noxnd;
+		const char* GetData() const noexcept;
+		size_t GetSizeInBytes() const noexcept;
+		const LayoutElement& GetLayout() const noexcept;
+		std::shared_ptr<LayoutElement> CloneLayout() const;
 	private:
 		std::shared_ptr<Struct> pLayout;
 		std::vector<char> bytes;
@@ -289,3 +250,12 @@ namespace Dcb {
 		return *this;
 	}
 }
+
+#undef DCB_RESOLVE_BASE
+#undef DCB_LEAF_ELEMENT_IMPL
+#undef DCB_LEAF_ELEMENT
+#undef DCB_REF_CONVERSION
+#undef DCB_REF_ASSIGN
+#undef DCB_REF_NONCONST
+#undef DCB_REF_CONST
+#undef DCB_PTR_CONVERSION
