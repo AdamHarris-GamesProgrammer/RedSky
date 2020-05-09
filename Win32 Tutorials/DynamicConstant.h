@@ -34,67 +34,70 @@ eltype::SystemType& operator=( const eltype::SystemType& rhs ) noxnd;
 #define DCB_PTR_CONVERSION(eltype,...) \
 operator __VA_ARGS__ eltype::SystemType*() noxnd;
 
-namespace Dcb {
-	class Struct;
-	class Array;
-	class Layout;
 
+namespace Dcb
+{
 	namespace dx = DirectX;
-	class LayoutElement {
+
+	class LayoutElement
+	{
 		friend class Layout;
 		friend class Array;
 		friend class Struct;
 	public:
+		virtual ~LayoutElement();
 
-		virtual ~LayoutElement() {}
-		//[] only works for structs, access member by name
+		// [] only works for Structs; access member by name
 		virtual LayoutElement& operator[](const std::string&);
-		virtual const LayoutElement& operator[](const std::string&) const;
-		//T() only works for arrays
+		const LayoutElement& operator[](const std::string& key) const;
+		// T() only works for Arrays; gets the array type layout object
 		virtual LayoutElement& T();
-		virtual const LayoutElement& T() const;
-		//offset based -only works after finalization
+		const LayoutElement& T() const;
+
+		// offset based- functions only work after finalization!
 		size_t GetOffsetBegin() const noexcept;
 		virtual size_t GetOffsetEnd() const noexcept = 0;
-		//Gets size in bytes derived from offsets
+		// get size in bytes derived from offsets
 		size_t GetSizeInBytes() const noexcept;
 
-		//Only works for structs
+		// only works for Structs; add LayoutElement
 		template<typename T>
 		LayoutElement& Add(const std::string& key) noxnd;
-		//Only works for arrays
+		// only works for Arrays; set the type and the # of elements
 		template<typename T>
 		LayoutElement& Set(size_t size) noxnd;
 
-		//Returns the value of the offset up to the next 16byte boundary
-		static size_t GetNextBoundaryOffset(size_t offset);
+		// returns the value of offset bumped up to the next 16-byte boundary (if not already on one)
+		static size_t GetNextBoundaryOffset(size_t offset) noexcept;
 
 		DCB_RESOLVE_BASE(Matrix)
-		DCB_RESOLVE_BASE(Float4)
-		DCB_RESOLVE_BASE(Float3)
-		DCB_RESOLVE_BASE(Float2)
-		DCB_RESOLVE_BASE(Float)
-		DCB_RESOLVE_BASE(Bool)
+			DCB_RESOLVE_BASE(Float4)
+			DCB_RESOLVE_BASE(Float3)
+			DCB_RESOLVE_BASE(Float2)
+			DCB_RESOLVE_BASE(Float)
+			DCB_RESOLVE_BASE(Bool)
 	protected:
-		//sets all offsets for elements and sub-elements 
+		// sets all offsets for element and subelements, returns offset directly after this element
 		virtual size_t Finalize(size_t offset) = 0;
-
+		// computes the size of this element in bytes, considering padding on Arrays and Structs
 		virtual size_t ComputeSize() const noxnd = 0;
 	protected:
 		size_t offset = 0u;
 	};
 
-	DCB_LEAF_ELEMENT(Matrix, dx::XMFLOAT4X4)
-	DCB_LEAF_ELEMENT(Float4, dx::XMFLOAT4)
-	DCB_LEAF_ELEMENT(Float3, dx::XMFLOAT3)
-	DCB_LEAF_ELEMENT(Float2, dx::XMFLOAT2)
-	DCB_LEAF_ELEMENT(Float, float)
-	DCB_LEAF_ELEMENT_IMPL(Bool, bool, 4u)
 
-	class Struct : public LayoutElement {
+	DCB_LEAF_ELEMENT(Matrix, dx::XMFLOAT4X4)
+		DCB_LEAF_ELEMENT(Float4, dx::XMFLOAT4)
+		DCB_LEAF_ELEMENT(Float3, dx::XMFLOAT3)
+		DCB_LEAF_ELEMENT(Float2, dx::XMFLOAT2)
+		DCB_LEAF_ELEMENT(Float, float)
+		DCB_LEAF_ELEMENT_IMPL(Bool, bool, 4u)
+
+
+		class Struct : public LayoutElement
+	{
 	public:
 		LayoutElement& operator[](const std::string& key) override final;
-		const LayoutElement& operator[](const std::string& key) const override final;
 		size_t GetOffsetEnd() const noexcept override final;
 		void Add(const std::string& name, std::unique_ptr<LayoutElement> pElement) noxnd;
 	protected:
@@ -103,16 +106,16 @@ namespace Dcb {
 	private:
 		static size_t CalculatePaddingBeforeElement(size_t offset, size_t size) noexcept;
 	private:
-		std::unordered_map<std::string,LayoutElement*> map;
+		std::unordered_map<std::string, LayoutElement*> map;
 		std::vector<std::unique_ptr<LayoutElement>> elements;
 	};
 
-	class Array : public LayoutElement {
+	class Array : public LayoutElement
+	{
 	public:
 		size_t GetOffsetEnd() const noexcept override final;
 		void Set(std::unique_ptr<LayoutElement> pElement, size_t size_in) noxnd;
 		LayoutElement& T() override final;
-		const LayoutElement& T() const override final;
 	protected:
 		size_t Finalize(size_t offset_in) override final;
 		size_t ComputeSize() const noxnd override final;
@@ -121,108 +124,104 @@ namespace Dcb {
 		std::unique_ptr<LayoutElement> pElement;
 	};
 
-	class Layout {
+
+
+	class Layout
+	{
 	public:
-		Layout() : pLayout(std::make_shared<Struct>()) {}
-
+		Layout();
+		Layout(std::shared_ptr<LayoutElement> pLayout);
 		LayoutElement& operator[](const std::string& key);
-		Layout(std::shared_ptr<LayoutElement> pLayout)
-			: pLayout(std::move(pLayout)) {}
-
 		size_t GetSizeInBytes() const noexcept;
 		template<typename T>
-		LayoutElement& Add(const std::string& key) noxnd {
-			assert(!finalized && "Cannot modify finalized layout");
+		LayoutElement& Add(const std::string& key) noxnd
+		{
+			assert(!finalized && "cannot modify finalized layout");
 			return pLayout->Add<T>(key);
 		}
 		std::shared_ptr<LayoutElement> Finalize();
-
 	private:
 		bool finalized = false;
 		std::shared_ptr<LayoutElement> pLayout;
 	};
 
-	class ConstElementRef {
+
+	class ConstElementRef
+	{
 	public:
-		class Ptr {
+		class Ptr
+		{
 		public:
-			Ptr(ConstElementRef& ref) : ref(ref) {}
+			Ptr(ConstElementRef& ref);
 
 			DCB_PTR_CONVERSION(Matrix, const)
-			DCB_PTR_CONVERSION(Float4, const)
-			DCB_PTR_CONVERSION(Float3, const)
-			DCB_PTR_CONVERSION(Float2, const)
-			DCB_PTR_CONVERSION(Float, const)
-			DCB_PTR_CONVERSION(Bool, const)
+				DCB_PTR_CONVERSION(Float4, const)
+				DCB_PTR_CONVERSION(Float3, const)
+				DCB_PTR_CONVERSION(Float2, const)
+				DCB_PTR_CONVERSION(Float, const)
+				DCB_PTR_CONVERSION(Bool, const)
 		private:
 			ConstElementRef& ref;
 		};
-
 	public:
-		ConstElementRef(const LayoutElement* pLayout, char* pBytes, size_t offset) 
-			: offset(offset), pLayout(pLayout), pBytes(pBytes) {}
-
+		ConstElementRef(const LayoutElement* pLayout, char* pBytes, size_t offset);
 		ConstElementRef operator[](const std::string& key) noxnd;
-		ConstElementRef operator[](int index) noxnd;
-
+		ConstElementRef operator[](size_t index) noxnd;
 		Ptr operator&() noxnd;
 
 		DCB_REF_CONST(Matrix)
-		DCB_REF_CONST(Float4)
-		DCB_REF_CONST(Float3)
-		DCB_REF_CONST(Float2)
-		DCB_REF_CONST(Float)
-		DCB_REF_CONST(Bool)
+			DCB_REF_CONST(Float4)
+			DCB_REF_CONST(Float3)
+			DCB_REF_CONST(Float2)
+			DCB_REF_CONST(Float)
+			DCB_REF_CONST(Bool)
 	private:
 		size_t offset;
 		const class LayoutElement* pLayout;
 		char* pBytes;
 	};
 
-	class ElementRef {
+	class ElementRef
+	{
 	public:
-		class Ptr {
+		class Ptr
+		{
 		public:
-			Ptr(ElementRef& ref) : ref(ref) {}
+			Ptr(ElementRef& ref);
 
 			DCB_PTR_CONVERSION(Matrix)
-			DCB_PTR_CONVERSION(Float4)
-			DCB_PTR_CONVERSION(Float3)
-			DCB_PTR_CONVERSION(Float2)
-			DCB_PTR_CONVERSION(Float)
-			DCB_PTR_CONVERSION(Bool)
+				DCB_PTR_CONVERSION(Float4)
+				DCB_PTR_CONVERSION(Float3)
+				DCB_PTR_CONVERSION(Float2)
+				DCB_PTR_CONVERSION(Float)
+				DCB_PTR_CONVERSION(Bool)
 		private:
 			ElementRef& ref;
 		};
-
-		ElementRef(const LayoutElement* pLayout, char* pBytes, size_t offset)
-			: pLayout(pLayout), pBytes(pBytes), offset(offset) {}
-
+	public:
+		ElementRef(const LayoutElement* pLayout, char* pBytes, size_t offset);
 		operator ConstElementRef() const noexcept;
-
 		ElementRef operator[](const std::string& key) noxnd;
 		ElementRef operator[](size_t index) noxnd;
 		Ptr operator&() noxnd;
-		
-		DCB_REF_NONCONST(Matrix)
-		DCB_REF_NONCONST(Float4)
-		DCB_REF_NONCONST(Float3)
-		DCB_REF_NONCONST(Float2)
-		DCB_REF_NONCONST(Float)
-		DCB_REF_NONCONST(Bool)
 
+		DCB_REF_NONCONST(Matrix)
+			DCB_REF_NONCONST(Float4)
+			DCB_REF_NONCONST(Float3)
+			DCB_REF_NONCONST(Float2)
+			DCB_REF_NONCONST(Float)
+			DCB_REF_NONCONST(Bool)
 	private:
+		size_t offset;
 		const class LayoutElement* pLayout;
 		char* pBytes;
-		size_t offset;
 	};
 
-	class Buffer {
-	public:
-		Buffer(Layout& lay)
-			: pLayout(std::static_pointer_cast<Struct>(lay.Finalize())) 
-				,bytes(pLayout->GetOffsetEnd()) {}
 
+	class Buffer
+	{
+	public:
+		Buffer(Layout& lay);
 		ElementRef operator[](const std::string& key) noxnd;
 		ConstElementRef operator[](const std::string& key) const noxnd;
 		const char* GetData() const noexcept;
@@ -234,8 +233,11 @@ namespace Dcb {
 		std::vector<char> bytes;
 	};
 
+
+	// must come after Definitions of Struct and Array
 	template<typename T>
-	LayoutElement& LayoutElement::Add(const std::string& key) noxnd {
+	LayoutElement& LayoutElement::Add(const std::string& key) noxnd
+	{
 		auto ps = dynamic_cast<Struct*>(this);
 		assert(ps != nullptr);
 		ps->Add(key, std::make_unique<T>());
@@ -243,7 +245,8 @@ namespace Dcb {
 	}
 
 	template<typename T>
-	LayoutElement& LayoutElement::Set(size_t size) noxnd {
+	LayoutElement& LayoutElement::Set(size_t size) noxnd
+	{
 		auto pa = dynamic_cast<Array*>(this);
 		assert(pa != nullptr);
 		pa->Set(std::make_unique<T>(), size);
