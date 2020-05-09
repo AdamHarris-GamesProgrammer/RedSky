@@ -104,10 +104,10 @@ namespace Dcb {
 
 		//Only works for structs
 		template<typename T>
-		Struct& Add(const std::string& key) noxnd;
+		LayoutElement& Add(const std::string& key) noxnd;
 		//Only works for arrays
 		template<typename T>
-		Array& Set(size_t size) noxnd;
+		LayoutElement& Set(size_t size) noxnd;
 
 		//Returns the value of the offset up to the next 16byte boundary
 		static size_t GetNextBoundaryOffset(size_t offset) {
@@ -147,13 +147,11 @@ namespace Dcb {
 		size_t GetOffsetEnd() const noexcept override final {
 			return LayoutElement::GetNextBoundaryOffset(elements.back()->GetOffsetEnd());
 		}
-		template<typename T>
-		Struct& Add(const std::string& name) noxnd{
-			elements.push_back(std::make_unique<T>());
+		void Add(const std::string& name, std::unique_ptr<LayoutElement> pElement) noxnd{
+			elements.push_back(std::move(pElement));
 			if (!map.emplace(name, elements.back().get()).second) {
 				assert(false);
 			}
-			return *this;
 		}
 	protected:
 		size_t Finalize(size_t offset_in) override final {
@@ -192,11 +190,9 @@ namespace Dcb {
 			assert(pElement);
 			return GetOffsetBegin() + LayoutElement::GetNextBoundaryOffset(pElement->GetSizeInBytes()) * size;
 		}
-		template<typename T>
-		Array& Set(size_t size_in) noxnd {
-			pElement = std::make_unique<T>();
+		void Set(std::unique_ptr<LayoutElement> pElement, size_t size_in) noxnd {
+			pElement = std::move(pElement);
 			size = size_in;
-			return *this;
 		}
 		LayoutElement& T() override final {
 			return *pElement;
@@ -372,16 +368,18 @@ namespace Dcb {
 	};
 
 	template<typename T>
-	Struct& LayoutElement::Add(const std::string& key) noxnd {
+	LayoutElement& LayoutElement::Add(const std::string& key) noxnd {
 		auto ps = dynamic_cast<Struct*>(this);
 		assert(ps != nullptr);
-		return ps->Add<T>(key);
+		ps->Add(key, std::make_unique<T>());
+		return *this;
 	}
 
 	template<typename T>
-	Array& LayoutElement::Set(size_t size) noxnd {
+	LayoutElement& LayoutElement::Set(size_t size) noxnd {
 		auto pa = dynamic_cast<Array*>(this);
 		assert(pa != nullptr);
-		return pa->Set<T>(size);
+		pa->Add(std::make_unique<T>(), size);
+		return *this;
 	}
 }
