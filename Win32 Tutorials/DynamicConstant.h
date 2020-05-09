@@ -8,13 +8,10 @@
 #include <type_traits>
 #include <numeric>
 
-#define RESOLVE_BASE(eltype) \
-virtual size_t Resolve ## eltype() const noxnd \
-{ \
-	assert(false && "Cannot resolve to" #eltype); return 0u; \
 #define DCB_RESOLVE_BASE(eltype) \
+virtual size_t Resolve ## eltype() const noxnd;
 
-#define LEAF_ELEMENT_IMPL(eltype, systype, hlslSize) \
+#define DCB_LEAF_ELEMENT_IMPL(eltype,systype,hlslSize) \
 class eltype : public LayoutElement \
 { \
 public: \
@@ -51,33 +48,16 @@ namespace Dcb {
 
 		virtual ~LayoutElement() {}
 		//[] only works for structs, access member by name
-		virtual LayoutElement& operator[](const std::string&) {
-			assert(false && "Cannot access member on non struct");
-			return *this;
-		}
-		virtual const LayoutElement& operator[](const std::string&) const {
-			assert(false && "Cannot access member on non struct");
-			return *this;
-		}
+		virtual LayoutElement& operator[](const std::string&);
+		virtual const LayoutElement& operator[](const std::string&) const;
 		//T() only works for arrays
-		virtual LayoutElement& T() {
-			assert(false);
-			return *this;
-		}
-		virtual const LayoutElement& T() const {
-			assert(false);
-			return *this;
-		}
+		virtual LayoutElement& T();
+		virtual const LayoutElement& T() const;
 		//offset based -only works after finalization
-		size_t GetOffsetBegin() const noexcept
-		{
-			return offset;
-		}
+		size_t GetOffsetBegin() const noexcept;
 		virtual size_t GetOffsetEnd() const noexcept = 0;
 		//Gets size in bytes derived from offsets
-		size_t GetSizeInBytes() const noexcept {
-			return GetOffsetEnd() - GetOffsetBegin();
-		}
+		size_t GetSizeInBytes() const noexcept;
 
 		//Only works for structs
 		template<typename T>
@@ -87,9 +67,7 @@ namespace Dcb {
 		LayoutElement& Set(size_t size) noxnd;
 
 		//Returns the value of the offset up to the next 16byte boundary
-		static size_t GetNextBoundaryOffset(size_t offset) {
-			return offset + (16u - offset % 16u) % 16u;
-		}
+		static size_t GetNextBoundaryOffset(size_t offset);
 
 		DCB_RESOLVE_BASE(Matrix)
 		DCB_RESOLVE_BASE(Float4)
@@ -115,47 +93,15 @@ namespace Dcb {
 
 	class Struct : public LayoutElement {
 	public:
-		LayoutElement& operator[](const std::string& key) override final {
-			return *map.at(key);
-		}
-		const LayoutElement& operator[](const std::string& key) const override final {
-			return *map.at(key);
-		}
-		size_t GetOffsetEnd() const noexcept override final {
-			return LayoutElement::GetNextBoundaryOffset(elements.back()->GetOffsetEnd());
-		}
-		void Add(const std::string& name, std::unique_ptr<LayoutElement> pElement) noxnd{
-			elements.push_back(std::move(pElement));
-			if (!map.emplace(name, elements.back().get()).second) {
-				assert(false);
-			}
-		}
+		LayoutElement& operator[](const std::string& key) override final;
+		const LayoutElement& operator[](const std::string& key) const override final;
+		size_t GetOffsetEnd() const noexcept override final;
+		void Add(const std::string& name, std::unique_ptr<LayoutElement> pElement) noxnd;
 	protected:
-		size_t Finalize(size_t offset_in) override final {
-			assert(elements.size() != 0u);
-			offset = offset_in;
-			auto offsetNext = offset;
-			for (auto& el : elements) {
-				offsetNext = (*el).Finalize(offsetNext);
-			}
-			return GetOffsetEnd();
-		}
-		size_t ComputeSize() const noxnd override final {
-			size_t offsetNext = 0u;
-			for (auto& el : elements) {
-				const auto elSize = el->ComputeSize();
-				offsetNext += CalculatePaddingBeforeElement(offsetNext, elSize) + elSize;
-			}
-
-			return GetNextBoundaryOffset(offsetNext);
-		}
+		size_t Finalize(size_t offset_in) override final;
+		size_t ComputeSize() const noxnd override final;
 	private:
-		static size_t CalculatePaddingBeforeElement(size_t offset, size_t size) noexcept {
-			if (offset / 16u != (offset + size - 1) / 16u) {
-				return GetNextBoundaryOffset(offset) - offset;
-			}
-			return offset;
-		}
+		static size_t CalculatePaddingBeforeElement(size_t offset, size_t size) noexcept;
 	private:
 		std::unordered_map<std::string,LayoutElement*> map;
 		std::vector<std::unique_ptr<LayoutElement>> elements;
@@ -356,7 +302,7 @@ namespace Dcb {
 	LayoutElement& LayoutElement::Set(size_t size) noxnd {
 		auto pa = dynamic_cast<Array*>(this);
 		assert(pa != nullptr);
-		pa->Add(std::make_unique<T>(), size);
+		pa->Set(std::make_unique<T>(), size);
 		return *this;
 	}
 }

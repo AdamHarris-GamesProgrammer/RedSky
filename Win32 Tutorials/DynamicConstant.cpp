@@ -74,16 +74,56 @@ namespace Dcb {
 	}
 
 	DCB_RESOLVE_BASE(Matrix)
-	DCB_RESOLVE_BASE(Float4)
-	DCB_RESOLVE_BASE(Float3)
-	DCB_RESOLVE_BASE(Float2)
-	DCB_RESOLVE_BASE(Float)
-	DCB_RESOLVE_BASE(Bool)
+		DCB_RESOLVE_BASE(Float4)
+		DCB_RESOLVE_BASE(Float3)
+		DCB_RESOLVE_BASE(Float2)
+		DCB_RESOLVE_BASE(Float)
+		DCB_RESOLVE_BASE(Bool)
 
-	DCB_LEAF_ELEMENT(Matrix, dx::XMFLOAT4X4)
-	DCB_LEAF_ELEMENT(Float4, dx::XMFLOAT4)
-	DCB_LEAF_ELEMENT(Float3, dx::XMFLOAT3)
-	DCB_LEAF_ELEMENT(Float2, dx::XMFLOAT2)
-	DCB_LEAF_ELEMENT(Float, float)
-	DCB_LEAF_ELEMENT_IMPL(Bool, bool, 4u)
+		DCB_LEAF_ELEMENT(Matrix, dx::XMFLOAT4X4)
+		DCB_LEAF_ELEMENT(Float4, dx::XMFLOAT4)
+		DCB_LEAF_ELEMENT(Float3, dx::XMFLOAT3)
+		DCB_LEAF_ELEMENT(Float2, dx::XMFLOAT2)
+		DCB_LEAF_ELEMENT(Float, float)
+		DCB_LEAF_ELEMENT_IMPL(Bool, bool, 4u)
+
+	LayoutElement& Struct::operator[](const std::string& key) {
+		return *map.at(key);
+	}
+	const LayoutElement& Struct::operator[](const std::string& key) const {
+		return *map.at(key);
+	}
+	size_t Struct::GetOffsetEnd() const noexcept {
+		return LayoutElement::GetNextBoundaryOffset(elements.back()->GetOffsetEnd());
+	}
+	void Struct::Add(const std::string& name, std::unique_ptr<LayoutElement> pElement) noxnd {
+		elements.push_back(std::move(pElement));
+		if (!map.emplace(name, elements.back().get()).second) {
+			assert(false);
+		}
+	}
+	size_t Struct::Finalize(size_t offset_in) {
+		assert(elements.size() != 0u);
+		offset = offset_in;
+		auto offsetNext = offset;
+		for (auto& el : elements) {
+			offsetNext = (*el).Finalize(offsetNext);
+		}
+		return GetOffsetEnd();
+	}
+	size_t Struct::ComputeSize() const noxnd {
+		size_t offsetNext = 0u;
+		for (auto& el : elements) {
+			const auto elSize = el->ComputeSize();
+			offsetNext += CalculatePaddingBeforeElement(offsetNext, elSize) + elSize;
+		}
+
+		return GetNextBoundaryOffset(offsetNext);
+	}
+	size_t Struct::CalculatePaddingBeforeElement(size_t offset, size_t size) noexcept {
+		if (offset / 16u != (offset + size - 1) / 16u) {
+			return GetNextBoundaryOffset(offset) - offset;
+		}
+		return offset;
+	}
 }
