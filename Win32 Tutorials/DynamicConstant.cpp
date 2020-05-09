@@ -46,6 +46,7 @@ reftype::Ptr::operator __VA_ARGS__ eltype::SystemType*() noxnd \
 }
 
 namespace Dcb {
+#pragma region Layout Element Class
 	LayoutElement& LayoutElement::operator[](const std::string&) {
 		assert(false && "Cannot access member on non struct");
 		return *this;
@@ -72,21 +73,23 @@ namespace Dcb {
 	size_t LayoutElement::GetNextBoundaryOffset(size_t offset) {
 		return offset + (16u - offset % 16u) % 16u;
 	}
+#pragma endregion Layout Element Class
 
 	DCB_RESOLVE_BASE(Matrix)
-		DCB_RESOLVE_BASE(Float4)
-		DCB_RESOLVE_BASE(Float3)
-		DCB_RESOLVE_BASE(Float2)
-		DCB_RESOLVE_BASE(Float)
-		DCB_RESOLVE_BASE(Bool)
+	DCB_RESOLVE_BASE(Float4)
+	DCB_RESOLVE_BASE(Float3)
+	DCB_RESOLVE_BASE(Float2)
+	DCB_RESOLVE_BASE(Float)
+	DCB_RESOLVE_BASE(Bool)
 
-		DCB_LEAF_ELEMENT(Matrix, dx::XMFLOAT4X4)
-		DCB_LEAF_ELEMENT(Float4, dx::XMFLOAT4)
-		DCB_LEAF_ELEMENT(Float3, dx::XMFLOAT3)
-		DCB_LEAF_ELEMENT(Float2, dx::XMFLOAT2)
-		DCB_LEAF_ELEMENT(Float, float)
-		DCB_LEAF_ELEMENT_IMPL(Bool, bool, 4u)
+	DCB_LEAF_ELEMENT(Matrix, dx::XMFLOAT4X4)
+	DCB_LEAF_ELEMENT(Float4, dx::XMFLOAT4)
+	DCB_LEAF_ELEMENT(Float3, dx::XMFLOAT3)
+	DCB_LEAF_ELEMENT(Float2, dx::XMFLOAT2)
+	DCB_LEAF_ELEMENT(Float, float)
+	DCB_LEAF_ELEMENT_IMPL(Bool, bool, 4u)
 
+#pragma region Struct Class
 	LayoutElement& Struct::operator[](const std::string& key) {
 		return *map.at(key);
 	}
@@ -126,4 +129,31 @@ namespace Dcb {
 		}
 		return offset;
 	}
+#pragma endregion Struct Class
+
+#pragma region Array Class
+	size_t Array::GetOffsetEnd() const noexcept  {
+		assert(pElement);
+		return GetOffsetBegin() + LayoutElement::GetNextBoundaryOffset(pElement->GetSizeInBytes()) * size;
+	}
+	void Array::Set(std::unique_ptr<LayoutElement> pElement, size_t size_in) noxnd {
+		pElement = std::move(pElement);
+		size = size_in;
+	}
+	LayoutElement& Array::T()  {
+		return *pElement;
+	}
+	const LayoutElement& Array::T() const  {
+		return *pElement;
+	}
+	size_t Array::Finalize(size_t offset_in) {
+		assert(size != 0u && pElement);
+		offset = offset_in;
+		pElement->Finalize(offset_in);
+		return GetOffsetEnd();
+	}
+	size_t Array::ComputeSize() const noxnd  {
+		return LayoutElement::GetNextBoundaryOffset(pElement->ComputeSize()) * size;
+	}
+#pragma endregion Array Class
 }

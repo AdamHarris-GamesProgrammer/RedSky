@@ -109,30 +109,13 @@ namespace Dcb {
 
 	class Array : public LayoutElement {
 	public:
-		size_t GetOffsetEnd() const noexcept override final {
-			assert(pElement);
-			return GetOffsetBegin() + LayoutElement::GetNextBoundaryOffset(pElement->GetSizeInBytes()) * size;
-		}
-		void Set(std::unique_ptr<LayoutElement> pElement, size_t size_in) noxnd {
-			pElement = std::move(pElement);
-			size = size_in;
-		}
-		LayoutElement& T() override final {
-			return *pElement;
-		}
-		const LayoutElement& T() const override final {
-			return *pElement;
-		}
+		size_t GetOffsetEnd() const noexcept override final;
+		void Set(std::unique_ptr<LayoutElement> pElement, size_t size_in) noxnd;
+		LayoutElement& T() override final;
+		const LayoutElement& T() const override final;
 	protected:
-		size_t Finalize(size_t offset_in) override final {
-			assert(size != 0u && pElement);
-			offset = offset_in;
-			pElement->Finalize(offset_in);
-			return GetOffsetEnd();
-		}
-		size_t ComputeSize() const noxnd override final {
-			return LayoutElement::GetNextBoundaryOffset(pElement->ComputeSize()) * size;
-		}
+		size_t Finalize(size_t offset_in) override final;
+		size_t ComputeSize() const noxnd override final;
 	private:
 		size_t size = 0u;
 		std::unique_ptr<LayoutElement> pElement;
