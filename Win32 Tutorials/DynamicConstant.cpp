@@ -1,4 +1,5 @@
 #include "DynamicConstant.h"
+#include <assert.h>
 
 #define DCB_RESOLVE_BASE(eltype) \
 size_t LayoutElement::Resolve ## eltype() const noxnd \
@@ -99,11 +100,33 @@ namespace Dcb
 	DCB_LEAF_ELEMENT(Float, float)
 	DCB_LEAF_ELEMENT_IMPL(Bool, bool, 4u)
 
+		class Empty : public LayoutElement {
+		size_t GetOffsetEnd() const noexcept override final {
+			return 0u;
+		}
+		bool Exists() const noexcept override final {
+			return false;
+		}
+		size_t Finalize(size_t size_in) override final {
+			return 0u;
+		}
+		size_t ComputeSize() const noxnd override final {
+			return 0u;
+		}
+		private:
+			size_t size = 0u;
+			std::unique_ptr<LayoutElement> pElement;
+
+	}emptyLayoutElement;
 
 #pragma region Struct Class
 	LayoutElement& Struct::operator[](const std::string& key)
 	{
-		return *map.at(key);
+		const auto i = map.find(key);
+		if (i == map.end()) {
+			return emptyLayoutElement;
+		}
+		return *i->second;
 	}
 	size_t Struct::GetOffsetEnd() const noexcept
 	{
@@ -224,6 +247,12 @@ namespace Dcb
 		pLayout(pLayout),
 		pBytes(pBytes)
 	{}
+
+	bool ConstElementRef::Exists() const noexcept
+	{
+		return pLayout->Exists();
+	}
+
 	ConstElementRef ConstElementRef::operator[](const std::string& key) noxnd
 	{
 		return { &(*pLayout)[key],pBytes,offset };
@@ -231,6 +260,9 @@ namespace Dcb
 	ConstElementRef ConstElementRef::operator[](size_t index) noxnd
 	{
 		const auto& t = pLayout->T();
+
+		assert(static_cast<const Array&>(*pLayout).IndexInBounds(index));
+
 		// arrays are not packed in hlsl
 		const auto elementSize = LayoutElement::GetNextBoundaryOffset(t.GetSizeInBytes());
 		return { &t,pBytes,offset + elementSize * index };
@@ -264,6 +296,12 @@ namespace Dcb
 		pLayout(pLayout),
 		pBytes(pBytes)
 	{}
+
+	bool ElementRef::Exists() const noexcept
+	{
+		return pLayout->Exists();
+	}
+
 	ElementRef::operator ConstElementRef() const noexcept
 	{
 		return { pLayout,pBytes,offset };
@@ -275,6 +313,9 @@ namespace Dcb
 	ElementRef ElementRef::operator[](size_t index) noxnd
 	{
 		const auto& t = pLayout->T();
+
+		assert(static_cast<const Array&>(*pLayout).IndexInBounds(index));
+
 		// arrays are not packed in hlsl
 		const auto elementSize = LayoutElement::GetNextBoundaryOffset(t.GetSizeInBytes());
 		return { &t,pBytes,offset + elementSize * index };

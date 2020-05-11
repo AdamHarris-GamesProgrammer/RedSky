@@ -7,6 +7,7 @@
 #include <unordered_map>
 #include <type_traits>
 #include <numeric>
+#include <optional>
 
 #define DCB_RESOLVE_BASE(eltype) \
 virtual size_t Resolve ## eltype() const noxnd;
@@ -46,6 +47,10 @@ namespace Dcb
 		friend class Struct;
 	public:
 		virtual ~LayoutElement();
+
+		virtual bool Exists() const noexcept {
+			return true;
+		}
 
 		// [] only works for Structs; access member by name
 		virtual LayoutElement& operator[](const std::string&);
@@ -116,6 +121,9 @@ namespace Dcb
 		size_t GetOffsetEnd() const noexcept override final;
 		void Set(std::unique_ptr<LayoutElement> pElement, size_t size_in) noxnd;
 		LayoutElement& T() override final;
+		bool IndexInBounds(size_t index) const noexcept{
+			return index < size;
+		}
 	protected:
 		size_t Finalize(size_t offset_in) override final;
 		size_t ComputeSize() const noxnd override final;
@@ -165,6 +173,7 @@ namespace Dcb
 		};
 	public:
 		ConstElementRef(const LayoutElement* pLayout, char* pBytes, size_t offset);
+		std::optional<ConstElementRef> Exists() const noexcept;
 		ConstElementRef operator[](const std::string& key) noxnd;
 		ConstElementRef operator[](size_t index) noxnd;
 		Ptr operator&() noxnd;
@@ -200,6 +209,7 @@ namespace Dcb
 		};
 	public:
 		ElementRef(const LayoutElement* pLayout, char* pBytes, size_t offset);
+		std::optional<ElementRef>Exists() const noexcept;
 		operator ConstElementRef() const noexcept;
 		ElementRef operator[](const std::string& key) noxnd;
 		ElementRef operator[](size_t index) noxnd;
