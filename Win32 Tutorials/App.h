@@ -30,7 +30,7 @@ private:
 	ScriptCommander scriptCommander;
 	float simSpeed = 1.0f;
 
-	bool showDemoWindow = false;
+	bool showDemoWindow = true;
 
 	Camera cam;
 
