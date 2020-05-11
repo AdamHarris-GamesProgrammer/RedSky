@@ -38,6 +38,8 @@ void TestDynamicConstant()
 		s["testArray"].T().Add<Dcb::Bool>("testArrayBool");
 		Dcb::Buffer b(s);
 
+		const auto sig = b.GetSignature();
+
 		{
 			auto exp = 42.0f;
 			b["testFloat"] = exp;

@@ -1,5 +1,7 @@
 #include "DynamicConstant.h"
 #include <assert.h>
+#include <string>
+#include <algorithm>
 
 #define DCB_RESOLVE_BASE(eltype) \
 size_t LayoutElement::Resolve ## eltype() const noxnd \
@@ -20,6 +22,10 @@ size_t eltype::Finalize( size_t offset_in ) \
 { \
 	offset = offset_in; \
 	return offset_in + ComputeSize(); \
+} \
+std::string eltype::GetSignature() const noxnd \
+{\
+	return #eltype; \
 } \
 size_t eltype::ComputeSize() const noxnd \
 { \
@@ -100,12 +106,16 @@ namespace Dcb
 	DCB_LEAF_ELEMENT(Float, float)
 	DCB_LEAF_ELEMENT_IMPL(Bool, bool, 4u)
 
-		class Empty : public LayoutElement {
+	class Empty : public LayoutElement {
 		size_t GetOffsetEnd() const noexcept override final {
 			return 0u;
 		}
 		bool Exists() const noexcept override final {
 			return false;
+		}
+		std::string GetSignature() const noxnd final {
+			assert(false);
+			return "";
 		}
 		size_t Finalize(size_t size_in) override final {
 			return 0u;
@@ -164,6 +174,21 @@ namespace Dcb
 		// struct size must be multiple of 16 bytes
 		return GetNextBoundaryOffset(offsetNext);
 	}
+	std::string Struct::GetSignature() const noxnd {
+		using namespace std::string_literals;
+		auto sig = "Struct{"s;
+		for (const auto& el : elements) {
+			auto i = std::find_if(
+				map.begin(), map.end(),
+				[&el](const std::pair<std::string, LayoutElement*>& v) {
+					return &*el == v.second;
+				}
+			);
+			sig += i->first + ":"s + el->GetSignature() + ";"s;
+		}
+		sig += "}"s;
+		return sig;
+	}
 	size_t Struct::CalculatePaddingBeforeElement(size_t offset, size_t size) noexcept
 	{
 		// advance to next boundary if straddling 16-byte boundary
@@ -185,6 +210,13 @@ namespace Dcb
 	{
 		pElement = std::move(pElement_in);
 		size = size_in;
+	}
+	const LayoutElement& Array::T() const {
+		return const_cast<Array*>(this)->T();
+	}
+	std::string Array::GetSignature() const noxnd {
+		using namespace std::string_literals;
+		return "Array:"s + std::to_string(size) + "{"s + T().GetSignature() + "}"s;
 	}
 	LayoutElement& Array::T()
 	{
@@ -227,6 +259,9 @@ namespace Dcb
 		pLayout->Finalize(0);
 		finalized = true;
 		return pLayout;
+	}
+	std::string Layout::GetSignature() const noxnd {
+		return pLayout->GetSignature();
 	}
 #pragma endregion Layout Class
 
@@ -362,6 +397,9 @@ namespace Dcb
 	std::shared_ptr<LayoutElement> Buffer::CloneLayout() const
 	{
 		return pLayout;
+	}
+	std::string Buffer::GetSignature() const noxnd {
+		return pLayout->GetSignature();
 	}
 #pragma endregion Buffer Class
 }

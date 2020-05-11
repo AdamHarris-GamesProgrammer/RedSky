@@ -5,9 +5,7 @@
 #include <vector>
 #include <memory>
 #include <unordered_map>
-#include <type_traits>
-#include <numeric>
-#include <optional>
+
 
 #define DCB_RESOLVE_BASE(eltype) \
 virtual size_t Resolve ## eltype() const noxnd;
@@ -19,6 +17,7 @@ public: \
 	using SystemType = systype; \
 	size_t Resolve ## eltype() const noxnd override final;\
 	size_t GetOffsetEnd() const noexcept override final;\
+	std::string GetSignature() const noxnd final; \
 protected: \
 	size_t Finalize( size_t offset_in ) override final;\
 	size_t ComputeSize() const noxnd override final;\
@@ -47,6 +46,8 @@ namespace Dcb
 		friend class Struct;
 	public:
 		virtual ~LayoutElement();
+
+		virtual std::string GetSignature() const noxnd = 0;
 
 		virtual bool Exists() const noexcept {
 			return true;
@@ -99,11 +100,12 @@ namespace Dcb
 		DCB_LEAF_ELEMENT_IMPL(Bool, bool, 4u)
 
 
-		class Struct : public LayoutElement
+	class Struct : public LayoutElement
 	{
 	public:
 		LayoutElement& operator[](const std::string& key) override final;
 		size_t GetOffsetEnd() const noexcept override final;
+		std::string GetSignature() const noxnd final;
 		void Add(const std::string& name, std::unique_ptr<LayoutElement> pElement) noxnd;
 	protected:
 		size_t Finalize(size_t offset_in) override final;
@@ -121,6 +123,8 @@ namespace Dcb
 		size_t GetOffsetEnd() const noexcept override final;
 		void Set(std::unique_ptr<LayoutElement> pElement, size_t size_in) noxnd;
 		LayoutElement& T() override final;
+		const LayoutElement& T() const;
+		std::string GetSignature() const noxnd final;
 		bool IndexInBounds(size_t index) const noexcept{
 			return index < size;
 		}
@@ -147,6 +151,7 @@ namespace Dcb
 			assert(!finalized && "cannot modify finalized layout");
 			return pLayout->Add<T>(key);
 		}
+		std::string GetSignature() const noxnd;
 		std::shared_ptr<LayoutElement> Finalize();
 	private:
 		bool finalized = false;
@@ -234,6 +239,7 @@ namespace Dcb
 		Buffer(Layout& lay);
 		ElementRef operator[](const std::string& key) noxnd;
 		ConstElementRef operator[](const std::string& key) const noxnd;
+		std::string GetSignature() const noxnd;
 		const char* GetData() const noexcept;
 		size_t GetSizeInBytes() const noexcept;
 		const LayoutElement& GetLayout() const noexcept;
