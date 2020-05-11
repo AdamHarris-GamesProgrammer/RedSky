@@ -9,7 +9,7 @@ namespace Bind {
 		PixelConstantBufferEX(Graphics& gfx,std::shared_ptr<Dcb::LayoutElement> pLayout, UINT slot) 
 			: PixelConstantBufferEX(gfx, std::move(pLayout), slot, nullptr) {}
 		PixelConstantBufferEX(Graphics& gfx, const Dcb::Buffer& buf, UINT slot)
-			: PixelConstantBufferEX(gfx, buf.CloneLayout(), slot, &buf) {}
+			: PixelConstantBufferEX(gfx, buf.ShareLayout(), slot, &buf) {}
 
 		void Update(Graphics& gfx, const Dcb::Buffer& buf) {
 			assert(&buf.GetLayout() == &*pLayout);

@@ -23,45 +23,45 @@ void TestDynamicConstant()
 	// data roundtrip tests
 	{
 		Dcb::Layout s;
-		s.Add<Dcb::Struct>("testStruct");
-		s["testStruct"].Add<Dcb::Float3>("testStructFloat3");
-		s["testStruct"].Add<Dcb::Float>("testStructFloat");
-		s.Add<Dcb::Float>("testFloat");
-		s.Add<Dcb::Array>("testArray");
-		s["testArray"].Set<Dcb::Struct>(4);
-		s["testArray"].T().Add<Dcb::Float3>("testArrayFloat3");
-		s["testArray"].T().Add<Dcb::Array>("testArrayFloat3Float");
-		s["testArray"].T()["testArrayFloat3Float"].Set<Dcb::Float>(6);
-		s["testArray"].T().Add<Dcb::Array>("testArrayInArray");
-		s["testArray"].T()["testArrayInArray"].Set<Dcb::Array>(6);
-		s["testArray"].T()["testArrayInArray"].T().Set<Dcb::Matrix>(4);
-		s["testArray"].T().Add<Dcb::Bool>("testArrayBool");
-		Dcb::Buffer b(s);
+		s.Add<Dcb::Struct>("testStruct"s);
+		s["testStruct"s].Add<Dcb::Float3>("testStructFloat3"s);
+		s["testStruct"s].Add<Dcb::Float>("testStructFloat"s);
+		s.Add<Dcb::Float>("testFloat"s);
+		s.Add<Dcb::Array>("testArray"s);
+		s["testArray"s].Set<Dcb::Struct>(4);
+		s["testArray"s].T().Add<Dcb::Float3>("testArrayFloat3"s);
+		s["testArray"s].T().Add<Dcb::Array>("testArrayFloat3Float"s);
+		s["testArray"s].T()["testArrayFloat3Float"s].Set<Dcb::Float>(6);
+		s["testArray"s].T().Add<Dcb::Array>("testArrayInArray"s);
+		s["testArray"s].T()["testArrayInArray"s].Set<Dcb::Array>(6);
+		s["testArray"s].T()["testArrayInArray"s].T().Set<Dcb::Matrix>(4);
+		s["testArray"s].T().Add<Dcb::Bool>("testArrayBool"s);
+		auto b = Dcb::Buffer::Make(s);
 
 		const auto sig = b.GetSignature();
 
 		{
 			auto exp = 42.0f;
-			b["testFloat"] = exp;
-			float act = b["testFloat"];
+			b["testFloat"s] = exp;
+			float act = b["testFloat"s];
 			assert(act == exp);
 		}
 		{
 			auto exp = 420.0f;
-			b["testStruct"]["testStructFloat"] = exp;
-			float act = b["testStruct"]["testStructFloat"];
+			b["testStruct"s]["testStructFloat"s] = exp;
+			float act = b["testStruct"s]["testStructFloat"s];
 			assert(act == exp);
 		}
 		{
 			auto exp = 111.0f;
-			b["testArray"][2]["testArrayFloat3Float"][5] = exp;
-			float act = b["testArray"][2]["testArrayFloat3Float"][5];
+			b["testArray"s][2]["testArrayFloat3Float"s][5] = exp;
+			float act = b["testArray"s][2]["testArrayFloat3Float"s][5];
 			assert(act == exp);
 		}
 		{
 			auto exp = DirectX::XMFLOAT3{ 69.0f,0.0f,0.0f };
-			b["testStruct"]["testStructFloat3"] = exp;
-			DX::XMFLOAT3 act = b["testStruct"]["testStructFloat3"];
+			b["testStruct"s]["testStructFloat3"s] = exp;
+			DX::XMFLOAT3 act = b["testStruct"s]["testStructFloat3"s];
 			assert(!std::memcmp(&exp, &act, sizeof(DirectX::XMFLOAT3)));
 		}
 		{
@@ -70,26 +70,26 @@ void TestDynamicConstant()
 				&exp,
 				DX::XMMatrixIdentity()
 			);
-			b["testArray"][2]["testArrayInArray"][5][3] = exp;
-			DX::XMFLOAT4X4 act = b["testArray"][2]["testArrayInArray"][5][3];
+			b["testArray"s][2]["testArrayInArray"s][5][3] = exp;
+			DX::XMFLOAT4X4 act = b["testArray"s][2]["testArrayInArray"s][5][3];
 			assert(!std::memcmp(&exp, &act, sizeof(DirectX::XMFLOAT4X4)));
 		}
 		{
 			auto exp = true;
-			b["testArray"][2]["testArrayBool"] = exp;
-			bool act = b["testArray"][2]["testArrayBool"];
+			b["testArray"s][2]["testArrayBool"s] = exp;
+			bool act = b["testArray"s][2]["testArrayBool"s];
 			assert(act == exp);
 		}
 		{
 			auto exp = false;
-			b["testArray"][2]["testArrayBool"] = exp;
-			bool act = b["testArray"][2]["testArrayBool"];
+			b["testArray"s][2]["testArrayBool"s] = exp;
+			bool act = b["testArray"s][2]["testArrayBool"s];
 			assert(act == exp);
 		}
 
 		//const auto& cb = b;
 		//{
-		//	DX::XMFLOAT4X4 act = cb["testArray"][2]["testArrayInArray"][5][3];
+		//	DX::XMFLOAT4X4 act = cb["testArray"s][2]["testArrayInArray"s][5][3];
 		//	assert(act._11 == 1.0f);
 		//}
 	}
@@ -97,9 +97,9 @@ void TestDynamicConstant()
 	{
 		Dcb::Layout s;
 		s.Add<Dcb::Array>("testArray");
-		s["testArray"].Set<Dcb::Array>(6);
-		s["testArray"].T().Set<Dcb::Matrix>(4);
-		Dcb::Buffer b(s);
+		s["testArray"s].Set<Dcb::Array>(6);
+		s["testArray"s].T().Set<Dcb::Matrix>(4);
+		auto b = Dcb::Buffer::Make(s);
 
 		auto act = b.GetSizeInBytes();
 		assert(act == 16u * 4u * 4u * 6u);
@@ -108,10 +108,10 @@ void TestDynamicConstant()
 	{
 		Dcb::Layout s;
 		s.Add<Dcb::Array>("testArray");
-		s["testArray"].Set<Dcb::Struct>(6);
+		s["testArray"s].Set<Dcb::Struct>(6);
 		s["testArray"s].T().Add<Dcb::Float2>("a");
-		s["testArray"].T().Add<Dcb::Float3>("b"s);
-		Dcb::Buffer b(s);
+		s["testArray"s].T().Add<Dcb::Float3>("b"s);
+		auto b = Dcb::Buffer::Make(s);
 
 		auto act = b.GetSizeInBytes();
 		assert(act == 16u * 2u * 6u);
@@ -120,8 +120,8 @@ void TestDynamicConstant()
 	{
 		Dcb::Layout s;
 		s.Add<Dcb::Array>("testArray");
-		s["testArray"].Set<Dcb::Float3>(6);
-		Dcb::Buffer b(s);
+		s["testArray"s].Set<Dcb::Float3>(6);
+		auto b = Dcb::Buffer::Make(s);
 
 		auto act = b.GetSizeInBytes();
 		assert(act == 16u * 6u);

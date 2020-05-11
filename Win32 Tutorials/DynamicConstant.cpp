@@ -3,6 +3,7 @@
 #include <string>
 #include <algorithm>
 #include <cctype>
+#include "LayoutCodex.h"
 
 #define DCB_RESOLVE_BASE(eltype) \
 size_t LayoutElement::Resolve ## eltype() const noxnd \
@@ -145,7 +146,7 @@ namespace Dcb
 		return LayoutElement::GetNextBoundaryOffset(elements.back()->GetOffsetEnd());
 	}
 	bool ValidateSymbolName(const std::string& name) noexcept {
-		return !name.empty() && std::isdigit(name.front()) &&
+		return !name.empty() && !std::isdigit(name.front()) &&
 			std::all_of(name.begin(), name.end(), [](char c) {
 			return std::isalnum(c) || c == '_';
 				}
@@ -253,7 +254,7 @@ namespace Dcb
 	{}
 	Layout::Layout(std::shared_ptr<LayoutElement> pLayout)
 		:
-		pLayout(std::move(pLayout))
+		pLayout(std::move(pLayout)), finalized(true)
 	{}
 	LayoutElement& Layout::operator[](const std::string& key)
 	{
@@ -264,14 +265,19 @@ namespace Dcb
 	{
 		return pLayout->GetSizeInBytes();
 	}
-	std::shared_ptr<LayoutElement> Layout::Finalize()
-	{
-		pLayout->Finalize(0);
+	void Layout::Finalize() {
+		pLayout->Finalize(0u);
 		finalized = true;
-		return pLayout;
+	}
+	bool Layout::IsFinalized() const noexcept {
+		return finalized;
 	}
 	std::string Layout::GetSignature() const noxnd {
+		assert(finalized);
 		return pLayout->GetSignature();
+	}
+	std::shared_ptr<LayoutElement> Layout::ShareRoot() const noexcept {
+		return pLayout;
 	}
 #pragma endregion Layout Class
 
@@ -379,9 +385,14 @@ namespace Dcb
 
 
 #pragma region Buffer Class
+	Buffer Buffer::Make(Layout& lay) noxnd {
+		return { LayoutCodex::Resolve(lay) };
+	}
+	Buffer::Buffer(Layout&& lay) 
+		: Buffer(lay) {}
 	Buffer::Buffer(Layout& lay)
 		:
-		pLayout(std::static_pointer_cast<Struct>(lay.Finalize())),
+		pLayout(lay.ShareRoot()),
 		bytes(pLayout->GetOffsetEnd())
 	{}
 	ElementRef Buffer::operator[](const std::string& key) noxnd
@@ -404,7 +415,7 @@ namespace Dcb
 	{
 		return *pLayout;
 	}
-	std::shared_ptr<LayoutElement> Buffer::CloneLayout() const
+	std::shared_ptr<LayoutElement> Buffer::ShareLayout() const
 	{
 		return pLayout;
 	}

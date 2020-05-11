@@ -38,7 +38,7 @@ operator __VA_ARGS__ eltype::SystemType*() noxnd;
 namespace Dcb
 {
 	namespace dx = DirectX;
-
+	class LayoutCodex;
 	class LayoutElement
 	{
 		friend class Layout;
@@ -140,6 +140,8 @@ namespace Dcb
 
 	class Layout
 	{
+		friend LayoutCodex;
+		friend class Buffer;
 	public:
 		Layout();
 		Layout(std::shared_ptr<LayoutElement> pLayout);
@@ -151,9 +153,11 @@ namespace Dcb
 			assert(!finalized && "cannot modify finalized layout");
 			return pLayout->Add<T>(key);
 		}
+		void Finalize();
+		bool IsFinalized() const noexcept;
 		std::string GetSignature() const noxnd;
-		std::shared_ptr<LayoutElement> Finalize();
 	private:
+		std::shared_ptr<LayoutElement> ShareRoot() const noexcept;
 		bool finalized = false;
 		std::shared_ptr<LayoutElement> pLayout;
 	};
@@ -236,16 +240,18 @@ namespace Dcb
 	class Buffer
 	{
 	public:
-		Buffer(Layout& lay);
+		static Buffer Make(Layout& lay) noxnd;
 		ElementRef operator[](const std::string& key) noxnd;
 		ConstElementRef operator[](const std::string& key) const noxnd;
 		std::string GetSignature() const noxnd;
 		const char* GetData() const noexcept;
 		size_t GetSizeInBytes() const noexcept;
 		const LayoutElement& GetLayout() const noexcept;
-		std::shared_ptr<LayoutElement> CloneLayout() const;
+		std::shared_ptr<LayoutElement> ShareLayout() const;
 	private:
-		std::shared_ptr<Struct> pLayout;
+		Buffer(Layout& lay);
+		Buffer(Layout&& lay);
+		std::shared_ptr<LayoutElement> pLayout;
 		std::vector<char> bytes;
 	};
 
