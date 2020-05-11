@@ -1,14 +1,14 @@
 #include "ImguiManager.h"
 #include "imgui/imgui.h"
 
-void gruvboxDark();
+void ModernDarkTheme();
 
 ImguiManager::ImguiManager()
 {
 	//create context
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
-	gruvboxDark();
+	ModernDarkTheme();
 }
 
 ImguiManager::~ImguiManager()
@@ -17,7 +17,7 @@ ImguiManager::~ImguiManager()
 	ImGui::DestroyContext();
 }
 
-void gruvboxDark()
+void ModernDarkTheme()
 {
 	auto& style = ImGui::GetStyle();
 	style.ChildRounding = 0;
