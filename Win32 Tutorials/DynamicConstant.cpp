@@ -2,6 +2,7 @@
 #include <assert.h>
 #include <string>
 #include <algorithm>
+#include <cctype>
 
 #define DCB_RESOLVE_BASE(eltype) \
 size_t LayoutElement::Resolve ## eltype() const noxnd \
@@ -143,12 +144,21 @@ namespace Dcb
 		// bump up to next boundary (because structs are multiple of 16 in size)
 		return LayoutElement::GetNextBoundaryOffset(elements.back()->GetOffsetEnd());
 	}
+	bool ValidateSymbolName(const std::string& name) noexcept {
+		return !name.empty() && std::isdigit(name.front()) &&
+			std::all_of(name.begin(), name.end(), [](char c) {
+			return std::isalnum(c) || c == '_';
+				}
+		);
+	}
+
 	void Struct::Add(const std::string& name, std::unique_ptr<LayoutElement> pElement) noxnd
 	{
+		assert(ValidateSymbolName(name) && "invalid symbol name in Struct");
 		elements.push_back(std::move(pElement));
 		if (!map.emplace(name, elements.back().get()).second)
 		{
-			assert(false);
+			assert(false && "duplicate symbol name in Struct");
 		}
 	}
 	size_t Struct::Finalize(size_t offset_in)
