@@ -60,6 +60,12 @@ namespace Dcb
 #pragma region Layout Element Class
 	LayoutElement::~LayoutElement()
 	{}
+
+	bool LayoutElement::Exists() const noexcept
+	{
+		return true;
+	}
+
 	LayoutElement& LayoutElement::operator[](const std::string&) noxnd
 	{
 		assert(false && "cannot access member on non Struct");
