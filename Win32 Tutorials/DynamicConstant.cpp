@@ -399,6 +399,9 @@ namespace Dcb
 #pragma endregion Element Reference Class
 
 #pragma region Buffer Class
+	Buffer::Buffer(const Buffer& buf) noexcept
+		: pLayout(buf.ShareLayout()), bytes(buf.bytes) {}
+
 	Buffer Buffer::Make(RawLayout&& lay) noxnd {
 		return { LayoutCodex::Resolve(std::move(lay)) };
 	}
@@ -428,6 +431,10 @@ namespace Dcb
 	const LayoutElement& Buffer::GetLayout() const noexcept
 	{
 		return *pLayout;
+	}
+	void Buffer::CopyFrom(const Buffer& other) noxnd {
+		assert(&GetLayout() == &other.GetLayout());
+		std::copy(other.bytes.begin(), other.bytes.end(), bytes.begin());
 	}
 	std::shared_ptr<LayoutElement> Buffer::ShareLayout() const noexcept
 	{

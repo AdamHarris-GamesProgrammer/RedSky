@@ -7,6 +7,7 @@
 #include <type_traits>
 #include <filesystem>
 #include "imgui/imgui.h"
+#include "DynamicConstant.h"
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -49,6 +50,9 @@ public:
 	const DirectX::XMFLOAT4X4& GetAppliedTransform() const noexcept;
 	void ShowTree(Node*& pSelectedNode) const noexcept;
 	std::string GetName() const noexcept { return name; }
+
+	const Dcb::Buffer* GetMaterialConstants() const noxnd;
+	void SetMaterialConstants(const Dcb::Buffer&) noxnd;
 
 private:
 	//Add a child to a node //this is private as models only want to be able to add a child 
