@@ -20,7 +20,7 @@ size_t eltype::GetOffsetEnd() const noexcept \
 { \
 	return GetOffsetBegin() + ComputeSize(); \
 } \
-size_t eltype::Finalize( size_t offset_in ) \
+size_t eltype::Finalize( size_t offset_in ) noxnd\
 { \
 	offset = offset_in; \
 	return offset_in + ComputeSize(); \
@@ -60,21 +60,21 @@ namespace Dcb
 #pragma region Layout Element Class
 	LayoutElement::~LayoutElement()
 	{}
-	LayoutElement& LayoutElement::operator[](const std::string&)
+	LayoutElement& LayoutElement::operator[](const std::string&) noxnd
 	{
 		assert(false && "cannot access member on non Struct");
 		return *this;
 	}
-	const LayoutElement& LayoutElement::operator[](const std::string& key) const
+	const LayoutElement& LayoutElement::operator[](const std::string& key) const noxnd
 	{
 		return const_cast<LayoutElement&>(*this)[key];
 	}
-	LayoutElement& LayoutElement::T()
+	LayoutElement& LayoutElement::T() noxnd
 	{
 		assert(false);
 		return *this;
 	}
-	const LayoutElement& LayoutElement::T() const
+	const LayoutElement& LayoutElement::T() const noxnd
 	{
 		return const_cast<LayoutElement&>(*this).T();
 	}
@@ -109,20 +109,20 @@ namespace Dcb
 	DCB_LEAF_ELEMENT_IMPL(Bool, bool, 4u)
 
 	class Empty : public LayoutElement {
-		size_t GetOffsetEnd() const noexcept override final {
+		size_t GetOffsetEnd() const noexcept final {
 			return 0u;
 		}
-		bool Exists() const noexcept override final {
+		bool Exists() const noexcept final {
 			return false;
 		}
 		std::string GetSignature() const noxnd final {
 			assert(false);
 			return "";
 		}
-		size_t Finalize(size_t size_in) override final {
+		size_t Finalize(size_t size_in) noxnd final {
 			return 0u;
 		}
-		size_t ComputeSize() const noxnd override final {
+		size_t ComputeSize() const noxnd final {
 			return 0u;
 		}
 		private:
@@ -132,7 +132,7 @@ namespace Dcb
 	}emptyLayoutElement;
 
 #pragma region Struct Class
-	LayoutElement& Struct::operator[](const std::string& key)
+	LayoutElement& Struct::operator[](const std::string& key) noxnd
 	{
 		const auto i = map.find(key);
 		if (i == map.end()) {
@@ -162,7 +162,7 @@ namespace Dcb
 			assert(false && "duplicate symbol name in Struct");
 		}
 	}
-	size_t Struct::Finalize(size_t offset_in)
+	size_t Struct::Finalize(size_t offset_in) noxnd
 	{
 		assert(elements.size() != 0u);
 		offset = offset_in;
@@ -222,7 +222,7 @@ namespace Dcb
 		pElement = std::move(pElement_in);
 		size = size_in;
 	}
-	const LayoutElement& Array::T() const {
+	const LayoutElement& Array::T() const noxnd {
 		return const_cast<Array*>(this)->T();
 	}
 	std::string Array::GetSignature() const noxnd {
@@ -233,7 +233,7 @@ namespace Dcb
 	{
 		return *pElement;
 	}
-	size_t Array::Finalize(size_t offset_in)
+	size_t Array::Finalize(size_t offset_in) noxnd
 	{
 		assert(size != 0u && pElement);
 		offset = offset_in;
@@ -248,15 +248,15 @@ namespace Dcb
 #pragma endregion Array Class
 
 #pragma region Layout Class
-	Layout::Layout() {
+	Layout::Layout() noexcept {
 		struct Enabler : public Struct {};
 		pLayout = std::make_unique<Enabler>();
 	}
-	Layout::Layout(std::shared_ptr<LayoutElement> pLayout)
+	Layout::Layout(std::shared_ptr<LayoutElement> pLayout) noexcept
 		:
 		pLayout(std::move(pLayout)), finalized(true)
 	{}
-	LayoutElement& Layout::operator[](const std::string& key)
+	LayoutElement& Layout::operator[](const std::string& key) noxnd
 	{
 		assert(!finalized && "cannot modify finalized layout");
 		return (*pLayout)[key];
@@ -265,7 +265,7 @@ namespace Dcb
 	{
 		return pLayout->GetSizeInBytes();
 	}
-	void Layout::Finalize() {
+	void Layout::Finalize() noxnd{
 		pLayout->Finalize(0u);
 		finalized = true;
 	}
@@ -282,7 +282,7 @@ namespace Dcb
 #pragma endregion Layout Class
 
 #pragma region Constant Element Reference Class
-	ConstElementRef::Ptr::Ptr(ConstElementRef& ref)
+	ConstElementRef::Ptr::Ptr(ConstElementRef& ref) noexcept
 		:
 		ref(ref)
 	{}
@@ -292,7 +292,7 @@ namespace Dcb
 	DCB_PTR_CONVERSION(ConstElementRef, Float2, const)
 	DCB_PTR_CONVERSION(ConstElementRef, Float, const)
 	DCB_PTR_CONVERSION(ConstElementRef, Bool, const)
-	ConstElementRef::ConstElementRef(const LayoutElement* pLayout, char* pBytes, size_t offset)
+	ConstElementRef::ConstElementRef(const LayoutElement* pLayout, char* pBytes, size_t offset) noexcept
 		:
 		offset(offset),
 		pLayout(pLayout),
@@ -331,7 +331,7 @@ namespace Dcb
 #pragma endregion Constant Element Reference Class
 
 #pragma region Element Reference Class
-	ElementRef::Ptr::Ptr(ElementRef& ref)
+	ElementRef::Ptr::Ptr(ElementRef& ref) noexcept
 		:
 		ref(ref)
 	{}
@@ -341,7 +341,7 @@ namespace Dcb
 	DCB_PTR_CONVERSION(ElementRef, Float2)
 	DCB_PTR_CONVERSION(ElementRef, Float)
 	DCB_PTR_CONVERSION(ElementRef, Bool)
-	ElementRef::ElementRef(const LayoutElement* pLayout, char* pBytes, size_t offset)
+	ElementRef::ElementRef(const LayoutElement* pLayout, char* pBytes, size_t offset) noexcept
 		:
 		offset(offset),
 		pLayout(pLayout),
@@ -387,9 +387,9 @@ namespace Dcb
 	Buffer Buffer::Make(Layout& lay) noxnd {
 		return { LayoutCodex::Resolve(lay) };
 	}
-	Buffer::Buffer(Layout&& lay) 
+	Buffer::Buffer(Layout&& lay) noexcept
 		: Buffer(lay) {}
-	Buffer::Buffer(Layout& lay)
+	Buffer::Buffer(Layout& lay) noexcept
 		:
 		pLayout(lay.ShareRoot()),
 		bytes(pLayout->GetOffsetEnd())
@@ -414,7 +414,7 @@ namespace Dcb
 	{
 		return *pLayout;
 	}
-	std::shared_ptr<LayoutElement> Buffer::ShareLayout() const
+	std::shared_ptr<LayoutElement> Buffer::ShareLayout() const noexcept
 	{
 		return pLayout;
 	}
