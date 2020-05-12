@@ -416,13 +416,13 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 
 		BindVBuf(gfx, bindablePtrs, meshTag, vbuf, *pvsbc);
 
-		Dcb::Layout layout;
+		Dcb::RawLayout layout;
 
 		layout.Add<Dcb::Float>("specularIntensity");
 		layout.Add<Dcb::Float>("specularPower");
 		layout.Add<Dcb::Bool>("normalMapEnabled");
 
-		auto cbuf = Dcb::Buffer::Make(layout);
+		auto cbuf = Dcb::Buffer::Make(std::move(layout));
 		cbuf["specularIntensity"] = (specularColor.x + specularColor.y + specularColor.z) / 3.0f;
 		cbuf["specularPower"] = shininess;
 		cbuf["normalMapEnabled"] = true;

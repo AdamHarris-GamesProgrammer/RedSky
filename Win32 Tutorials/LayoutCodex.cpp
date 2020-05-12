@@ -2,17 +2,17 @@
 
 namespace Dcb {
 
-	Dcb::Layout LayoutCodex::Resolve(Dcb::Layout& layout) noxnd
+	Dcb::CookedLayout LayoutCodex::Resolve(Dcb::RawLayout&& layout) noxnd
 	{
-		layout.Finalize();
 		auto sig = layout.GetSignature();
 		auto& map = Get_().map;
 		const auto i = map.find(sig);
 
 		if (i != map.end()) {
+			layout.ClearRoot();
 			return { i->second };
 		}
-		auto result = map.insert({ std::move(sig), layout.ShareRoot() });
+		auto result = map.insert({ std::move(sig), layout.DeliverRoot() });
 
 		return { result.first->second };
 	}

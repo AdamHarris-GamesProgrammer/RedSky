@@ -14,6 +14,7 @@
 #include <dxtex/DirectXTex.h>
 #include "RedSkyUtility.h"
 #include "DynamicConstant.h"
+#include "LayoutCodex.h"
 
 namespace DX = DirectX;
 
@@ -22,7 +23,7 @@ void TestDynamicConstant()
 	using namespace std::string_literals;
 	// data roundtrip tests
 	{
-		Dcb::Layout s;
+		Dcb::RawLayout s;
 		s.Add<Dcb::Struct>("testStruct"s);
 		s["testStruct"s].Add<Dcb::Float3>("testStructFloat3"s);
 		s["testStruct"s].Add<Dcb::Float>("testStructFloat"s);
@@ -36,9 +37,9 @@ void TestDynamicConstant()
 		s["testArray"s].T()["testArrayInArray"s].Set<Dcb::Array>(6);
 		s["testArray"s].T()["testArrayInArray"s].T().Set<Dcb::Matrix>(4);
 		s["testArray"s].T().Add<Dcb::Bool>("testArrayBool"s);
-		auto b = Dcb::Buffer::Make(s);
+		auto b = Dcb::Buffer::Make(std::move(s));
 
-		const auto sig = b.GetSignature();
+		const auto sig = b.GetLayout().GetSignature();
 
 		{
 			auto exp = 42.0f;
@@ -95,33 +96,33 @@ void TestDynamicConstant()
 	}
 	// size test testArray of testArrays
 	{
-		Dcb::Layout s;
+		Dcb::RawLayout s;
 		s.Add<Dcb::Array>("testArray");
 		s["testArray"s].Set<Dcb::Array>(6);
 		s["testArray"s].T().Set<Dcb::Matrix>(4);
-		auto b = Dcb::Buffer::Make(s);
+		auto b = Dcb::Buffer::Make(std::move(s));
 
 		auto act = b.GetSizeInBytes();
 		assert(act == 16u * 4u * 4u * 6u);
 	}
 	// size test testArrayay of structs with padding
 	{
-		Dcb::Layout s;
+		Dcb::RawLayout s;
 		s.Add<Dcb::Array>("testArray");
 		s["testArray"s].Set<Dcb::Struct>(6);
 		s["testArray"s].T().Add<Dcb::Float2>("a");
 		s["testArray"s].T().Add<Dcb::Float3>("b"s);
-		auto b = Dcb::Buffer::Make(s);
+		auto b = Dcb::Buffer::Make(std::move(s));
 
 		auto act = b.GetSizeInBytes();
 		assert(act == 16u * 2u * 6u);
 	}
 	// size test testArrayay of primitive that needs padding
 	{
-		Dcb::Layout s;
+		Dcb::RawLayout s;
 		s.Add<Dcb::Array>("testArray");
 		s["testArray"s].Set<Dcb::Float3>(6);
-		auto b = Dcb::Buffer::Make(s);
+		auto b = Dcb::Buffer::Make(std::move(s));
 
 		auto act = b.GetSizeInBytes();
 		assert(act == 16u * 6u);

@@ -42,7 +42,7 @@ namespace Dcb
 	class LayoutCodex;
 	class LayoutElement
 	{
-		friend class Layout;
+		friend class RawLayout;
 		friend class Array;
 		friend class Struct;
 	public:
@@ -139,32 +139,46 @@ namespace Dcb
 		std::unique_ptr<LayoutElement> pElement;
 	};
 
-
-
-	class Layout
-	{
+	class Layout {
 		friend class LayoutCodex;
 		friend class Buffer;
+
 	public:
-		Layout() noexcept;
-		LayoutElement& operator[](const std::string& key) noxnd;
 		size_t GetSizeInBytes() const noexcept;
+		std::string GetSignature() const noxnd;
+	protected:
+		Layout() noexcept;
+		Layout(std::shared_ptr<LayoutElement> pRoot) noexcept;
+		std::shared_ptr<LayoutElement> pRoot;
+	};
+
+	class RawLayout : public Layout {
+		friend class LayoutCodex;
+	public:
+		RawLayout() = default;
+		LayoutElement& operator[](const std::string& key) noxnd;
+
 		template<typename T>
 		LayoutElement& Add(const std::string& key) noxnd
 		{
-			assert(!finalized && "cannot modify finalized layout");
-			return pLayout->Add<T>(key);
+			return pRoot->Add<T>(key);
 		}
-		void Finalize() noxnd;
-		bool IsFinalized() const noexcept;
-		std::string GetSignature() const noxnd;
+
 	private:
-		Layout(std::shared_ptr<LayoutElement> pLayout) noexcept;
-		std::shared_ptr<LayoutElement> ShareRoot() const noexcept;
-		bool finalized = false;
-		std::shared_ptr<LayoutElement> pLayout;
+		std::shared_ptr<LayoutElement> DeliverRoot() noexcept;
+		void ClearRoot() noexcept;
 	};
 
+	class CookedLayout : public Layout {
+		friend class LayoutCodex;
+		friend class Buffer;
+	public:
+		const LayoutElement& operator[](const std::string& key) const noxnd;
+	private:
+		CookedLayout(std::shared_ptr<LayoutElement> pRoot) noexcept;
+
+		std::shared_ptr<LayoutElement> ShareRoot() const noexcept;
+	};
 
 	class ConstElementRef
 	{
@@ -250,7 +264,8 @@ namespace Dcb
 	class Buffer
 	{
 	public:
-		static Buffer Make(Layout& lay) noxnd;
+		static Buffer Make(RawLayout&& lay) noxnd;
+		static Buffer Make(const CookedLayout& lay) noxnd;
 		ElementRef operator[](const std::string& key) noxnd;
 		ConstElementRef operator[](const std::string& key) const noxnd;
 		std::string GetSignature() const noxnd;
@@ -259,8 +274,7 @@ namespace Dcb
 		const LayoutElement& GetLayout() const noexcept;
 		std::shared_ptr<LayoutElement> ShareLayout() const noexcept;
 	private:
-		Buffer(Layout& lay) noexcept;
-		Buffer(Layout&& lay) noexcept;
+		Buffer(const CookedLayout& lay) noexcept;
 		std::shared_ptr<LayoutElement> pLayout;
 		std::vector<char> bytes;
 	};
