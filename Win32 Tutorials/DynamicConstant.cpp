@@ -248,10 +248,10 @@ namespace Dcb
 #pragma endregion Array Class
 
 #pragma region Layout Class
-	Layout::Layout()
-		:
-		pLayout(std::make_shared<Struct>())
-	{}
+	Layout::Layout() {
+		struct Enabler : public Struct {};
+		pLayout = std::make_unique<Enabler>();
+	}
 	Layout::Layout(std::shared_ptr<LayoutElement> pLayout)
 		:
 		pLayout(std::move(pLayout)), finalized(true)
@@ -382,7 +382,6 @@ namespace Dcb
 	DCB_REF_NONCONST(ElementRef, Float)
 	DCB_REF_NONCONST(ElementRef, Bool)
 #pragma endregion Element Reference Class
-
 
 #pragma region Buffer Class
 	Buffer Buffer::Make(Layout& lay) noxnd {
