@@ -186,6 +186,9 @@
     <ClCompile Include="RedSkyUtility.cpp">
       <Filter>Source Files\RedSky</Filter>
     </ClCompile>
+    <ClCompile Include="Testing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageMap.h">
@@ -379,6 +382,9 @@
     </ClInclude>
     <ClInclude Include="ImguiManager.h">
       <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Testing.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
