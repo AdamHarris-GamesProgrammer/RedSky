@@ -154,8 +154,6 @@ namespace Dcb
 		std::unique_ptr<ExtraDataBase> pExtraData;
 	};
 
-
-
 	class Layout {
 		friend class LayoutCodex;
 		friend class Buffer;
@@ -164,7 +162,6 @@ namespace Dcb
 		size_t GetSizeInBytes() const noexcept;
 		std::string GetSignature() const noxnd;
 	protected:
-		Layout() noexcept;
 		Layout(std::shared_ptr<LayoutElement> pRoot) noexcept;
 		std::shared_ptr<LayoutElement> pRoot;
 	};
@@ -172,13 +169,13 @@ namespace Dcb
 	class RawLayout : public Layout {
 		friend class LayoutCodex;
 	public:
-		RawLayout() = default;
+		RawLayout() noexcept;
 		LayoutElement& operator[](const std::string& key) noxnd;
 
-		template<typename T>
+		template<Type type>
 		LayoutElement& Add(const std::string& key) noxnd
 		{
-			return pRoot->Add<T>(key);
+			return pRoot->Add<type>(key);
 		}
 
 	private:
@@ -208,35 +205,34 @@ namespace Dcb
 		{
 			friend ConstElementRef;
 		public:
-
-			DCB_PTR_CONVERSION(Matrix, const)
-				DCB_PTR_CONVERSION(Float4, const)
-				DCB_PTR_CONVERSION(Float3, const)
-				DCB_PTR_CONVERSION(Float2, const)
-				DCB_PTR_CONVERSION(Float, const)
-				DCB_PTR_CONVERSION(Bool, const)
+			template<typename T>
+			operator const T* () const noxnd {
+				static_assert(ReverseMap<std::remove_const_t<T>>::valid, "Unsupported SysType used in pointer conversion");
+				return &static_cast<const T&>(*ref);
+			}
+			
 		private:
-			Ptr(ConstElementRef& ref) noexcept;
-			ConstElementRef& ref;
+			Ptr(const ConstElementRef* ref) noexcept;
+			ConstElementRef* ref;
 		};
 	public:
 
 		bool Exists() const noexcept;
-		ConstElementRef operator[](const std::string& key) noxnd;
-		ConstElementRef operator[](size_t index) noxnd;
-		Ptr operator&() noxnd;
-
-		DCB_REF_CONST(Matrix)
-			DCB_REF_CONST(Float4)
-			DCB_REF_CONST(Float3)
-			DCB_REF_CONST(Float2)
-			DCB_REF_CONST(Float)
-			DCB_REF_CONST(Bool)
+		ConstElementRef operator[](const std::string& key) const noxnd;
+		ConstElementRef operator[](size_t index) const noxnd;
+		Ptr operator&() const noxnd;
+		
+		template<typename T>
+		operator const T& () const noxnd {
+			static_assert(ReverseMap<std::remove_const_t<T>>::valid, "Unsupported SysType used in conversion system");
+			return *reinterpret_cast<const T*>(pBytes + offset + pLayout->Resolve<T>());
+		}
+	
 	private:
-		ConstElementRef(const LayoutElement* pLayout, char* pBytes, size_t offset) noexcept;
+		ConstElementRef(const LayoutElement* pLayout, const char* pBytes, size_t offset) noexcept;
 		size_t offset;
 		const class LayoutElement* pLayout;
-		char* pBytes;
+		const char* pBytes;
 	};
 
 	class ElementRef
@@ -247,35 +243,38 @@ namespace Dcb
 		{
 			friend ElementRef;
 		public:
-
-			DCB_PTR_CONVERSION(Matrix)
-				DCB_PTR_CONVERSION(Float4)
-				DCB_PTR_CONVERSION(Float3)
-				DCB_PTR_CONVERSION(Float2)
-				DCB_PTR_CONVERSION(Float)
-				DCB_PTR_CONVERSION(Bool)
+			template<typename T>
+			operator T* () const noxnd {
+				static_assert(ReverseMap<std::remove_const_t<T>>::valid, "Unsupported SysType used in pointer conversion system");
+				return &static_cast<T&>(*ref);
+			}
 		private:
-			Ptr(ElementRef& ref) noexcept;
-			ElementRef& ref;
+			Ptr(ElementRef* ref) noexcept;
+			ElementRef* ref;
 		};
+
 	public:
 		bool Exists() const noexcept;
-		operator ConstElementRef() const noexcept;
-		ElementRef operator[](const std::string& key) noxnd;
-		ElementRef operator[](size_t index) noxnd;
-		Ptr operator&() noxnd;
+		ElementRef operator[](const std::string& key) const noxnd;
+		ElementRef operator[](size_t index) const noxnd;
+		Ptr operator&() const noxnd;
 
-		DCB_REF_NONCONST(Matrix)
-			DCB_REF_NONCONST(Float4)
-			DCB_REF_NONCONST(Float3)
-			DCB_REF_NONCONST(Float2)
-			DCB_REF_NONCONST(Float)
-			DCB_REF_NONCONST(Bool)
+		template<typename T>
+		operator T& () const noxnd {
+			static_assert(ReverseMap<std::remove_const<T>>::valid, "Unsupported SysType used in conversion system");
+			return *reinterpret_cast<T*>(pBytes + offset + pLayout->Resolve<T>());
+		}
 
+		template<typename T>
+		T& operator = (const T& rhs) const noxnd {
+			static_cast(ReverseMap<std::remove_const_t<T>>::valid, "Unsupported SysType used in assignment system");
+			return static_cast<T&>(*this) = rhs;
+		}
+		
 	private:
 		ElementRef(const LayoutElement* pLayout, char* pBytes, size_t offset) noexcept;
 		size_t offset;
-		const class LayoutElement* pLayout;
+		const LayoutElement* pLayout;
 		char* pBytes;
 	};
 
@@ -303,35 +302,8 @@ namespace Dcb
 		std::shared_ptr<LayoutElement> pLayoutRoot;
 		std::vector<char> bytes;
 	};
-
-
-	// must come after Definitions of Struct and Array
-	template<typename T>
-	LayoutElement& LayoutElement::Add(const std::string& key) noxnd
-	{
-		auto ps = dynamic_cast<Struct*>(this);
-		assert(ps != nullptr);
-		struct Enabler : public T {};
-		ps->Add(key, std::make_unique<Enabler>());
-		return *this;
-	}
-
-	template<typename T>
-	LayoutElement& LayoutElement::Set(size_t size) noxnd
-	{
-		auto pa = dynamic_cast<Array*>(this);
-		assert(pa != nullptr);	
-		struct Enabler : public T {};
-		pa->Set(std::make_unique<Enabler>(), size);
-		return *this;
-	}
 }
 
-#undef DCB_RESOLVE_BASE
-#undef DCB_LEAF_ELEMENT_IMPL
-#undef DCB_LEAF_ELEMENT
-#undef DCB_REF_CONVERSION
-#undef DCB_REF_ASSIGN
-#undef DCB_REF_NONCONST
-#undef DCB_REF_CONST
-#undef DCB_PTR_CONVERSION
+#ifndef DCB_IMPL_SOURCE
+#undef LEAF_ELEMENT_TYPES
+#endif
