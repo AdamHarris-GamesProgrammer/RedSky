@@ -458,7 +458,7 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 		Dcb::RawLayout lay;
 		lay.Add<Dcb::Bool>("normalMapEnabled");
 		lay.Add<Dcb::Bool>("specularMapEnabled");
-		lay.Add<Dcb::Bool>("hasGlossMap");
+		lay.Add<Dcb::Bool>("hasGloss");
 		lay.Add<Dcb::Float>("specularPower");
 		lay.Add<Dcb::Float3>("specularColor");
 		lay.Add<Dcb::Float>("specularMapWeight");
@@ -466,7 +466,7 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 		auto buf = Dcb::Buffer(std::move(lay));
 		buf["normalMapEnabled"] = true;
 		buf["specularMapEnabled"] = true;
-		buf["hasGlossMap"] = hasAlphaGloss;
+		buf["hasGloss"] = hasAlphaGloss;
 		buf["specularPower"] = shininess;
 		buf["specularColor"] = dx::XMFLOAT3{ 0.75f,0.75f,0.75f };
 		buf["specularMapWeight"] = 0.671f;
