@@ -4,140 +4,157 @@
 #include <DirectXMath.h>
 #include <vector>
 #include <memory>
-#include <unordered_map>
+#include <optional>
 
-
-#define DCB_RESOLVE_BASE(eltype) \
-virtual size_t Resolve ## eltype() const noxnd;
-
-#define DCB_LEAF_ELEMENT_IMPL(eltype,systype,hlslSize) \
-class eltype : public LayoutElement \
-{ \
-	friend LayoutElement; \
-public: \
-	using SystemType = systype; \
-	size_t Resolve ## eltype() const noxnd  final;\
-	size_t GetOffsetEnd() const noexcept  final;\
-	std::string GetSignature() const noxnd final; \
-protected: \
-	size_t Finalize( size_t offset_in ) noxnd final;\
-	size_t ComputeSize() const noxnd  final;\
-};
-#define DCB_LEAF_ELEMENT(eltype,systype) DCB_LEAF_ELEMENT_IMPL(eltype,systype,sizeof(systype))
-
-#define DCB_REF_CONVERSION(eltype,...) \
-operator __VA_ARGS__ eltype::SystemType&() noxnd;
-#define DCB_REF_ASSIGN(eltype) \
-eltype::SystemType& operator=( const eltype::SystemType& rhs ) noxnd;
-#define DCB_REF_NONCONST(eltype) DCB_REF_CONVERSION(eltype) DCB_REF_ASSIGN(eltype)
-#define DCB_REF_CONST(eltype) DCB_REF_CONVERSION(eltype,const)
-
-#define DCB_PTR_CONVERSION(eltype,...) \
-operator __VA_ARGS__ eltype::SystemType*() noxnd;
-
+#define LEAF_ELEMENT_TYPES \
+	X(Float)\
+	X(Float2)\
+	X(Float3)\
+	X(Float4)\
+	X(Matrix)\
+	X(Bool)
 
 namespace Dcb
 {
 	namespace dx = DirectX;
+
+	enum Type
+	{
+		#define X(el) el, LEAF_ELEMENT_TYPES 
+		#undef X
+		Struct,
+		Array,
+		Empty
+	};
+
+	template<Type type>
+	struct Map {
+		static constexpr bool valid = false;
+	};
+	template<> struct Map<Float> {
+		using SysType = float;
+		static constexpr size_t hlslSize = sizeof(SysType);
+		static constexpr const char* code = "F1";
+		static constexpr bool valid = true;
+	};
+	template<> struct Map<Float2> {
+		using SysType = dx::XMFLOAT2;
+		static constexpr size_t hlslSize = sizeof(SysType);
+		static constexpr const char* code = "F2";
+		static constexpr bool valid = true;
+	};
+	template<> struct Map<Float3> {
+		using SysType = dx::XMFLOAT3;
+		static constexpr size_t hlslSize = sizeof(SysType);
+		static constexpr const char* code = "F3";
+		static constexpr bool valid = true;
+	};
+	template<> struct Map<Float4> {
+		using SysType = dx::XMFLOAT4;
+		static constexpr size_t hlslSize = sizeof(SysType);
+		static constexpr const char* code = "F4";
+		static constexpr bool valid = true;
+	};
+	template<> struct Map<Matrix> {
+		using SysType = dx::XMFLOAT4X4;
+		static constexpr size_t hlslSize = sizeof(SysType);
+		static constexpr const char* code = "M4";
+		static constexpr bool valid = true;
+	};
+	template<> struct Map<Bool> {
+		using SysType = float;
+		static constexpr size_t hlslSize = sizeof(SysType);
+		static constexpr const char* code = "BL";
+		static constexpr bool valid = true;
+	};
+
+	#define X(el) static_assert(Map<el>::valid, "Missing map implementation for " #el);
+	LEAF_ELEMENT_TYPES
+	#undef X
+
 	class LayoutCodex;
 	class LayoutElement
 	{
+	private:
+		struct ExtraDataBase {
+			virtual ~ExtraDataBase() = default;
+		};
+
 		friend class RawLayout;
-		friend class Array;
-		friend class Struct;
+		friend struct ExtraData;
 	public:
-		virtual ~LayoutElement();
+		std::string GetSignature() const noxnd;
 
-		virtual std::string GetSignature() const noxnd = 0;
+		bool Exists() const noexcept;
 
-		virtual bool Exists() const noexcept;
+		std::pair<size_t const LayoutElement*> CalculateIndexingOffset(size_t offset, size_t index) const noxnd;
+
 
 		// [] only works for Structs; access member by name
-		virtual LayoutElement& operator[](const std::string&) noxnd;
+		LayoutElement& operator[](const std::string& key) noxnd;
 		const LayoutElement& operator[](const std::string& key) const noxnd;
 		// T() only works for Arrays; gets the array type layout object
-		virtual LayoutElement& T() noxnd;
+		LayoutElement& T() noxnd;
 		const LayoutElement& T() const noxnd;
 
 		// offset based- functions only work after finalization!
-		size_t GetOffsetBegin() const noexcept;
-		virtual size_t GetOffsetEnd() const noexcept = 0;
+		size_t GetOffsetBegin() const noxnd;
+		size_t GetOffsetEnd() const noxnd;
 		// get size in bytes derived from offsets
-		size_t GetSizeInBytes() const noexcept;
+		size_t GetSizeInBytes() const noxnd;
 
-		// only works for Structs; add LayoutElement
-		template<typename T>
-		LayoutElement& Add(const std::string& key) noxnd;
-		// only works for Arrays; set the type and the # of elements
-		template<typename T>
-		LayoutElement& Set(size_t size) noxnd;
-
-		// returns the value of offset bumped up to the next 16-byte boundary (if not already on one)
-		static size_t GetNextBoundaryOffset(size_t offset) noexcept;
-
-		DCB_RESOLVE_BASE(Matrix)
-			DCB_RESOLVE_BASE(Float4)
-			DCB_RESOLVE_BASE(Float3)
-			DCB_RESOLVE_BASE(Float2)
-			DCB_RESOLVE_BASE(Float)
-			DCB_RESOLVE_BASE(Bool)
-	protected:
-		// sets all offsets for element and subelements, returns offset directly after this element
-		virtual size_t Finalize(size_t offset) noxnd = 0;
-		// computes the size of this element in bytes, considering padding on Arrays and Structs
-		virtual size_t ComputeSize() const noxnd = 0;
-	protected:
-		size_t offset = 0u;
-	};
-
-
-	DCB_LEAF_ELEMENT(Matrix, dx::XMFLOAT4X4)
-		DCB_LEAF_ELEMENT(Float4, dx::XMFLOAT4)
-		DCB_LEAF_ELEMENT(Float3, dx::XMFLOAT3)
-		DCB_LEAF_ELEMENT(Float2, dx::XMFLOAT2)
-		DCB_LEAF_ELEMENT(Float, float)
-		DCB_LEAF_ELEMENT_IMPL(Bool, bool, 4u)
-
-
-	class Struct : public LayoutElement
-	{
-		friend LayoutElement;
-	public:
-		LayoutElement& operator[](const std::string& key) noxnd final;
-		size_t GetOffsetEnd() const noexcept final;
-		std::string GetSignature() const noxnd final;
-		void Add(const std::string& name, std::unique_ptr<LayoutElement> pElement) noxnd;
-	protected:
-		Struct() = default;
-		size_t Finalize(size_t offset_in) noxnd final;
-		size_t ComputeSize() const noxnd final;
-	private:
-		static size_t CalculatePaddingBeforeElement(size_t offset, size_t size) noexcept;
-	private:
-		std::unordered_map<std::string, LayoutElement*> map;
-		std::vector<std::unique_ptr<LayoutElement>> elements;
-	};
-
-	class Array : public LayoutElement
-	{
-		friend LayoutElement;
-	public:
-		size_t GetOffsetEnd() const noexcept  final;
-		void Set(std::unique_ptr<LayoutElement> pElement, size_t size_in) noxnd;
-		LayoutElement& T() noxnd final;
-		const LayoutElement& T() const noxnd;
-		std::string GetSignature() const noxnd final;
-		bool IndexInBounds(size_t index) const noexcept{
-			return index < size;
+		LayoutElement& Add(Type addedType, std::string name) noxnd;
+		template<Type typeAdded>
+		LayoutElement& Add(std::string key) noxnd {
+			return Add(typeAdded, std::move(key));
 		}
-	protected:
-		Array() = default;
-		size_t Finalize(size_t offset_in) noxnd final;
-		size_t ComputeSize() const noxnd final;
+		LayoutElement& Set(Type addedType, size_t size) noxnd;
+		template<Type typeAdded>
+		LayoutElement& Set(size_t size) noxnd {
+			return Set(typeAdded, size);
+		}
+
+		template<typename T>
+		size_t Resolve() const noxnd {
+			switch (type) {
+#define X(el) case el: assert(typeid(Map<el>::SysType) == typeid(T)); return *offset;
+				LEAF_ELEMENT_TYPES
+#undef X
+			default:
+				assert("Tried to resolve non-leaf element" && false);
+				return 0u;
+			}
+		}
+
 	private:
-		size_t size = 0u;
-		std::unique_ptr<LayoutElement> pElement;
+		LayoutElement() noexcept = default;
+		LayoutElement(Type typeIn) noxnd;
+
+		size_t Finalize(size_t offsetIn) noxnd;
+
+		std::GetSignatureForStruct() const noxnd;
+		std::GetSignatureForArray() const noxnd;
+
+		size_t FinalizeForStruct(size_t offsetIn);
+		size_t FinalizeForArray(size_t offsetIn);
+
+		static LayoutElement& GetLayoutElement() noexcept {
+			static LayoutElement empty{};
+			return empty;
+		}
+
+		size_t AdvanceToBoundary(size_t offset) noexcept;
+		static bool CrossesBoundary(size_t offset, size_t size) noexcept;
+		static size_t AdvanceIfCrossesBoundary(size_t offset, size_t size) noexcept;
+		static bool ValidateSymbolName(const std::string& name) noexcept;
+
+	private:
+		std::optional<size_t> offset;
+		Type type = Empty;
+		std::unique_ptr<ExtraDataBase> pExtraData;
 	};
+
+
 
 	class Layout {
 		friend class LayoutCodex;
