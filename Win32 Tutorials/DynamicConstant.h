@@ -72,6 +72,19 @@ namespace Dcb
 	LEAF_ELEMENT_TYPES
 	#undef X
 
+	template<typename T>
+	struct ReverseMap {
+		static constexpr bool valid = false;
+	};
+	#define X(el) \
+	template<> struct ReverseMap<typename Map<el>::SysType> \
+	{\
+		static constexpr Type type = el; \
+		static constexpr bool valid = true; \
+	};
+	LEAF_ELEMENT_TYPES
+	#undef X
+
 	class LayoutCodex;
 	class LayoutElement
 	{
@@ -87,7 +100,7 @@ namespace Dcb
 
 		bool Exists() const noexcept;
 
-		std::pair<size_t const LayoutElement*> CalculateIndexingOffset(size_t offset, size_t index) const noxnd;
+		std::pair<size_t, const LayoutElement*> CalculateIndexingOffset(size_t offset, size_t index) const noxnd;
 
 
 		// [] only works for Structs; access member by name
@@ -132,8 +145,8 @@ namespace Dcb
 
 		size_t Finalize(size_t offsetIn) noxnd;
 
-		std::GetSignatureForStruct() const noxnd;
-		std::GetSignatureForArray() const noxnd;
+		std::string GetSignatureForStruct() const noxnd;
+		std::string GetSignatureForArray() const noxnd;
 
 		size_t FinalizeForStruct(size_t offsetIn);
 		size_t FinalizeForArray(size_t offsetIn);
