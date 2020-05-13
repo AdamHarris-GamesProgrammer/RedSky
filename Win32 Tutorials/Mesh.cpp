@@ -141,54 +141,65 @@ public:
 					tp.z = translation.z;
 					auto pMatConst = pSelectedNode->GetMaterialConstants();
 					auto buf = pMatConst != nullptr ? std::optional<Dcb::Buffer>{*pMatConst} : std::optional<Dcb::Buffer>{};
-					std::tie(i, std::ignore) = transforms.insert({ id,{ tp,std::move(buf) } });
+					std::tie(i, std::ignore) = transforms.insert({ id,{ tp,false, std::move(buf),false } });
 				}
-				auto& transform = i->second.transformParams;
 
-				ImGui::Text("Orientation");
-				ImGui::SliderAngle("Roll", &transform.roll, -180.0f, 180.0f);
-				ImGui::SliderAngle("Pitch", &transform.pitch, -180.0f, 180.0f);
-				ImGui::SliderAngle("Yaw", &transform.yaw, -180.0f, 180.0f);
+				{
+					auto& transform = i->second.transformParams;
 
-				ImGui::Text("Position");
-				ImGui::SliderFloat("X", &transform.x, -20.0f, 20.0f);
-				ImGui::SliderFloat("Y", &transform.y, -20.0f, 20.0f);
-				ImGui::SliderFloat("Z", &transform.z, -20.0f, 20.0f);
+					auto& changed = i->second.transformParamsTest;
+					const auto changedCheck = [&changed](bool changed_in) { changed = changed || changed_in; };
+
+					ImGui::Text("Orientation");
+					changedCheck(ImGui::SliderAngle("Roll", &transform.roll, -180.0f, 180.0f));
+					changedCheck(ImGui::SliderAngle("Pitch", &transform.pitch, -180.0f, 180.0f));
+					changedCheck(ImGui::SliderAngle("Yaw", &transform.yaw, -180.0f, 180.0f));
+
+					ImGui::Text("Position");
+					changedCheck(ImGui::SliderFloat("X", &transform.x, -20.0f, 20.0f));
+					changedCheck(ImGui::SliderFloat("Y", &transform.y, -20.0f, 20.0f));
+					changedCheck(ImGui::SliderFloat("Z", &transform.z, -20.0f, 20.0f));
+				}
+			
 
 				if (i->second.materialCbuf) {
 					auto& mat = *i->second.materialCbuf;
+
+					auto& changed = i->second.materialCbufTest;
+					const auto changedCheck = [&changed](bool changed_in) { changed = changed || changed_in; };
+
 					ImGui::Text("Material");
 					if (auto v = mat["normalMapEnabled"]; v.Exists())
 					{
-						ImGui::Checkbox("Norm Map", &v);
+						changedCheck(ImGui::Checkbox("Norm Map", &v));
 					}
 					if (auto v = mat["specularMapEnabled"]; v.Exists())
 					{
-						ImGui::Checkbox("Spec Map", &v);
+						changedCheck(ImGui::Checkbox("Spec Map", &v));
 					}
 					if (auto v = mat["hasGlossMap"]; v.Exists())
 					{
-						ImGui::Checkbox("Gloss Map", &v);
+						changedCheck(ImGui::Checkbox("Gloss Map", &v));
 					}
 					if (auto v = mat["materialColor"]; v.Exists())
 					{
-						ImGui::ColorPicker3("Diff Color", reinterpret_cast<float*>(&static_cast<dx::XMFLOAT3&>(v)));
+						changedCheck(ImGui::ColorPicker3("Diff Color", reinterpret_cast<float*>(&static_cast<dx::XMFLOAT3&>(v))));
 					}
 					if (auto v = mat["specularPower"]; v.Exists())
 					{
-						ImGui::SliderFloat("Spec Power", &v, 0.0f, 100.0f, "%.1f", 1.5f);
+						changedCheck(ImGui::SliderFloat("Spec Power", &v, 0.0f, 100.0f, "%.1f", 1.5f));
 					}
 					if (auto v = mat["specularColor"]; v.Exists())
 					{
-						ImGui::ColorPicker3("Spec Color", reinterpret_cast<float*>(&static_cast<dx::XMFLOAT3&>(v)));
+						changedCheck(ImGui::ColorPicker3("Spec Color", reinterpret_cast<float*>(&static_cast<dx::XMFLOAT3&>(v))));
 					}
 					if (auto v = mat["specularMapWeight"]; v.Exists())
 					{
-						ImGui::SliderFloat("Spec Weight", &v, 0.0f, 4.0f);
+						changedCheck(ImGui::SliderFloat("Spec Weight", &v, 0.0f, 4.0f));
 					}
 					if (auto v = mat["specularIntensity"]; v.Exists())
 					{
-						ImGui::SliderFloat("Spec Intens", &v, 0.0f, 1.0f);
+						changedCheck(ImGui::SliderFloat("Spec Intens", &v, 0.0f, 1.0f));
 					}
 				}
 			}
@@ -197,7 +208,19 @@ public:
 		ImGui::End();
 	}
 
-	dx::XMMATRIX GetTransform() const noexcept {
+	void ApplyParamaters() noxnd {
+		if (TransformChanged()) {
+			pSelectedNode->SetAppliedTransform(GetTransform());
+			ResetTransformsChanged();
+		}
+		if (MaterialChanged()) {
+			pSelectedNode->SetMaterialConstants(GetMaterial());
+			ResetMaterialsChanged();
+		}
+	}
+
+private:
+	dx::XMMATRIX GetTransform() const noxnd {
 		assert(pSelectedNode != nullptr);
 		const auto& transform = transforms.at(pSelectedNode->GetID()).transformParams;
 		return
@@ -205,10 +228,28 @@ public:
 			dx::XMMatrixTranslation(transform.x, transform.y, transform.z);
 	}
 
-	const Dcb::Buffer* GetMaterial() const noexcept {
+	const Dcb::Buffer& GetMaterial() const noxnd {
 		assert(pSelectedNode != nullptr);
 		const auto& mat = transforms.at(pSelectedNode->GetID()).materialCbuf;
-		return mat ? &*mat : nullptr;
+		assert(mat);
+		return *mat;
+	}
+
+	bool TransformChanged() const noxnd {
+		return pSelectedNode && transforms.at(pSelectedNode->GetID()).transformParamsTest;
+	}
+	void ResetTransformsChanged() noxnd {
+		transforms.at(pSelectedNode->GetID()).transformParamsTest = false;
+	}
+	
+	bool MaterialChanged() const noxnd {
+		return pSelectedNode && transforms.at(pSelectedNode->GetID()).materialCbufTest;
+	}
+	void ResetMaterialsChanged() noxnd {
+		transforms.at(pSelectedNode->GetID()).materialCbufTest = false;
+	}
+	bool IsChanged() const noxnd {
+		return TransformChanged() || MaterialChanged();
 	}
 
 	Node* GetSelectedNode() const noexcept {
@@ -230,7 +271,9 @@ private:
 	struct NodeData
 	{
 		TransformParameters transformParams;
+		bool transformParamsTest;
 		std::optional<Dcb::Buffer> materialCbuf;
+		bool materialCbufTest;
 	};
 	std::unordered_map<int, NodeData> transforms;
 };
@@ -264,12 +307,8 @@ Model::Model(Graphics& gfx, const std::string& pathString, const float scale) :
 Model::~Model() noexcept {}
 
 void Model::Draw(Graphics& gfx) const noxnd {
-	if (auto node = pWindow->GetSelectedNode()) {
-		node->SetAppliedTransform(pWindow->GetTransform());
-		if (auto mat = pWindow->GetMaterial()) {
-			node->SetMaterialConstants(*mat);
-		}
-	}
+	pWindow->ApplyParamaters();
+
 	pRoot->Draw(gfx, dx::XMMatrixIdentity());
 }
 
