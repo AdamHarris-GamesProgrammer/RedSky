@@ -22,9 +22,9 @@ void TestDynamicConstant() {
 		s["testArray"s].T()["testArrayInArray"s].Set<Dcb::Array>(6);
 		s["testArray"s].T()["testArrayInArray"s].T().Set<Dcb::Matrix>(4);
 		s["testArray"s].T().Add<Dcb::Bool>("testArrayBool"s);
-		auto b = Dcb::Buffer::Make(std::move(s));
+		auto b = Dcb::Buffer(std::move(s));
 
-		const auto sig = b.GetLayout().GetSignature();
+		const auto sig = b.GetRootLayoutElement().GetSignature();
 
 		{
 			auto exp = 42.0f;
@@ -79,7 +79,7 @@ void TestDynamicConstant() {
 		s.Add<Dcb::Array>("testArray");
 		s["testArray"s].Set<Dcb::Array>(6);
 		s["testArray"s].T().Set<Dcb::Matrix>(4);
-		auto b = Dcb::Buffer::Make(std::move(s));
+		auto b = Dcb::Buffer(std::move(s));
 
 		auto act = b.GetSizeInBytes();
 		assert(act == 16u * 4u * 4u * 6u);
@@ -91,7 +91,7 @@ void TestDynamicConstant() {
 		s["testArray"s].Set<Dcb::Struct>(6);
 		s["testArray"s].T().Add<Dcb::Float2>("a");
 		s["testArray"s].T().Add<Dcb::Float3>("b"s);
-		auto b = Dcb::Buffer::Make(std::move(s));
+		auto b = Dcb::Buffer(std::move(s));
 
 		auto act = b.GetSizeInBytes();
 		assert(act == 16u * 2u * 6u);
@@ -101,7 +101,7 @@ void TestDynamicConstant() {
 		Dcb::RawLayout s;
 		s.Add<Dcb::Array>("testArray");
 		s["testArray"s].Set<Dcb::Float3>(6);
-		auto b = Dcb::Buffer::Make(std::move(s));
+		auto b = Dcb::Buffer(std::move(s));
 
 		auto act = b.GetSizeInBytes();
 		assert(act == 16u * 6u);
@@ -116,9 +116,9 @@ void TestDynamicConstant() {
 		s.Add<Dcb::Float>("arr");
 		// fails to compile, cooked returns const&
 		// cooked["arr"].Add<Dcb::Float>("buttman");
-		auto b1 = Dcb::Buffer::Make(cooked);
+		auto b1 = Dcb::Buffer(cooked);
 		b1["arr"][0] = DX::XMFLOAT3{ 69.0f,0.0f,0.0f };
-		auto b2 = Dcb::Buffer::Make(cooked);
+		auto b2 = Dcb::Buffer(cooked);
 		b2["arr"][0] = DX::XMFLOAT3{ 420.0f,0.0f,0.0f };
 		assert(static_cast<DX::XMFLOAT3>(b1["arr"][0]).x == 69.0f);
 		assert(static_cast<DX::XMFLOAT3>(b2["arr"][0]).x == 420.0f);

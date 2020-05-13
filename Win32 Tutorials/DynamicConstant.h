@@ -179,6 +179,7 @@ namespace Dcb
 	private:
 		CookedLayout(std::shared_ptr<LayoutElement> pRoot) noexcept;
 
+		std::shared_ptr<LayoutElement> RelinquishRoot() const noexcept;
 	};
 
 	class ConstElementRef
@@ -265,20 +266,24 @@ namespace Dcb
 	class Buffer
 	{
 	public:
-		static Buffer Make(RawLayout&& lay) noxnd;
-		static Buffer Make(const CookedLayout& lay) noxnd;
+		Buffer(RawLayout&& lay) noxnd;
+		Buffer(const CookedLayout& lay) noxnd;
+		Buffer(CookedLayout&& lay) noxnd;
+
 		Buffer(const Buffer&) noexcept;
+
+		Buffer(Buffer&&) noexcept;
+
 		ElementRef operator[](const std::string& key) noxnd;
 		ConstElementRef operator[](const std::string& key) const noxnd;
 		std::string GetSignature() const noxnd;
 		const char* GetData() const noexcept;
 		size_t GetSizeInBytes() const noexcept;
-		const LayoutElement& GetLayout() const noexcept;
+		const LayoutElement& GetRootLayoutElement() const noexcept;
 		void CopyFrom(const Buffer&) noxnd;
-		std::shared_ptr<LayoutElement> ShareLayout() const noexcept;
+		std::shared_ptr<LayoutElement> ShareLayoutRoot() const noexcept;
 	private:
-		Buffer(const CookedLayout& lay) noexcept;
-		std::shared_ptr<LayoutElement> pLayout;
+		std::shared_ptr<LayoutElement> pLayoutRoot;
 		std::vector<char> bytes;
 	};
 

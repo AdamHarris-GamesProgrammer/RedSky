@@ -424,7 +424,7 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 		lay.Add<Dcb::Float3>("specularColor");
 		lay.Add<Dcb::Float>("specularMapWeight");
 
-		auto buf = Dcb::Buffer::Make(std::move(lay));
+		auto buf = Dcb::Buffer(std::move(lay));
 		buf["normalMapEnabled"] = true;
 		buf["specularMapEnabled"] = true;
 		buf["hasGlossMap"] = hasAlphaGloss;
@@ -459,7 +459,7 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 		lay.Add<Dcb::Bool>("hasGloss");
 		lay.Add<Dcb::Float>("specularMapWeight");
 
-		auto buf = Dcb::Buffer::Make(std::move(lay));
+		auto buf = Dcb::Buffer(std::move(lay));
 		buf["specularPower"] = shininess;
 		buf["hasGloss"] = hasAlphaGloss;
 		buf["specularMapWeight"] = 1.0f;
@@ -497,7 +497,7 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 		layout.Add<Dcb::Float>("specularPower");
 		layout.Add<Dcb::Bool>("normalMapEnabled");
 
-		auto cbuf = Dcb::Buffer::Make(std::move(layout));
+		auto cbuf = Dcb::Buffer(std::move(layout));
 		cbuf["specularIntensity"] = (specularColor.x + specularColor.y + specularColor.z) / 3.0f;
 		cbuf["specularPower"] = shininess;
 		cbuf["normalMapEnabled"] = true;
@@ -528,7 +528,7 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 		lay.Add<Dcb::Float>("specularIntensity");
 		lay.Add<Dcb::Float>("specularMapWeight");
 
-		auto buf = Dcb::Buffer::Make(std::move(lay));
+		auto buf = Dcb::Buffer(std::move(lay));
 		buf["specularPower"] = shininess;
 		buf["specularIntensity"] = (specularColor.x + specularColor.y + specularColor.z) / 3.0f;
 		buf["specularMapWeight"] = 1.0f;
@@ -559,7 +559,7 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 		lay.Add<Dcb::Float4>("specularColor");
 		lay.Add<Dcb::Float>("specularPower");
 
-		auto buf = Dcb::Buffer::Make(std::move(lay));
+		auto buf = Dcb::Buffer(std::move(lay));
 		buf["specularPower"] = shininess;
 		buf["specularColor"] = specularColor;
 		buf["materialColor"] = diffuseColor;

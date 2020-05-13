@@ -287,6 +287,11 @@ namespace Dcb
 	CookedLayout::CookedLayout(std::shared_ptr<LayoutElement> pRoot) noexcept 
 		: Layout(std::move(pRoot)) {}
 
+	std::shared_ptr<Dcb::LayoutElement> CookedLayout::RelinquishRoot() const noexcept
+	{
+		return std::move(pRoot);
+	}
+
 	std::shared_ptr<LayoutElement> CookedLayout::ShareRoot() const noexcept {
 		return pRoot;
 	}
@@ -399,22 +404,24 @@ namespace Dcb
 #pragma endregion Element Reference Class
 
 #pragma region Buffer Class
+	Buffer::Buffer(RawLayout&& lay) noxnd
+		: Buffer(LayoutCodex::Resolve(std::move(lay))) {}
+
+	Buffer::Buffer(const CookedLayout& lay) noxnd
+		: pLayoutRoot(lay.ShareRoot()), bytes(pLayoutRoot->GetOffsetEnd()) {}
+
+	Buffer::Buffer(CookedLayout&& lay) noxnd
+		: pLayoutRoot(lay.RelinquishRoot()), bytes(pLayoutRoot->GetOffsetEnd()) {}
+
 	Buffer::Buffer(const Buffer& buf) noexcept
-		: pLayout(buf.ShareLayout()), bytes(buf.bytes) {}
+		: pLayoutRoot(buf.pLayoutRoot), bytes(buf.bytes) {}
 
-	Buffer Buffer::Make(RawLayout&& lay) noxnd {
-		return { LayoutCodex::Resolve(std::move(lay)) };
-	}
-	Buffer Buffer::Make(const CookedLayout& lay) noxnd {
-		return { lay.ShareRoot() };
-	}
-
-	Buffer::Buffer(const CookedLayout& lay) noexcept 
-		: pLayout(lay.ShareRoot()), bytes(pLayout->GetOffsetEnd()) {}
+	Buffer::Buffer(Buffer&& buf) noexcept
+		: pLayoutRoot(std::move(buf.pLayoutRoot)), bytes(std::move(buf.bytes)) {}
 
 	ElementRef Buffer::operator[](const std::string& key) noxnd
 	{
-		return { &(*pLayout)[key],bytes.data(),0u };
+		return { &(*pLayoutRoot)[key],bytes.data(),0u };
 	}
 	ConstElementRef Buffer::operator[](const std::string& key) const noxnd
 	{
@@ -428,17 +435,17 @@ namespace Dcb
 	{
 		return bytes.size();
 	}
-	const LayoutElement& Buffer::GetLayout() const noexcept
+	const LayoutElement& Buffer::GetRootLayoutElement() const noexcept
 	{
-		return *pLayout;
+		return *pLayoutRoot;
 	}
 	void Buffer::CopyFrom(const Buffer& other) noxnd {
-		assert(&GetLayout() == &other.GetLayout());
+		assert(&GetRootLayoutElement() == &other.GetRootLayoutElement());
 		std::copy(other.bytes.begin(), other.bytes.end(), bytes.begin());
 	}
-	std::shared_ptr<LayoutElement> Buffer::ShareLayout() const noexcept
+	std::shared_ptr<LayoutElement> Buffer::ShareLayoutRoot() const noexcept
 	{
-		return pLayout;
+		return pLayoutRoot;
 	}
 #pragma endregion Buffer Class
 }
