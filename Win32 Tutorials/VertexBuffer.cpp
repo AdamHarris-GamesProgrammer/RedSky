@@ -10,7 +10,8 @@ namespace Bind {
 	VertexBuffer::VertexBuffer(Graphics& gfx, const std::string& tag, const rsexp::VertexBuffer& vbuf)
 		:
 		stride((UINT)vbuf.GetLayout().Size()),
-		tag(tag)
+		tag(tag),
+		layout(vbuf.GetLayout())
 	{
 		INFOMAN(gfx);
 
@@ -30,6 +31,11 @@ namespace Bind {
 	{
 		const UINT offset = 0u;
 		GetContext(gfx)->IASetVertexBuffers(0, 1, pVertexBuffer.GetAddressOf(), &stride, &offset);
+	}
+
+	const rsexp::VertexLayout& VertexBuffer::GetLayout() const noexcept
+	{
+		return layout;
 	}
 
 	std::shared_ptr<VertexBuffer> VertexBuffer::Resolve(Graphics& gfx, const std::string& tag,

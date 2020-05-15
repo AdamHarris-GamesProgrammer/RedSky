@@ -4,6 +4,7 @@
 #include "TransformCbufDoubleSlot.h"
 #include "imgui/imgui.h"
 #include "Stencil.h"
+#include "NullPixelShader.h"
 
 TestCube::TestCube(Graphics& gfx, float size)
 {
@@ -14,45 +15,79 @@ TestCube::TestCube(Graphics& gfx, float size)
 	model.Transform(dx::XMMatrixScaling(size, size, size));
 	model.SetNormalsIndependentFlat();
 	const auto geometryTag = "$cube." + std::to_string(size);
-	AddBind(VertexBuffer::Resolve(gfx, geometryTag, model.vertices));
-	AddBind(IndexBuffer::Resolve(gfx, geometryTag, model.indices));
+	pVertices = VertexBuffer::Resolve(gfx, geometryTag, model.vertices);
+	pIndices = IndexBuffer::Resolve(gfx, geometryTag, model.indices);
+	pTopology = Topology::Resolve(gfx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	AddBind(Texture::Resolve(gfx, "Images\\brickwall.jpg"));
-	AddBind(Sampler::Resolve(gfx));
-
-	auto pvs = VertexShader::Resolve(gfx, "PhongVS.cso");
-	auto pvsbc = pvs->GetByteCode();
-	AddBind(std::move(pvs));
-
-	AddBind(PixelShader::Resolve(gfx, "PhongPS.cso"));
-
-	AddBind(PixelConstantBuffer<PSMaterialConstant>::Resolve(gfx, pmc, 1u));
-
-	AddBind(InputLayout::Resolve(gfx, model.vertices.GetLayout(), pvsbc));
-
-	AddBind(Topology::Resolve(gfx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
-
-	auto tcbdb = std::make_shared<TransformCBufDoubleSlot>(gfx, *this, 0u, 2u);
-	AddBind(tcbdb);
-
-	AddBind(std::make_shared<Stencil>(gfx, Stencil::Mode::Write));
-
-
-	outlineEffect.push_back(VertexBuffer::Resolve(gfx, geometryTag, model.vertices));
-	outlineEffect.push_back(IndexBuffer::Resolve(gfx, geometryTag, model.indices));
-	pvs = VertexShader::Resolve(gfx, "SolidVS.cso");
-	pvsbc = pvs->GetByteCode();
-	outlineEffect.push_back(std::move(pvs));
-	outlineEffect.push_back(PixelShader::Resolve(gfx, "SolidPS.cso"));
-	struct SolidColorBuffer
 	{
-		DirectX::XMFLOAT4 color = { 1.0f,0.4f,0.4f,1.0f };
-	} scb;
-	outlineEffect.push_back(PixelConstantBuffer<SolidColorBuffer>::Resolve(gfx, scb, 1u));
-	outlineEffect.push_back(InputLayout::Resolve(gfx, model.vertices.GetLayout(), pvsbc));
-	outlineEffect.push_back(Topology::Resolve(gfx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
-	outlineEffect.push_back(std::move(tcbdb));
-	outlineEffect.push_back(std::make_shared<Stencil>(gfx, Stencil::Mode::Mask));
+		Technique standard;
+		{
+			Step only(0);
+
+			only.AddBindable(Texture::Resolve(gfx, "Images\\brickwall.jpg"));
+			only.AddBindable(Sampler::Resolve(gfx));
+
+			auto pvs = VertexShader::Resolve(gfx, "PhongVS.cso");
+			auto pvsbc = pvs->GetByteCode();
+
+			only.AddBindable(std::move(pvs));
+
+			only.AddBindable(PixelShader::Resolve(gfx, "PhongPS.cso"));
+
+			only.AddBindable(PixelConstantBuffer<PSMaterialConstant>::Resolve(gfx, pmc, 1u));
+
+			only.AddBindable(InputLayout::Resolve(gfx, model.vertices.GetLayout(), pvsbc));
+
+			only.AddBindable(std::make_shared<TransformCbuf>(gfx));
+
+			standard.AddStep(std::move(only));
+		}
+		AddTechnique(std::move(standard));
+	}
+
+	{
+		Technique outline;
+		{
+			Step mask(1);
+
+			auto pvs = VertexShader::Resolve(gfx, "SolidVS.cso");
+			auto pvsbc = pvs->GetByteCode();
+			mask.AddBindable(std::move(pvs));
+
+			mask.AddBindable(InputLayout::Resolve(gfx, model.vertices.GetLayout(), pvsbc));
+
+			mask.AddBindable(std::make_shared<TransformCbuf>(gfx));
+
+			outline.AddStep(std::move(mask));
+		}
+		{
+			Step draw(2);
+
+			auto pvs = VertexShader::Resolve(gfx, "SolidVS.cso");
+			auto pvsbc = pvs->GetByteCode();
+			draw.AddBindable(std::move(pvs));
+
+			draw.AddBindable(PixelShader::Resolve(gfx, "SolidPS.cso"));
+
+			draw.AddBindable(InputLayout::Resolve(gfx, model.vertices.GetLayout(), pvsbc));
+
+			class TransformCbufScaling : public TransformCbuf {
+			public:
+				using TransformCbuf::TransformCbuf;
+				void Bind(Graphics& gfx) noexcept override {
+					const auto scale = dx::XMMatrixScaling(1.04f, 1.0f, 1.04f);
+					auto xf = GetTransforms(gfx);
+					xf.modelView = xf.modelView * scale;
+					xf.modelViewProj = xf.modelViewProj * scale;
+					UpdateBindImpl(gfx, xf);
+				}
+			};
+			draw.AddBindable(std::make_shared<TransformCbufScaling>(gfx));
+
+			outline.AddStep(std::move(draw));
+		}
+		AddTechnique(std::move(outline));
+	}
 }
 
 void TestCube::SetPos(DirectX::XMFLOAT3 pos) noexcept
@@ -69,13 +104,9 @@ void TestCube::SetRotation(float roll, float pitch, float yaw) noexcept
 
 DirectX::XMMATRIX TestCube::GetTransformXM() const noexcept
 {
-	auto xf = DirectX::XMMatrixRotationRollPitchYaw(roll, pitch, yaw) *
+	return DirectX::XMMatrixRotationRollPitchYaw(roll, pitch, yaw) *
 		DirectX::XMMatrixTranslation(pos.x, pos.y, pos.z);
-	if (outlining)
-	{
-		xf = DirectX::XMMatrixScaling(1.03f, 1.03f, 1.03f) * xf;
-	}
-	return xf;
+	
 }
 
 void TestCube::SpawnControlWindow(Graphics& gfx, const char* name) noexcept
@@ -90,16 +121,16 @@ void TestCube::SpawnControlWindow(Graphics& gfx, const char* name) noexcept
 		ImGui::SliderAngle("Roll", &roll, -180.0f, 180.0f);
 		ImGui::SliderAngle("Pitch", &pitch, -180.0f, 180.0f);
 		ImGui::SliderAngle("Yaw", &yaw, -180.0f, 180.0f);
-		ImGui::Text("Shading");
-		bool changed0 = ImGui::SliderFloat("Spec. Int.", &pmc.specularIntensity, 0.0f, 1.0f);
-		bool changed1 = ImGui::SliderFloat("Spec. Power", &pmc.specularPower, 0.0f, 100.0f);
-		bool checkState = pmc.normalMappingEnabled == TRUE;
-		bool changed2 = ImGui::Checkbox("Enable Normal Map", &checkState);
-		pmc.normalMappingEnabled = checkState ? TRUE : FALSE;
-		if (changed0 || changed1 || changed2)
-		{
-			QueryBindable<Bind::PixelConstantBuffer<PSMaterialConstant>>()->Update(gfx, pmc);
-		}
+		//ImGui::Text("Shading");
+		//bool changed0 = ImGui::SliderFloat("Spec. Int.", &pmc.specularIntensity, 0.0f, 1.0f);
+		//bool changed1 = ImGui::SliderFloat("Spec. Power", &pmc.specularPower, 0.0f, 100.0f);
+		//bool checkState = pmc.normalMappingEnabled == TRUE;
+		//bool changed2 = ImGui::Checkbox("Enable Normal Map", &checkState);
+		//pmc.normalMappingEnabled = checkState ? TRUE : FALSE;
+		//if (changed0 || changed1 || changed2)
+		//{
+		//	QueryBindable<Bind::PixelConstantBuffer<PSMaterialConstant>>()->Update(gfx, pmc);
+		//}
 	}
 	ImGui::End();
 }

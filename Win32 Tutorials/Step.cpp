@@ -10,6 +10,6 @@ void Step::Submit(class FrameCommander& frame, const class Drawable& drawable) c
 void Step::InitializeParentReferences(const class Drawable& parent) noexcept
 {
 	for (auto& b : bindables) {
-		b->InitializeParentReferences(parent);
+		b->InitializeParentReference(parent);
 	}
 }

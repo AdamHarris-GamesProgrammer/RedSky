@@ -153,9 +153,6 @@
     <ClCompile Include="Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TransformCBufDoubleSlot.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TestPlane.cpp">
       <Filter>Source Files\Drawable</Filter>
     </ClCompile>
@@ -189,9 +186,6 @@
     <ClCompile Include="Testing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TestCube.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Job.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -203,6 +197,12 @@
     </ClCompile>
     <ClCompile Include="Technique.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCube.cpp">
+      <Filter>Source Files\Drawable</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformCBufDoubleSlot.cpp">
+      <Filter>Source Files\Bindable</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -359,9 +359,6 @@
     <ClInclude Include="Plane.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TransformCBufDoubleSlot.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="RedSkyXM.h">
       <Filter>Header Files\RedSky</Filter>
     </ClInclude>
@@ -404,9 +401,6 @@
     <ClInclude Include="Stencil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TestCube.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="FrameCommander.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -424,6 +418,12 @@
     </ClInclude>
     <ClInclude Include="Technique.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCube.h">
+      <Filter>Header Files\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformCBufDoubleSlot.h">
+      <Filter>Header Files\Bindable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

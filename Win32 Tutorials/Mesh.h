@@ -8,6 +8,7 @@
 #include <filesystem>
 #include "imgui/imgui.h"
 #include "DynamicConstant.h"
+#include "FrameCommander.h"
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>

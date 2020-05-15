@@ -22,6 +22,6 @@ public:
 	void InitializeParentReferences(const class Drawable& parent) noexcept;
 private:
 	size_t targetPass;
-	std::vector<std::shared_ptr<Bind::Bindable>> bindables
+	std::vector<std::shared_ptr<Bind::Bindable>> bindables;
 };
 
