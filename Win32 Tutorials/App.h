@@ -7,6 +7,8 @@
 #include "Mesh.h"
 #include "TestPlane.h"
 #include "ScriptCommander.h"
+#include "TestCube.h"
+#include "Stencil.h"
 
 class App
 {
@@ -35,6 +37,9 @@ private:
 	Camera cam;
 
 	PointLight light;
+
+	TestCube cube{ wnd.Gfx(), 4.0f };
+	TestCube cube2{ wnd.Gfx(), 4.0f };
 
 	DirectX::XMFLOAT4 bgColour = { 0.1f,0.1f,0.2f, 1.0f };
 

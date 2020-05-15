@@ -76,6 +76,10 @@ void App::DoFrame()
 
 	light.Draw(wnd.Gfx());
 	sponza.Draw(wnd.Gfx());
+	cube.Draw(wnd.Gfx());
+	cube2.Draw(wnd.Gfx());	
+	cube.DrawOutline(wnd.Gfx());
+	cube2.DrawOutline(wnd.Gfx());
 	//bluePlane.Draw(wnd.Gfx());
 	//redPlane.Draw(wnd.Gfx());
 
@@ -87,6 +91,9 @@ void App::DoFrame()
 	//tp.SpawnControlWindow(wnd.Gfx());
 	//nano.ShowWindow(wnd.Gfx(), "Nano");
 	sponza.ShowWindow(wnd.Gfx(), "Sponza");
+
+	cube.SpawnControlWindow(wnd.Gfx(), "Cube 1");
+	cube2.SpawnControlWindow(wnd.Gfx(), "Cube 2");
 
 	//bluePlane.SpawnControlWindow(wnd.Gfx(), "Blue Plane");
 	//redPlane.SpawnControlWindow(wnd.Gfx(), "Red Plane");

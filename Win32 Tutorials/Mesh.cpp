@@ -8,6 +8,7 @@
 #include "DynamicConstant.h"
 #include "ConstantBufferEx.h"
 #include "LayoutCodex.h"
+#include "Stencil.h"
 
 namespace dx = DirectX;
 
@@ -611,6 +612,8 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const 
 	bindablePtrs.push_back(Rasterizer::Resolve(gfx, hasAlphaDiffuse));
 
 	bindablePtrs.push_back(Blender::Resolve(gfx, false));
+
+	bindablePtrs.push_back(std::make_shared<Stencil>(gfx, Stencil::Mode::Off));
 
 	//Returns the vector of mesh bindables
 	return std::make_unique<Mesh>(gfx, std::move(bindablePtrs));

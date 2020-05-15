@@ -12,7 +12,7 @@
 //shorthand for Microsoft::WRL
 namespace wrl = Microsoft::WRL;
 
-//adds the d3d11 and D3DCompilet library to the project settings
+//adds the d3d11 and D3DCompiler library to the project settings
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "D3DCompiler.lib")
 
@@ -91,16 +91,6 @@ void Graphics::SetupDepthStencil(int width, int height)
 {
 	HRESULT hr;
 
-	D3D11_DEPTH_STENCIL_DESC  dsDesc = {};
-	dsDesc.DepthEnable = TRUE;
-	dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
-	dsDesc.DepthFunc = D3D11_COMPARISON_LESS;
-
-	wrl::ComPtr<ID3D11DepthStencilState> pDSState;
-	GFX_THROW_INFO(pDevice->CreateDepthStencilState(&dsDesc, &pDSState));
-
-	pContext->OMSetDepthStencilState(pDSState.Get(), 1u);
-
 	wrl::ComPtr<ID3D11Texture2D> pDepthStencil;
 
 	D3D11_TEXTURE2D_DESC descDepth = {};
@@ -108,7 +98,7 @@ void Graphics::SetupDepthStencil(int width, int height)
 	descDepth.Height = height;
 	descDepth.MipLevels = 1u;
 	descDepth.ArraySize = 1u;
-	descDepth.Format = DXGI_FORMAT_D32_FLOAT;
+	descDepth.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
 	descDepth.SampleDesc.Count = 1u;
 	descDepth.SampleDesc.Quality = 0u;
 	descDepth.Usage = D3D11_USAGE_DEFAULT;
@@ -117,7 +107,7 @@ void Graphics::SetupDepthStencil(int width, int height)
 	GFX_THROW_INFO(pDevice->CreateTexture2D(&descDepth, nullptr, &pDepthStencil)); //filling the depth stencil
 
 	D3D11_DEPTH_STENCIL_VIEW_DESC descDSV = {};
-	descDSV.Format = DXGI_FORMAT_D32_FLOAT;
+	descDSV.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
 	descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 	descDSV.Texture2D.MipSlice = 0u;
 
@@ -151,7 +141,7 @@ void Graphics::BeginFrame(DirectX::XMFLOAT4 colour) noexcept
 	}
 
 	pContext->ClearRenderTargetView(pTarget.Get(), &colour.x); //have to use the .get() method to get the address of the ComPtr
-	pContext->ClearDepthStencilView(pDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
+	pContext->ClearDepthStencilView(pDSV.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0u);
 }
 
 void Graphics::EndFrame()
