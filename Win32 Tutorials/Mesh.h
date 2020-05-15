@@ -29,12 +29,10 @@ private:
 //Mesh is a drawable object
 class Mesh : public Drawable {
 public:
-	//takes in a vector of bind ables //allows the user to pass in what bindables should comprise the mesh
-	Mesh(Graphics& gfx, std::vector<std::shared_ptr<Bindable>> bindPtrs);
+	using Drawable::Drawable;
 
-	void Draw(Graphics& gfx, DirectX::FXMMATRIX accumulatedTransform) const noxnd;
 	DirectX::XMMATRIX GetTransformXM() const noexcept override { return DirectX::XMLoadFloat4x4(&transform); } //This is called in the Drawable::Draw method
-
+	void Submit(FrameCommander& frame, DirectX::FXMMATRIX accumulatedTransform) const noxnd;
 private:
 	mutable DirectX::XMFLOAT4X4 transform;
 };
@@ -45,14 +43,14 @@ public:
 	Node(int id, const std::string& name, std::vector<Mesh*> meshPtrs, const DirectX::XMMATRIX& transform_in) noxnd;
 
 	int GetID() const noexcept { return id; }
-	void Draw(Graphics& gfx, DirectX::FXMMATRIX accumulatedTransforms) const noxnd;
+	void Submit(FrameCommander& frame, DirectX::FXMMATRIX accumulatedTransforms) const noxnd;
 	void SetAppliedTransform(DirectX::FXMMATRIX transform) noexcept;
 	const DirectX::XMFLOAT4X4& GetAppliedTransform() const noexcept;
 	void ShowTree(Node*& pSelectedNode) const noexcept;
 	std::string GetName() const noexcept { return name; }
 
-	const Dcb::Buffer* GetMaterialConstants() const noxnd;
-	void SetMaterialConstants(const Dcb::Buffer&) noxnd;
+	//const Dcb::Buffer* GetMaterialConstants() const noxnd;
+	//void SetMaterialConstants(const Dcb::Buffer&) noxnd;
 
 private:
 	//Add a child to a node //this is private as models only want to be able to add a child 
@@ -71,7 +69,7 @@ class Model {
 public:
 	Model(Graphics& gfx, const std::string& pathString, float scale = 1.0f);
 
-	void Draw(Graphics& gfx) const noxnd;
+	void Submit(FrameCommander& frame) const noxnd;
 	void ShowWindow(Graphics& gfx, const char* windowName = nullptr) noexcept;
 
 	void SetRootTransform(DirectX::FXMMATRIX tf) noexcept;
