@@ -4,6 +4,8 @@
 #include "Graphics.h"
 #include "Color.h"
 #include "ConditionalNoexcept.h"
+#include <assimp/scene.h>
+#include <utility>
 
 namespace rsexp
 {
