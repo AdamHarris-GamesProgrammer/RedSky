@@ -185,6 +185,7 @@
     <ClInclude Include="json.hpp" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="LayoutCodex.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="NullPixelShader.h" />

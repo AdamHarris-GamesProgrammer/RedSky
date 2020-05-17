@@ -147,9 +147,6 @@
     <ClCompile Include="SolidSphere.cpp">
       <Filter>Source Files\Drawable</Filter>
     </ClCompile>
-    <ClCompile Include="Vertex.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -202,6 +199,9 @@
       <Filter>Source Files\Drawable</Filter>
     </ClCompile>
     <ClCompile Include="TransformCBufDoubleSlot.cpp">
+      <Filter>Source Files\Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="Vertex.cpp">
       <Filter>Source Files\Bindable</Filter>
     </ClCompile>
   </ItemGroup>
@@ -430,6 +430,9 @@
     </ClInclude>
     <ClInclude Include="ConstantBufferEx.h">
       <Filter>Header Files\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
