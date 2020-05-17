@@ -16,6 +16,7 @@
 #include "DynamicConstant.h"
 #include "LayoutCodex.h"
 #include "Testing.h"
+#include "PerformanceLog.h"
 
 namespace DX = DirectX;
 

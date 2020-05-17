@@ -4,6 +4,7 @@
 #include "Graphics.h"
 #include "Job.h"
 #include "Pass.h"
+#include "PerformanceLog.h"
 
 class FrameCommander {
 public:
@@ -21,11 +22,13 @@ public:
 		NullPixelShader::Resolve(gfx)->Bind(gfx);
 		passes[1].Execute(gfx);
 
+		PerfLog::Start("Begin");
 		Stencil::Resolve(gfx, Stencil::Mode::Mask)->Bind(gfx);
 		struct SolidColorBuffer {
-			DirectX::XMFLOAT4 color = { 1.0f,0.4f,0.4f, 1.0f };
+			DirectX::XMFLOAT4 color = { 0.0f,0.0f,0.0f, 1.0f };
 		} scb;
 		PixelConstantBuffer<SolidColorBuffer>::Resolve(gfx, scb, 1u)->Bind(gfx);
+		PerfLog::Mark("Resolve 2x");
 		passes[2].Execute(gfx);
 	}
 

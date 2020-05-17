@@ -1,0 +1,4680 @@
+[Begin]0.000ms
+[Resolve 2x]0.107ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.026ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.029ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.029ms
+[Begin]0.000ms
+[Resolve 2x]0.021ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.035ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.022ms
+[Begin]0.000ms
+[Resolve 2x]0.025ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.023ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.021ms
+[Begin]0.000ms
+[Resolve 2x]0.022ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.027ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.020ms
+[Begin]0.000ms
+[Resolve 2x]0.026ms
+[Begin]0.000ms
+[Resolve 2x]0.021ms
+[Begin]0.000ms
+[Resolve 2x]0.025ms
+[Begin]0.000ms
+[Resolve 2x]0.027ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.020ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.025ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.027ms
+[Begin]0.000ms
+[Resolve 2x]0.024ms
+[Begin]0.000ms
+[Resolve 2x]0.024ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.027ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.034ms
+[Begin]0.000ms
+[Resolve 2x]0.036ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.028ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.038ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.028ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.026ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.027ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.020ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.020ms
+[Begin]0.000ms
+[Resolve 2x]0.024ms
+[Begin]0.000ms
+[Resolve 2x]0.021ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.050ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.024ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.027ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.033ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.025ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.025ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.029ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.022ms
+[Begin]0.000ms
+[Resolve 2x]0.027ms
+[Begin]0.000ms
+[Resolve 2x]0.020ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.032ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.029ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.041ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.020ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.020ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.021ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.020ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.027ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.028ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.031ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.020ms
+[Begin]0.000ms
+[Resolve 2x]0.023ms
+[Begin]0.000ms
+[Resolve 2x]0.020ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.028ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.021ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.037ms
+[Begin]0.000ms
+[Resolve 2x]0.031ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.024ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.020ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.021ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.041ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.027ms
+[Begin]0.000ms
+[Resolve 2x]0.028ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.026ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.024ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.024ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.026ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.026ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.023ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.027ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.026ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.023ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.023ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.021ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.020ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.020ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.020ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.025ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.056ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.023ms
+[Begin]0.000ms
+[Resolve 2x]0.027ms
+[Begin]0.000ms
+[Resolve 2x]0.025ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.055ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.026ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.021ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.025ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.021ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.023ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.032ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.026ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.026ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.030ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.027ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.031ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.021ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.023ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.029ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.021ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.021ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.020ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.032ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.021ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.027ms
+[Begin]0.000ms
+[Resolve 2x]0.027ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.020ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.022ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.027ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.021ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.021ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.020ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.042ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.027ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.023ms
+[Begin]0.000ms
+[Resolve 2x]0.026ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.023ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.024ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.034ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.021ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.029ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.042ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.026ms
+[Begin]0.000ms
+[Resolve 2x]0.025ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.024ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.023ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.022ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.038ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.026ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.020ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.028ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.022ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.027ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.021ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.023ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.029ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.026ms
+[Begin]0.000ms
+[Resolve 2x]0.022ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.023ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.055ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.025ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.030ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.026ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.021ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.021ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.024ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.044ms
+[Begin]0.000ms
+[Resolve 2x]0.020ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.025ms
+[Begin]0.000ms
+[Resolve 2x]0.025ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.027ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.021ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.025ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.029ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.021ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.032ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.021ms
+[Begin]0.000ms
+[Resolve 2x]0.022ms
+[Begin]0.000ms
+[Resolve 2x]0.021ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.027ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.021ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.031ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.021ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.036ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.028ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.024ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.026ms
+[Begin]0.000ms
+[Resolve 2x]0.025ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.024ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.021ms
+[Begin]0.000ms
+[Resolve 2x]0.025ms
+[Begin]0.000ms
+[Resolve 2x]0.025ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.043ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.032ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.021ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.024ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.023ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.020ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.027ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.023ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.025ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.023ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.026ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.025ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.028ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.020ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.024ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.027ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.022ms
+[Begin]0.000ms
+[Resolve 2x]0.029ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.033ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.021ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.026ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.030ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.020ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.021ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.031ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.024ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.022ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.021ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.028ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.028ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.021ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.023ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.020ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.020ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.031ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.042ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.023ms
+[Begin]0.000ms
+[Resolve 2x]0.020ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.028ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.040ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.021ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.023ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.026ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.028ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.034ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.025ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.029ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.026ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.027ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.020ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.029ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.027ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.022ms
+[Begin]0.000ms
+[Resolve 2x]0.024ms
+[Begin]0.000ms
+[Resolve 2x]0.022ms
+[Begin]0.000ms
+[Resolve 2x]0.021ms
+[Begin]0.000ms
+[Resolve 2x]0.023ms
+[Begin]0.000ms
+[Resolve 2x]0.031ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.025ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.027ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.024ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.018ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
+[Begin]0.000ms
+[Resolve 2x]0.016ms
+[Begin]0.000ms
+[Resolve 2x]0.019ms
+[Begin]0.000ms
+[Resolve 2x]0.017ms
