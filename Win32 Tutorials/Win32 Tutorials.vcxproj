@@ -210,6 +210,7 @@
     <ClInclude Include="Step.h" />
     <ClInclude Include="Surface.h" />
     <ClInclude Include="Technique.h" />
+    <ClInclude Include="TechniqueProbe.h" />
     <ClInclude Include="TestCube.h" />
     <ClInclude Include="Testing.h" />
     <ClInclude Include="TestObjects.h" />

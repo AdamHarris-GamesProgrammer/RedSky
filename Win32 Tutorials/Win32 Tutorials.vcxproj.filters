@@ -380,9 +380,6 @@
     <ClInclude Include="DynamicConstant.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ConstantBufferEx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="LayoutCodex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -427,6 +424,12 @@
     </ClInclude>
     <ClInclude Include="PerformanceLog.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TechniqueProbe.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstantBufferEx.h">
+      <Filter>Header Files\Bindable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

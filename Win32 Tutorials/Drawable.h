@@ -4,6 +4,8 @@
 #include <memory>
 #include "Technique.h"
 
+class TechniqueProbe;
+
 namespace Bind {
 	class IndexBuffer;
 	class VertexBuffer;
@@ -20,6 +22,7 @@ public:
 	virtual DirectX::XMMATRIX GetTransformXM() const noexcept = 0;
 	void Submit(class FrameCommander& frame) const noexcept;
 	void Bind(Graphics& gfx) const noexcept;
+	void Accept(TechniqueProbe& probe);
 	UINT GetIndexCount() const noxnd;
 	virtual ~Drawable();
 
