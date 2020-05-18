@@ -2,3 +2,4 @@
 
 void TestDynamicConstant();
 
+void TestDynamicMeshLoading();
