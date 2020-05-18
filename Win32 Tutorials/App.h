@@ -9,7 +9,8 @@
 #include "ScriptCommander.h"
 #include "TestCube.h"
 #include "Stencil.h"
-#include "FrameCommander.h"
+#include "FrameCommander.h"#
+#include "Material.h"
 
 class App
 {
@@ -45,6 +46,8 @@ private:
 	TestCube cube2{ wnd.Gfx(), 4.0f };
 
 	DirectX::XMFLOAT4 bgColour = { 0.1f,0.1f,0.2f, 1.0f };
+
+	std::unique_ptr<Mesh> pLoaded;
 
 	//Model sponza{ wnd.Gfx(), "Models\\Sponza\\sponza.obj", 1.0f / 20.0f };
 	//TestPlane bluePlane{ wnd.Gfx(), 6.0f, {0.3f, 0.3f, 1.0f, 0.0f} };

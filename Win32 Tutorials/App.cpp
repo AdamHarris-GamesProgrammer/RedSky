@@ -26,8 +26,24 @@ App::App(const std::string& commandLine) :
 	scriptCommander(TokenizeQuoted(commandLine)),
 	light(wnd.Gfx())
 {
+	TestMaterialSystemLoading(wnd.Gfx());
 	TestDynamicMeshLoading();
 	TestDynamicConstant();
+
+	{
+		std::string path = "Models\\brick_wall\\brick_wall.obj";
+		Assimp::Importer imp;
+		const auto pScene = imp.ReadFile(path,
+			aiProcess_Triangulate |
+			aiProcess_JoinIdenticalVertices |
+			aiProcess_ConvertToLeftHanded |
+			aiProcess_GenNormals |
+			aiProcess_CalcTangentSpace
+		);
+		Material mat{ wnd.Gfx(),*pScene->mMaterials[1],path };
+		pLoaded = std::make_unique<Mesh>(wnd.Gfx(), mat, *pScene->mMeshes[0]);
+	}
+
 
 	//wall.SetRootTransform(DX::XMMatrixTranslation(-12.0f, 0.0f, 0.0f));
 	//tp.SetPos({ 12.0f,0.0f,0.0f });
@@ -80,8 +96,9 @@ void App::DoFrame()
 	//goblin.Draw(wnd.Gfx());
 
 	light.Submit(fc);
-	cube.Submit(fc);
-	cube2.Submit(fc);
+	//cube.Submit(fc);
+	//cube2.Submit(fc);
+	pLoaded->Submit(fc, DirectX::XMMatrixIdentity());
 
 	fc.Execute(wnd.Gfx());
 

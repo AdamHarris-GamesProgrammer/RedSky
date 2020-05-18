@@ -33,13 +33,13 @@ void PointLight::SpawnControlWindow() noexcept
 void PointLight::Reset() noexcept
 {
 	cbData = {
-		{-14.5f,32.5f,0.0f},	//Position
+		{0.0f,0.0f,-1.0f},		//Position {-14.5f,32.5f,0.0f},	
 		{0.15f,0.15f,0.15f},	//Ambient
 		{1.0f,1.0f,1.0f},		//Diffuse 
 		2.0f,					//Diffuse Intensity
 		1.0f,					//Attenuation Constant
 		0.045f,					//Attenuation Linear
-		0.003f,				//Attenuation Quadratic
+		0.003f,					//Attenuation Quadratic
 	};
 }
 

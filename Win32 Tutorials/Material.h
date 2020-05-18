@@ -4,27 +4,43 @@
 #include <vector>
 #include <filesystem>
 #include "Technique.h"
+#include "DynamicConstant.h"
+#include "ConstantBufferEx.h"
 
 class Material {
 public:
-	Material(Graphics& gfx, const aiMaterial* pMaterial, const std::filesystem::path& path) noxnd {
-
-	}
-	rsexp::VertexBuffer ExtractVertices(const aiMesh& mesh) const noexcept {
-		using Type = rsexp::VertexLayout::ElementType;
-		rsexp::VertexBuffer buf{ vtxLayout };
-		buf.Resize(mesh.mNumVertices);
-		if (vtxLayout.Has<Type::Position3D>()) {
-			for (int i = 0; i < mesh.mNumVertices; i++) {
-				buf[i].
-			}
+	Material(Graphics& gfx, const aiMaterial& materail, const std::filesystem::path& path) noxnd;
+	rsexp::VertexBuffer ExtractVertices(const aiMesh& mesh) const noexcept;
+	std::vector<unsigned short> ExtractIndices(const aiMesh& mesh) const noexcept {
+		std::vector<unsigned short> indices;
+		indices.reserve(mesh.mNumFaces * 3);
+		for (unsigned int i = 0; i < mesh.mNumFaces; i++) {
+			const auto& face = mesh.mFaces[i];
+			assert(face.mNumIndices == 3);
+			indices.push_back(face.mIndices[0]);
+			indices.push_back(face.mIndices[1]);
+			indices.push_back(face.mIndices[2]);
 		}
+		return indices;
 	}
 
-	std::vector<Technique> GetTechniques() const noexcept {
-		return techniques;
+	std::shared_ptr<Bind::VertexBuffer> MakeVertexBindable(Graphics& gfx, const aiMesh& mesh) const noxnd {
+		return Bind::VertexBuffer::Resolve(gfx, MakeMeshTag(mesh), ExtractVertices(mesh));
 	}
+	std::shared_ptr<Bind::IndexBuffer> MakeIndexBindable(Graphics& gfx, const aiMesh& mesh) const noxnd {
+		return Bind::IndexBuffer::Resolve(gfx, MakeMeshTag(mesh), ExtractIndices(mesh));
+	}
+
+	std::vector<Technique> GetTechniques() const noexcept;
+
+private:
+	std::string MakeMeshTag(const aiMesh& mesh) const noexcept {
+		return modelPath + "%" + mesh.mName.C_Str();
+	}
+
 private:
 	rsexp::VertexLayout vtxLayout;
 	std::vector<Technique> techniques;
+	std::string modelPath;
+	std::string name;
 };
