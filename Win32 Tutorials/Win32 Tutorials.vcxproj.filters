@@ -49,30 +49,24 @@
     <Filter Include="Source Files\imgui">
       <UniqueIdentifier>{c7e6d3c0-cc0f-4024-94cd-1d9e3d7b05f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Jobber">
+      <UniqueIdentifier>{4162c0a9-a8e0-4b8d-9e58-a0c2b5ca2db5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Jobber">
+      <UniqueIdentifier>{09ecb15e-da4c-439c-aa22-eac045c8efb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Windows Framework">
+      <UniqueIdentifier>{c08ee5dd-5083-4b05-98bc-a03f56f6d026}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Windows Framework">
+      <UniqueIdentifier>{b322ebc5-e1cd-49be-bff6-9aadd1be548f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="WinMain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WindowsMessageMap.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Keyboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Mouse.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="App.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Graphics.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DxgiInfoManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="dxerr.cpp">
@@ -135,9 +129,6 @@
     <ClCompile Include="imgui\imgui_widgets.cpp">
       <Filter>Source Files\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="ImguiManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -162,9 +153,6 @@
     <ClCompile Include="Blender.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Rasterizer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ScriptCommander.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -183,16 +171,7 @@
     <ClCompile Include="Testing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Job.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="NullPixelShader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Step.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Technique.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TestCube.cpp">
@@ -207,30 +186,48 @@
     <ClCompile Include="Material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Job.cpp">
+      <Filter>Source Files\Jobber</Filter>
+    </ClCompile>
+    <ClCompile Include="Technique.cpp">
+      <Filter>Source Files\Jobber</Filter>
+    </ClCompile>
+    <ClCompile Include="Step.cpp">
+      <Filter>Source Files\Jobber</Filter>
+    </ClCompile>
+    <ClCompile Include="Keyboard.cpp">
+      <Filter>Source Files\Windows Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Mouse.cpp">
+      <Filter>Source Files\Windows Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Source Files\Windows Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowsMessageMap.cpp">
+      <Filter>Source Files\Windows Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="WinMain.cpp">
+      <Filter>Source Files\Windows Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="DxgiInfoManager.cpp">
+      <Filter>Source Files\Windows Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="ImguiManager.cpp">
+      <Filter>Source Files\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Rasterizer.cpp">
+      <Filter>Source Files\Bindable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="WindowsMessageMap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Window.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Keyboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Mouse.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="App.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Graphics.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DxgiInfoManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="dxerr.h">
@@ -359,9 +356,6 @@
     <ClInclude Include="BindableCodex.h">
       <Filter>Header Files\Bindable</Filter>
     </ClInclude>
-    <ClInclude Include="Plane.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="RedSkyXM.h">
       <Filter>Header Files\RedSky</Filter>
     </ClInclude>
@@ -369,12 +363,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Blender.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Rasterizer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="json.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ScriptCommander.h">
@@ -404,19 +392,7 @@
     <ClInclude Include="FrameCommander.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Job.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="NullPixelShader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Pass.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Step.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Technique.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TestCube.h">
@@ -428,14 +404,50 @@
     <ClInclude Include="PerformanceLog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TechniqueProbe.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ConstantBufferEx.h">
       <Filter>Header Files\Bindable</Filter>
     </ClInclude>
     <ClInclude Include="Material.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Job.h">
+      <Filter>Header Files\Jobber</Filter>
+    </ClInclude>
+    <ClInclude Include="Step.h">
+      <Filter>Header Files\Jobber</Filter>
+    </ClInclude>
+    <ClInclude Include="Technique.h">
+      <Filter>Header Files\Jobber</Filter>
+    </ClInclude>
+    <ClInclude Include="TechniqueProbe.h">
+      <Filter>Header Files\Jobber</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse.h">
+      <Filter>Header Files\Windows Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Header Files\Windows Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowsMessageMap.h">
+      <Filter>Header Files\Windows Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="DxgiInfoManager.h">
+      <Filter>Header Files\Windows Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>Header Files\Windows Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Pass.h">
+      <Filter>Header Files\Jobber</Filter>
+    </ClInclude>
+    <ClInclude Include="Keyboard.h">
+      <Filter>Header Files\Windows Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Plane.h">
+      <Filter>Header Files\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="Rasterizer.h">
+      <Filter>Header Files\Bindable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
