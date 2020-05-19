@@ -44,17 +44,8 @@ App::App(const std::string& commandLine) :
 		pLoaded = std::make_unique<Mesh>(wnd.Gfx(), mat, *pScene->mMeshes[0]);
 	}
 
-
-	//wall.SetRootTransform(DX::XMMatrixTranslation(-12.0f, 0.0f, 0.0f));
-	//tp.SetPos({ 12.0f,0.0f,0.0f });
-	//goblin.SetRootTransform(DX::XMMatrixTranslation(0.0f, 0.0f, -4.0f));
-	//nano.SetRootTransform(DX::XMMatrixTranslation(0.0f, -7.0f, 6.0f));
-
-	//bluePlane.SetPos(cam.GetPos());
-	//redPlane.SetPos({-47.0f, 10.0f, 5.0f});
-
-	cube.SetPos({ 4.0f,0.0f,0.0f });
-	cube2.SetPos({ 0.0f,4.0f,0.0 });
+	//cube.SetPos({ 4.0f,0.0f,0.0f });
+	//cube2.SetPos({ 0.0f,4.0f,0.0 });
 
 	wnd.Gfx().SetProjection(DX::XMMatrixPerspectiveLH(1.0f, 9.0f / 16.0f, 0.5f, 400.0f));
 }
@@ -90,10 +81,6 @@ void App::DoFrame()
 	}
 
 
-	//wall.Draw(wnd.Gfx());
-	//tp.Draw(wnd.Gfx());
-	//nano.Draw(wnd.Gfx());
-	//goblin.Draw(wnd.Gfx());
 
 	light.Submit(fc);
 	//cube.Submit(fc);
@@ -108,21 +95,10 @@ void App::DoFrame()
 	SpawnBackgroundControlWindow();
 	cam.SpawnControlWindow();
 	light.SpawnControlWindow();
-	//goblin.ShowWindow(wnd.Gfx(), "Goblin");
-	//wall.ShowWindow(wnd.Gfx(), "Wall");
-	//tp.SpawnControlWindow(wnd.Gfx());
-	//nano.ShowWindow(wnd.Gfx(), "Nano");
-	//sponza.ShowWindow(wnd.Gfx(), "Sponza");
 
-	cube.SpawnControlWindow(wnd.Gfx(), "Cube 1");
-	cube2.SpawnControlWindow(wnd.Gfx(), "Cube 2");
+	//cube.SpawnControlWindow(wnd.Gfx(), "Cube 1");
+	//cube2.SpawnControlWindow(wnd.Gfx(), "Cube 2");
 
-	//bluePlane.SpawnControlWindow(wnd.Gfx(), "Blue Plane");
-	//redPlane.SpawnControlWindow(wnd.Gfx(), "Red Plane");
-	
-	//wall.ShowWindow("Wall");
-	//tp.SpawnControlWindow(wnd.Gfx());
-	
 	ShowImguiDemoWindow();
 
 	wnd.Gfx().EndFrame();
