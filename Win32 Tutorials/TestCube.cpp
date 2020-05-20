@@ -28,12 +28,12 @@ TestCube::TestCube(Graphics& gfx, float size)
 			only.AddBindable(Texture::Resolve(gfx, "Images\\brickwall.jpg"));
 			only.AddBindable(Sampler::Resolve(gfx));
 
-			auto pvs = VertexShader::Resolve(gfx, "PhongVS.cso");
+			auto pvs = VertexShader::Resolve(gfx, "Phong_VS.cso");
 			auto pvsbc = pvs->GetByteCode();
 
 			only.AddBindable(std::move(pvs));
 
-			only.AddBindable(PixelShader::Resolve(gfx, "PhongPS.cso"));
+			only.AddBindable(PixelShader::Resolve(gfx, "Phong_PS.cso"));
 
 			Dcb::RawLayout lay;
 			lay.Add<Dcb::Float>("specularIntensity");
@@ -57,7 +57,7 @@ TestCube::TestCube(Graphics& gfx, float size)
 		{
 			Step mask(1);
 
-			auto pvs = VertexShader::Resolve(gfx, "SolidVS.cso");
+			auto pvs = VertexShader::Resolve(gfx, "Solid_VS.cso");
 			auto pvsbc = pvs->GetByteCode();
 			mask.AddBindable(std::move(pvs));
 
@@ -70,11 +70,11 @@ TestCube::TestCube(Graphics& gfx, float size)
 		{
 			Step draw(2);
 
-			auto pvs = VertexShader::Resolve(gfx, "SolidVS.cso");
+			auto pvs = VertexShader::Resolve(gfx, "Solid_VS.cso");
 			auto pvsbc = pvs->GetByteCode();
 			draw.AddBindable(std::move(pvs));
 
-			draw.AddBindable(PixelShader::Resolve(gfx, "SolidPS.cso"));
+			draw.AddBindable(PixelShader::Resolve(gfx, "Solid_PS.cso"));
 
 			Dcb::RawLayout lay;
 			lay.Add <Dcb::Float4>("color");
