@@ -3,6 +3,7 @@
 #include <sstream>
 #include "Mesh.h"
 #include "RedSkyMath.h"
+#include "ModelException.h"
 
 template<typename F>
 inline void TexturePreprocessor::TransformSurface(Surface& surf, F&& func)

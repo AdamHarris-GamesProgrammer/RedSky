@@ -4,7 +4,7 @@
 #include "ImguiManager.h"
 #include "Camera.h"
 #include "PointLight.h"
-#include "Mesh.h"
+#include "Model.h"
 #include "TestPlane.h"
 #include "ScriptCommander.h"
 #include "TestCube.h"
@@ -53,8 +53,8 @@ private:
 	//TestPlane bluePlane{ wnd.Gfx(), 6.0f, {0.3f, 0.3f, 1.0f, 0.0f} };
 	//TestPlane redPlane{ wnd.Gfx(), 6.0f, {1.0f, 0.3f,0.3f,0.0f} };
 
-	/*Model goblin{ wnd.Gfx(), "Models\\gobber\\GoblinX.obj", 6.0f };
-	Model wall{ wnd.Gfx(), "Models\\brick_wall\\brick_wall.obj", 6.0f };
+	Model goblin{ wnd.Gfx(), "Models\\gobber\\GoblinX.obj", 6.0f };
+	/*Model wall{ wnd.Gfx(), "Models\\brick_wall\\brick_wall.obj", 6.0f };
 	TestPlane tp{ wnd.Gfx(), 6.0f };*/
 	//Model nano{ wnd.Gfx(), "Models\\nanoTextured\\nanosuit.obj", 2.0f };
 

@@ -18,6 +18,12 @@
 #include "Testing.h"
 #include "PerformanceLog.h"
 
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+#include "Mesh.h"
+#include "DynamicConstant.h"
+
 namespace DX = DirectX;
 
 App::App(const std::string& commandLine) :
