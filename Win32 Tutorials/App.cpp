@@ -32,7 +32,7 @@ App::App(const std::string& commandLine) :
 	scriptCommander(TokenizeQuoted(commandLine)),
 	light(wnd.Gfx())
 {
-	TestMaterialSystemLoading(wnd.Gfx());
+	//TestMaterialSystemLoading(wnd.Gfx());
 	TestDynamicMeshLoading();
 	TestDynamicConstant();
 
@@ -87,10 +87,13 @@ void App::DoFrame()
 	}
 
 
-
 	light.Submit(fc);
 	//cube.Submit(fc);
 	//cube2.Submit(fc);
+
+	goblin.Submit(fc);
+
+
 	pLoaded->Submit(fc, DirectX::XMMatrixIdentity());
 
 	fc.Execute(wnd.Gfx());

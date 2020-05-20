@@ -19,7 +19,3 @@ void Mesh::Submit(FrameCommander& frame, DirectX::FXMMATRIX accumulatedTransform
 	dx::XMStoreFloat4x4(&transform, accumulatedTransform);
 	Drawable::Submit(frame);
 }
-
-
-
-

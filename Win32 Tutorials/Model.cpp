@@ -6,11 +6,13 @@
 #include "Node.h"
 #include "Mesh.h"
 #include "ModelWindow.h"
+#include "Material.h"
 
 namespace dx = DirectX;
 
-Model::Model(Graphics& gfx, const std::string& pathString, const float scale) :
-	pWindow(std::make_unique<ModelWindow>()) {
+Model::Model(Graphics& gfx, const std::string& pathString, const float scale) 
+	// : pWindow(std::make_unique<ModelWindow>())
+{
 	//Create Assimp object and load file
 	Assimp::Importer imp;
 	const auto pScene = imp.ReadFile(pathString.c_str(),
@@ -25,9 +27,17 @@ Model::Model(Graphics& gfx, const std::string& pathString, const float scale) :
 		throw ModelException(__LINE__, __FILE__, imp.GetErrorString());
 	}
 
+	std::vector<Material> materials;
+	materials.reserve(pScene->mNumMaterials);
+	for (size_t i = 0; i < pScene->mNumMaterials; i++) {
+		materials.emplace_back(gfx, *pScene->mMaterials[i], pathString);
+	}
+
+
 	//load all meshes and store them 
 	for (size_t i = 0; i < pScene->mNumMeshes; i++) {
-		meshPtrs.push_back(ParseMesh(gfx, *pScene->mMeshes[i], pScene->mMaterials, pathString, scale));
+		const auto& mesh = *pScene->mMeshes[i];
+		meshPtrs.push_back(std::make_unique<Mesh>(gfx, materials[mesh.mMaterialIndex], mesh));
 	}
 
 	int nextId = 0;
@@ -38,22 +48,18 @@ Model::Model(Graphics& gfx, const std::string& pathString, const float scale) :
 Model::~Model() noexcept {}
 
 void Model::Submit(FrameCommander& frame) const noxnd {
-	pWindow->ApplyParamaters();
+	//pWindow->ApplyParamaters();
 
 	pRoot->Submit(frame, dx::XMMatrixIdentity());
 }
 
-void Model::ShowWindow(Graphics& gfx, const char* windowName) noexcept {
-	pWindow->Show(gfx, windowName, *pRoot);
-}
+//void Model::ShowWindow(Graphics& gfx, const char* windowName) noexcept {
+//	pWindow->Show(gfx, windowName, *pRoot);
+//}
 
 void Model::SetRootTransform(DirectX::FXMMATRIX tf) noexcept
 {
 	pRoot->SetAppliedTransform(tf);
-}
-
-std::unique_ptr<Mesh> Model::ParseMesh(Graphics& gfx, const aiMesh& mesh, const aiMaterial* const* pMaterials, const std::filesystem::path& path, const float scale) {
-	return{};
 }
 
 std::unique_ptr<Node> Model::ParseNode(int& nextId, const aiNode& node) noexcept {

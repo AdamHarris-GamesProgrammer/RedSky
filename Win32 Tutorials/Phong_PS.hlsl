@@ -5,9 +5,10 @@
 
 cbuffer ObjectCBuf
 {
-    float4 materialColor;
-    float4 specularColor;
-    float specularPower;
+    float3 materialColor;
+    float3 specularColor;
+    float specularWeight;
+    float specularGloss;
 };
 
 float4 main(float3 viewFragPos : Position, float3 viewNormal : Normal) : SV_Target
@@ -26,10 +27,9 @@ float4 main(float3 viewFragPos : Position, float3 viewNormal : Normal) : SV_Targ
     
     //Specular
     const float3 specular = Speculate(
-        specularColor.rgb, 1.0f, viewNormal,
-        lv.vToL, viewFragPos, att, specularPower
+        diffuseColor * diffuseIntensity * specularColor, specularWeight, viewNormal,
+        lv.vToL, viewFragPos, att, specularGloss
     );
     
-    
-    return float4(saturate((diffuse + ambient) * materialColor.rgb + specular), 1.0f);
+    return float4(saturate((diffuse + ambient) * materialColor + specular), 1.0f);
 }

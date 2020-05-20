@@ -15,7 +15,6 @@ Node::Node(int id, const std::string& name, std::vector<Mesh*> meshPtrs, const D
 void Node::Submit(FrameCommander& frame, DirectX::FXMMATRIX accumulatedTransforms) const noxnd
 {
 	const auto built =
-
 		DirectX::XMLoadFloat4x4(&transform) *
 		dx::XMLoadFloat4x4(&appliedTransform) *
 		accumulatedTransforms; //the current nodes transform plus the transform of all root objects
@@ -42,43 +41,26 @@ void Node::AddChild(std::unique_ptr<Node> pChild) noxnd {
 	childPtrs.push_back(std::move(pChild));
 }
 
-void Node::ShowTree(Node*& pSelectedNode) const noexcept
-{
-	const int selectedId = (pSelectedNode == nullptr) ? -1 : pSelectedNode->GetID();
-	const auto node_flags = ImGuiTreeNodeFlags_OpenOnArrow
-		| ((GetID() == selectedId) ? ImGuiTreeNodeFlags_Selected : 0)
-		| ((childPtrs.empty()) ? ImGuiTreeNodeFlags_Leaf : 0);
-
-	//generates the widget
-	const auto expanded = ImGui::TreeNodeEx((void*)(intptr_t)GetID(), node_flags, name.c_str());
-
-
-	if (ImGui::IsItemClicked()) {
-		pSelectedNode = const_cast<Node*>(this);
-	}
-
-	if (expanded) {
-		for (const auto& pChild : childPtrs) {
-			pChild->ShowTree(pSelectedNode);
-		}
-		ImGui::TreePop();
-	}
-
-}
-
-//const Dcb::Buffer* Node::GetMaterialConstants() const noxnd
+//void Node::ShowTree(Node*& pSelectedNode) const noexcept
 //{
-//	if (meshPtrs.size() == 0)
-//	{
-//		return nullptr;
-//	}
-//	auto pBindable = meshPtrs.front()->QueryBindable<Bind::CachingPixelConstantBufferEX>();
-//	return &pBindable->GetBuffer();
-//}
+//	const int selectedId = (pSelectedNode == nullptr) ? -1 : pSelectedNode->GetID();
+//	const auto node_flags = ImGuiTreeNodeFlags_OpenOnArrow
+//		| ((GetID() == selectedId) ? ImGuiTreeNodeFlags_Selected : 0)
+//		| ((childPtrs.empty()) ? ImGuiTreeNodeFlags_Leaf : 0);
 //
-//void Node::SetMaterialConstants(const Dcb::Buffer& buf_in) noxnd
-//{
-//	auto pcb = meshPtrs.front()->QueryBindable<Bind::CachingPixelConstantBufferEX>();
-//	assert(pcb != nullptr);
-//	pcb->SetBuffer(buf_in);
+//	//generates the widget
+//	const auto expanded = ImGui::TreeNodeEx((void*)(intptr_t)GetID(), node_flags, name.c_str());
+//
+//
+//	if (ImGui::IsItemClicked()) {
+//		pSelectedNode = const_cast<Node*>(this);
+//	}
+//
+//	if (expanded) {
+//		for (const auto& pChild : childPtrs) {
+//			pChild->ShowTree(pSelectedNode);
+//		}
+//		ImGui::TreePop();
+//	}
+//
 //}

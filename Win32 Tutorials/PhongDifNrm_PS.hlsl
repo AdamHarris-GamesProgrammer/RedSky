@@ -22,7 +22,8 @@ float4 main(float3 viewFragPos : Position, float3 viewNormal : Normal, float3 vi
     viewNormal = normalize(viewNormal);
     if (useNormalMap)
     {
-        viewNormal = MapNormal(normalize(viewTan), normalize(viewBitan), viewNormal, tc, nmap, splr);
+        const float3 mappedNormal = MapNormal(normalize(viewTan), normalize(viewBitan), viewNormal, tc, nmap, splr);
+        viewNormal = lerp(viewNormal, mappedNormal, normalMapWeight);
     }
     
     const LightVectorData lv = CalculateLightVectorData(viewLightPos, viewFragPos);
