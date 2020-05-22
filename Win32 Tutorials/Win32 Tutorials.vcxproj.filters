@@ -61,6 +61,12 @@
     <Filter Include="Source Files\Windows Framework">
       <UniqueIdentifier>{b322ebc5-e1cd-49be-bff6-9aadd1be548f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Model">
+      <UniqueIdentifier>{0d40c231-55db-44dd-9067-2ad175792bd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Model">
+      <UniqueIdentifier>{b8157385-47ca-41d1-8b06-c3934e2b2dd5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp">
@@ -138,9 +144,6 @@
     <ClCompile Include="SolidSphere.cpp">
       <Filter>Source Files\Drawable</Filter>
     </ClCompile>
-    <ClCompile Include="Mesh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TestPlane.cpp">
       <Filter>Source Files\Drawable</Filter>
     </ClCompile>
@@ -183,9 +186,6 @@
     <ClCompile Include="Vertex.cpp">
       <Filter>Source Files\Bindable</Filter>
     </ClCompile>
-    <ClCompile Include="Material.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Job.cpp">
       <Filter>Source Files\Jobber</Filter>
     </ClCompile>
@@ -219,17 +219,23 @@
     <ClCompile Include="Rasterizer.cpp">
       <Filter>Source Files\Bindable</Filter>
     </ClCompile>
-    <ClCompile Include="Model.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ModelException.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Model</Filter>
     </ClCompile>
     <ClCompile Include="ModelWindow.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Source Files\Model</Filter>
     </ClCompile>
     <ClCompile Include="Node.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Source Files\Model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -341,9 +347,6 @@
     <ClInclude Include="PointLight.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TestObjects.h">
-      <Filter>Header Files\Drawable</Filter>
-    </ClInclude>
     <ClInclude Include="SolidSphere.h">
       <Filter>Header Files\Drawable</Filter>
     </ClInclude>
@@ -355,9 +358,6 @@
     </ClInclude>
     <ClInclude Include="BindableCommon.h">
       <Filter>Header Files\Bindable</Filter>
-    </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ConditionalNoexcept.h">
       <Filter>Header Files\Macros</Filter>
@@ -401,9 +401,6 @@
     <ClInclude Include="Stencil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FrameCommander.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="NullPixelShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -414,12 +411,6 @@
       <Filter>Header Files\Bindable</Filter>
     </ClInclude>
     <ClInclude Include="PerformanceLog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ConstantBufferEx.h">
-      <Filter>Header Files\Bindable</Filter>
-    </ClInclude>
-    <ClInclude Include="Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Job.h">
@@ -461,17 +452,26 @@
     <ClInclude Include="Rasterizer.h">
       <Filter>Header Files\Bindable</Filter>
     </ClInclude>
+    <ClInclude Include="FrameCommander.h">
+      <Filter>Header Files\Jobber</Filter>
+    </ClInclude>
     <ClInclude Include="Model.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Model</Filter>
     </ClInclude>
     <ClInclude Include="ModelException.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Model</Filter>
     </ClInclude>
     <ClInclude Include="ModelWindow.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Model</Filter>
     </ClInclude>
     <ClInclude Include="Node.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Header Files\Model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

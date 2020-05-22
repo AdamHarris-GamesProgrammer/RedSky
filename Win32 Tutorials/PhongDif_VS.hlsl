@@ -11,7 +11,6 @@ struct VSOut
 VSOut main(float3 pos : Position, float3 n : Normal, float2 tc : Texcoord)
 {
     VSOut vso;
-    //This stores the position relative to the camera
     vso.viewPos = (float3) mul(float4(pos, 1.0f), modelView);
     vso.viewNormal = mul(n, (float3x3) modelView);
     vso.pos = mul(float4(pos, 1.0f), modelViewProj);

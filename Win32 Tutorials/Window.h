@@ -1,88 +1,97 @@
+/******************************************************************************************
+*	RedSky Direct3D Engine																  *
+*	Copyright 2018 PlanetRedSky <http://www.planetRedSky.net>								  *
+*																						  *
+*	This file is part of RedSky Direct3D Engine.											  *
+*																						  *
+*	RedSky Direct3D Engine is free software: you can redistribute it and/or modify		  *
+*	it under the terms of the GNU General Public License as published by				  *
+*	the Free Software Foundation, either version 3 of the License, or					  *
+*	(at your option) any later version.													  *
+*																						  *
+*	The RedSky Direct3D Engine is distributed in the hope that it will be useful,		  *
+*	but WITHOUT ANY WARRANTY; without even the implied warranty of						  *
+*	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the						  *
+*																						  *
+*	You should have received a copy of the GNU General Public License					  *
+*	along with The RedSky Direct3D Engine.  If not, see <http://www.gnu.org/licenses/>.    *
+******************************************************************************************/
 #pragma once
-
 #include "RedSkyWin.h"
-#include "RedSkyKeyboardKeys.h"
 #include "RedSkyException.h"
-
-
 #include "Keyboard.h"
 #include "Mouse.h"
-
 #include "Graphics.h"
+#include <optional>
 #include <memory>
 
-#include <optional>
 
-class Window //encapsulates the creation, destruction and handling of events
+class Window
 {
 public:
-	class Exception : public RedSkyException {
+	class Exception : public RedSkyException
+	{
 		using RedSkyException::RedSkyException;
 	public:
-		static std::string TranslateErrorCode(HRESULT hr) noexcept;
+		static std::string TranslateErrorCode( HRESULT hr ) noexcept;
 	};
-	class HrException : public Exception {
+	class HrException : public Exception
+	{
 	public:
-		HrException(int line, const char* file, HRESULT hr) noexcept; //Exception with a HRSULT
+		HrException( int line,const char* file,HRESULT hr ) noexcept;
 		const char* what() const noexcept override;
 		const char* GetType() const noexcept override;
-
 		HRESULT GetErrorCode() const noexcept;
 		std::string GetErrorDescription() const noexcept;
 	private:
 		HRESULT hr;
 	};
-	class NoGfxException : public Exception { //when graphics is trying to be retrieved but the pointer isnt valid
+	class NoGfxException : public Exception
+	{
 	public:
 		using Exception::Exception;
 		const char* GetType() const noexcept override;
 	};
-	
-
 private:
-	class WindowClass { // a window requires a window class 
+	// singleton manages registration/cleanup of window class
+	class WindowClass
+	{
 	public:
-		static const char* GetName() noexcept { return wndClassName; }
-		static HINSTANCE GetInstance() noexcept { return wndClass.hInst; }
+		static const char* GetName() noexcept;
+		static HINSTANCE GetInstance() noexcept;
 	private:
-		WindowClass() noexcept; //registers on the winAPI
+		WindowClass() noexcept;
 		~WindowClass();
-		WindowClass(const WindowClass&) = delete;
-		WindowClass& operator=(const WindowClass&) = delete; //Disables automatically generated members like the copy constructor
-		static constexpr const char* wndClassName = "RedSky Engine Window"; //constexpr: a constant expression must be initialized immediately 
-		static WindowClass wndClass; //only one windows class needs to exist
+		WindowClass( const WindowClass& ) = delete;
+		WindowClass& operator=( const WindowClass& ) = delete;
+		static constexpr const char* wndClassName = "RedSky Direct3D Engine Window";
+		static WindowClass wndClass;
 		HINSTANCE hInst;
 	};
-
 public:
-	Window(int width, int height, const char* name) ;
+	Window( int width,int height,const char* name );
 	~Window();
-	Window(const Window&) = delete;
-	Window& operator=(const Window&) = delete;
-	void SetTitle(const std::string& title);
-
+	Window( const Window& ) = delete;
+	Window& operator=( const Window& ) = delete;
+	void SetTitle( const std::string& title );
 	void EnableCursor() noexcept;
 	void DisableCursor() noexcept;
-	bool CursorEnabled() const noexcept { return cursorEnabled; }
-
+	bool CursorEnabled() const noexcept;
 	static std::optional<int> ProcessMessages() noexcept;
 	Graphics& Gfx();
 private:
 	void ConfineCursor() noexcept;
 	void FreeCursor() noexcept;
-	void HideCursor() noexcept;
 	void ShowCursor() noexcept;
+	void HideCursor() noexcept;
 	void EnableImGuiMouse() noexcept;
 	void DisableImGuiMouse() noexcept;
-
-	//WinAPI dosent accept member functions, therefore a static function is used
-	static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept; //LRESULT is just a long pointer, CALLBACK is just a __stdcall. 
-	static LRESULT CALLBACK HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept; //__stdcall is a calling convention that means the stack is cleaned automatically when the function is over
-	LRESULT HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
+	static LRESULT CALLBACK HandleMsgSetup( HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam ) noexcept;
+	static LRESULT CALLBACK HandleMsgThunk( HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam ) noexcept;
+	LRESULT HandleMsg( HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam ) noexcept;
 public:
 	Keyboard kbd;
 	Mouse mouse;
-
 private:
 	bool cursorEnabled = true;
 	int width;

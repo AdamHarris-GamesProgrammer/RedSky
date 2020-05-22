@@ -6,16 +6,26 @@
 #include <filesystem>
 #include "RedSkyXM.h"
 #include "DynamicConstant.h"
-#include "ConstantBufferEx.h"
+#include "ConstantBuffersEx.h"
 #include "LayoutCodex.h"
 #include "Stencil.h"
 
 namespace dx = DirectX;
 
-Mesh::Mesh(Graphics& gfx, const Material& mat, const aiMesh& mesh) noxnd
-	: Drawable(gfx,mat,mesh) {}
 
-void Mesh::Submit(FrameCommander& frame, DirectX::FXMMATRIX accumulatedTransform) const noxnd {
-	dx::XMStoreFloat4x4(&transform, accumulatedTransform);
-	Drawable::Submit(frame);
+// Mesh
+Mesh::Mesh( Graphics& gfx,const Material& mat,const aiMesh& mesh ) noxnd
+	:
+	Drawable( gfx,mat,mesh )
+{}
+
+void Mesh::Submit( FrameCommander& frame,dx::FXMMATRIX accumulatedTranform ) const noxnd
+{
+	dx::XMStoreFloat4x4( &transform,accumulatedTranform );
+	Drawable::Submit( frame );
+}
+
+DirectX::XMMATRIX Mesh::GetTransformXM() const noexcept
+{
+	return DirectX::XMLoadFloat4x4( &transform );
 }

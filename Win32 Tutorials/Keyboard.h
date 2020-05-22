@@ -50,6 +50,7 @@ public:
 	void EnableAutorepeat() noexcept { autoRepeatEnabled = true; }
 	void DisableAutorepeat() noexcept { autoRepeatEnabled = false; }
 	bool AutorepeatEnabled() const noexcept { return autoRepeatEnabled; }
+	bool AutorepeatIsEnabled() const noexcept { return autoRepeatEnabled; }
 
 private:
 	//The Window class has access to these as it is a friend class

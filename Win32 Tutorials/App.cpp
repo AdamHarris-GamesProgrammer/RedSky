@@ -17,6 +17,7 @@
 #include "LayoutCodex.h"
 #include "Testing.h"
 #include "PerformanceLog.h"
+#include "RedSkyKeyboardKeys.h"
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>

@@ -1,90 +1,116 @@
+/******************************************************************************************
+*	RedSky Direct3D Engine																  *
+*	Copyright 2018 PlanetRedSky <http://www.planetRedSky.net>								  *
+*																						  *
+*	This file is part of RedSky Direct3D Engine.											  *
+*																						  *
+*	RedSky Direct3D Engine is free software: you can redistribute it and/or modify		  *
+*	it under the terms of the GNU General Public License as published by				  *
+*	the Free Software Foundation, either version 3 of the License, or					  *
+*	(at your option) any later version.													  *
+*																						  *
+*	The RedSky Direct3D Engine is distributed in the hope that it will be useful,		  *
+*	but WITHOUT ANY WARRANTY; without even the implied warranty of						  *
+*	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the						  *
+*	GNU General Public License for more details.										  *
+*																						  *
+*	You should have received a copy of the GNU General Public License					  *
+*	along with The RedSky Direct3D Engine.  If not, see <http://www.gnu.org/licenses/>.    *
+******************************************************************************************/
 #include "Window.h"
 #include <sstream>
 #include "resource.h"
-
-#include "Constants.h"
 #include "WindowsThrowMacros.h"
 #include "imgui/imgui_impl_win32.h"
 
-//Window Class initialization
+
+// Window Class Stuff
 Window::WindowClass Window::WindowClass::wndClass;
 
-Window::WindowClass::WindowClass() noexcept : hInst(GetModuleHandle(nullptr))
+Window::WindowClass::WindowClass() noexcept
+	:
+	hInst( GetModuleHandle( nullptr ) )
 {
-	//Windows Class description
 	WNDCLASSEX wc = { 0 };
-	wc.cbSize = sizeof(wc);
+	wc.cbSize = sizeof( wc );
 	wc.style = CS_OWNDC;
 	wc.lpfnWndProc = HandleMsgSetup;
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
 	wc.hInstance = GetInstance();
-	wc.hIcon = static_cast<HICON>(LoadImage(hInst, MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, 32, 32, 0));
+	wc.hIcon = static_cast<HICON>(LoadImage( 
+		GetInstance(),MAKEINTRESOURCE( IDI_ICON1 ),
+		IMAGE_ICON,32,32,0
+	));
 	wc.hCursor = nullptr;
 	wc.hbrBackground = nullptr;
 	wc.lpszMenuName = nullptr;
 	wc.lpszClassName = GetName();
-	wc.hIconSm = static_cast<HICON>(LoadImage(hInst, MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, 16, 16, 0));;
-	RegisterClassEx(&wc);
+	wc.hIconSm = static_cast<HICON>(LoadImage(
+		GetInstance(),MAKEINTRESOURCE( IDI_ICON1 ),
+		IMAGE_ICON,16,16,0
+	));
+	RegisterClassEx( &wc );
 }
 
 Window::WindowClass::~WindowClass()
 {
-	UnregisterClass(wndClassName, GetInstance());
+	UnregisterClass( wndClassName,GetInstance() );
 }
 
-Window::Window(int width, int height, const char* name) : width(width), height(height)
+const char* Window::WindowClass::GetName() noexcept
 {
-	//Sets the size of the client area
+	return wndClassName;
+}
+
+HINSTANCE Window::WindowClass::GetInstance() noexcept
+{
+	return wndClass.hInst;
+}
+
+
+// Window Stuff
+Window::Window( int width,int height,const char* name )
+	:
+	width( width ),
+	height( height )
+{
+	// calculate window size based on desired client region size
 	RECT wr;
 	wr.left = 100;
 	wr.right = width + wr.left;
 	wr.top = 100;
 	wr.bottom = height + wr.top;
-
-	//Sets the style of the window
-	DWORD style = WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU | WS_MAXIMIZEBOX;
-
-	//Adjusts the client area to the desired size
-	AdjustWindowRect(&wr, style, FALSE);
-
-	if (AdjustWindowRect(&wr, style, FALSE) == 0) {
+	if( AdjustWindowRect( &wr,WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,FALSE ) == 0 )
+	{
 		throw RSWND_LAST_EXCEPT();
 	}
-
-	//Create window and get hWnd
+	// create window & get hWnd
 	hWnd = CreateWindow(
-		WindowClass::GetName(), name,
-		style,
-		CW_USEDEFAULT, CW_USEDEFAULT, //Starting position
-		wr.right - wr.left, //Width
-		wr.bottom - wr.top, //Height
-		nullptr, nullptr,
-		WindowClass::GetInstance(),
-		this //This is a long pointer to the Window instance 
-		);
-
-	if (hWnd == nullptr) {
+		WindowClass::GetName(),name,
+		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
+		CW_USEDEFAULT,CW_USEDEFAULT,wr.right - wr.left,wr.bottom - wr.top,
+		nullptr,nullptr,WindowClass::GetInstance(),this
+	);
+	// check for error
+	if( hWnd == nullptr )
+	{
 		throw RSWND_LAST_EXCEPT();
 	}
-
-	ShowWindow(hWnd, SW_SHOWDEFAULT);
-
-	//Init Imgui
-	ImGui_ImplWin32_Init(hWnd);
-
-
-	pGfx = std::make_unique<Graphics>(hWnd, width, height);
-
-	//Allows us to interface with the input device itself 
-	//higher resolution for the input device
-	//Allows us to input from two different input devices e.g. two mice 
+	// newly created windows start off as hidden
+	ShowWindow( hWnd,SW_SHOWDEFAULT );
+	// Init ImGui Win32 Impl
+	ImGui_ImplWin32_Init( hWnd );
+	// create graphics object
+	pGfx = std::make_unique<Graphics>( hWnd,width,height );
+	// register mouse raw input device
 	RAWINPUTDEVICE rid;
-	rid.usUsagePage = 0x01; //mouse page
-	rid.usUsage = 0x02; //mouse usage
+	rid.usUsagePage = 0x01; // mouse page
+	rid.usUsage = 0x02; // mouse usage
 	rid.dwFlags = 0;
 	rid.hwndTarget = nullptr;
-	if (RegisterRawInputDevices(&rid, 1, sizeof(rid)) == FALSE) {
+	if( RegisterRawInputDevices( &rid,1,sizeof( rid ) ) == FALSE )
+	{
 		throw RSWND_LAST_EXCEPT();
 	}
 }
@@ -92,56 +118,154 @@ Window::Window(int width, int height, const char* name) : width(width), height(h
 Window::~Window()
 {
 	ImGui_ImplWin32_Shutdown();
-	DestroyWindow(hWnd); //Destroys the window
+	DestroyWindow( hWnd );
 }
 
-//only exists to setup the pointer to our instnace on the windows api side
-LRESULT CALLBACK Window::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
+void Window::SetTitle( const std::string& title )
 {
-	if (msg == WM_NCCREATE) { //if this is the first time the window is being created
-		//extract a pointer to window class from creation data
+	if( SetWindowText( hWnd,title.c_str() ) == 0 )
+	{
+		throw RSWND_LAST_EXCEPT();
+	}
+}
+
+void Window::EnableCursor() noexcept
+{
+	cursorEnabled = true;
+	ShowCursor();
+	EnableImGuiMouse();
+	FreeCursor();
+}
+
+void Window::DisableCursor() noexcept
+{
+	cursorEnabled = false;
+	HideCursor();
+	DisableImGuiMouse();
+	ConfineCursor();
+}
+
+bool Window::CursorEnabled() const noexcept
+{
+	return cursorEnabled;
+}
+
+std::optional<int> Window::ProcessMessages() noexcept
+{
+	MSG msg;
+	// while queue has messages, remove and dispatch them (but do not block on empty queue)
+	while( PeekMessage( &msg,nullptr,0,0,PM_REMOVE ) )
+	{
+		// check for quit because peekmessage does not signal this via return val
+		if( msg.message == WM_QUIT )
+		{
+			// return optional wrapping int (arg to PostQuitMessage is in wparam) signals quit
+			return (int)msg.wParam;
+		}
+
+		// TranslateMessage will post auxilliary WM_CHAR messages from key msgs
+		TranslateMessage( &msg );
+		DispatchMessage( &msg );
+	}
+
+	// return empty optional when not quitting app
+	return {};
+}
+
+Graphics& Window::Gfx()
+{
+	if( !pGfx )
+	{
+		throw RSWND_NOGFX_EXCEPT();
+	}
+	return *pGfx;
+}
+
+void Window::ConfineCursor() noexcept
+{
+	RECT rect; 
+	GetClientRect( hWnd,&rect );
+	MapWindowPoints( hWnd,nullptr,reinterpret_cast<POINT*>(&rect),2 );
+	ClipCursor( &rect );
+}
+
+void Window::FreeCursor() noexcept
+{
+	ClipCursor( nullptr );
+}
+
+void Window::HideCursor() noexcept
+{
+	while( ::ShowCursor( FALSE ) >= 0 );
+}
+
+void Window::ShowCursor() noexcept
+{
+	while( ::ShowCursor( TRUE ) < 0 );
+}
+
+void Window::EnableImGuiMouse() noexcept
+{
+	ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
+}
+
+void Window::DisableImGuiMouse() noexcept
+{
+	ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouse;
+}
+
+LRESULT CALLBACK Window::HandleMsgSetup( HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam ) noexcept
+{
+	// use create parameter passed in from CreateWindow() to store window class pointer at WinAPI side
+	if( msg == WM_NCCREATE )
+	{
+		// extract ptr to window class from creation data
 		const CREATESTRUCTW* const pCreate = reinterpret_cast<CREATESTRUCTW*>(lParam);
 		Window* const pWnd = static_cast<Window*>(pCreate->lpCreateParams);
-		//Set WinAPI data to store a pointer to the window class
-		SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pWnd)); //Lets you set data stored at the WindowsAPI side to desired data //stores a pointer to this class in the windows API
-		//Set message procedure to normal handler now that setup is finished
-		SetWindowLongPtr(hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&Window::HandleMsgThunk)); //since this instance has been set in WinAPI we can now change the window proc to HandleMessageThunk
-		//forward message to the window class handler
-		return pWnd->HandleMsg(hWnd, msg, wParam, lParam); //Handle the new event
+		// set WinAPI-managed user data to store ptr to window instance
+		SetWindowLongPtr( hWnd,GWLP_USERDATA,reinterpret_cast<LONG_PTR>(pWnd) );
+		// set message proc to normal (non-setup) handler now that setup is finished
+		SetWindowLongPtr( hWnd,GWLP_WNDPROC,reinterpret_cast<LONG_PTR>(&Window::HandleMsgThunk) );
+		// forward message to window instance handler
+		return pWnd->HandleMsg( hWnd,msg,wParam,lParam );
 	}
-	//message will now be handled by the new WindowProc which is WindowThunk
-	return DefWindowProc(hWnd, msg, wParam, lParam);
+	// if we get a message before the WM_NCCREATE message, handle with default handler
+	return DefWindowProc( hWnd,msg,wParam,lParam );
 }
 
-//adapts from WIN32 Call function to c++ member function
-LRESULT CALLBACK Window::HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
+LRESULT CALLBACK Window::HandleMsgThunk( HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam ) noexcept
 {
-	//retrieve a pointer to a window class
-	Window* const pWnd = reinterpret_cast<Window*>(GetWindowLongPtr(hWnd, GWLP_USERDATA)); //Get the window pointer
-	//forward message to window class handler
-	return pWnd->HandleMsg(hWnd, msg, wParam, lParam); //Calls the member function HandleMSG
+	// retrieve ptr to window instance
+	Window* const pWnd = reinterpret_cast<Window*>(GetWindowLongPtr( hWnd,GWLP_USERDATA ));
+	// forward message to window instance handler
+	return pWnd->HandleMsg( hWnd,msg,wParam,lParam );
 }
 
-LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
+LRESULT Window::HandleMsg( HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam ) noexcept
 {
-	if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam)) {
+	if( ImGui_ImplWin32_WndProcHandler( hWnd,msg,wParam,lParam ) )
+	{
 		return true;
 	}
-
 	const auto& imio = ImGui::GetIO();
 
-	switch (msg) {
+	switch( msg )
+	{
+	// we don't want the DefProc to handle this message because
+	// we want our destructor to destroy the window, so return 0 instead of break
 	case WM_CLOSE:
-		PostQuitMessage(0);
-		return 0; //Stops Destroy Window from being called twice as the function now exits and then the destructor gets called
-		break;
-		//Clears keyboard state when the window is not in focus
+		PostQuitMessage( 0 );
+		return 0;
+	// clear keystate when window loses focus to prevent input getting "stuck"
 	case WM_KILLFOCUS:
 		kbd.ClearState();
 		break;
 	case WM_ACTIVATE:
-		if (!cursorEnabled) {
-			if (wParam & WA_ACTIVE) {
+		// confine/free cursor on window to foreground/background if cursor disabled
+		if( !cursorEnabled )
+		{
+			if( wParam & WA_ACTIVE )
+			{
 				ConfineCursor();
 				HideCursor();
 			}
@@ -152,272 +276,241 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 			}
 		}
 		break;
-		//Keyboard messages
+
+	/*********** KEYBOARD MESSAGES ***********/
 	case WM_KEYDOWN:
-		//Syskey command need to be handled to track alt key
+	// syskey commands need to be handled to track ALT key (VK_MENU) and F10
 	case WM_SYSKEYDOWN:
-		if (imio.WantCaptureKeyboard) {
+		// stifle this keyboard message if imgui wants to capture
+		if( imio.WantCaptureKeyboard )
+		{
 			break;
 		}
-		if (!(lParam & 0x40000000) || kbd.AutorepeatEnabled()) { //Filters Autorepeat //0x40000000 bit 30 (AutoRepeat)
-			kbd.OnKeyPressed(static_cast<unsigned char>(wParam));
+		if( !(lParam & 0x40000000) || kbd.AutorepeatIsEnabled() ) // filter autorepeat
+		{
+			kbd.OnKeyPressed( static_cast<unsigned char>(wParam) );
 		}
 		break;
 	case WM_KEYUP:
 	case WM_SYSKEYUP:
-		if (imio.WantCaptureKeyboard) {
+		// stifle this keyboard message if imgui wants to capture
+		if( imio.WantCaptureKeyboard )
+		{
 			break;
 		}
-		kbd.OnKeyReleased(static_cast<unsigned char>(wParam));
-	case WM_CHAR: //Text input
-		if (imio.WantCaptureKeyboard) {
+		kbd.OnKeyReleased( static_cast<unsigned char>(wParam) );
+		break;
+	case WM_CHAR:
+		// stifle this keyboard message if imgui wants to capture
+		if( imio.WantCaptureKeyboard )
+		{
 			break;
 		}
-		kbd.OnChar(static_cast<unsigned char>(wParam));
+		kbd.OnChar( static_cast<unsigned char>(wParam) );
+		break;
+	/*********** END KEYBOARD MESSAGES ***********/
 
-		//Mouse Messages
+	/************* MOUSE MESSAGES ****************/
 	case WM_MOUSEMOVE:
 	{
-		const POINTS pt = MAKEPOINTS(lParam);
-
-		if (!cursorEnabled) {
-			if (!mouse.IsInWindow()) {
-				SetCapture(hWnd);
+		const POINTS pt = MAKEPOINTS( lParam );
+		// cursorless exclusive gets first dibs
+		if( !cursorEnabled )
+		{
+			if( !mouse.IsInWindow() )
+			{
+				SetCapture( hWnd );
 				mouse.OnMouseEnter();
 				HideCursor();
 			}
 			break;
 		}
-
-		if (imio.WantCaptureKeyboard) {
+		// stifle this mouse message if imgui wants to capture
+		if( imio.WantCaptureMouse )
+		{
 			break;
 		}
-		if (pt.x > 0 && pt.x < width && pt.y >= 0 && pt.y < height) {
-			mouse.OnMouseMove(pt.x, pt.y);
-			if (!mouse.IsInWindow()) {
-				SetCapture(hWnd);
+		// in client region -> log move, and log enter + capture mouse (if not previously in window)
+		if( pt.x >= 0 && pt.x < width && pt.y >= 0 && pt.y < height )
+		{
+			mouse.OnMouseMove( pt.x,pt.y );
+			if( !mouse.IsInWindow() )
+			{
+				SetCapture( hWnd );
 				mouse.OnMouseEnter();
 			}
 		}
+		// not in client -> log move / maintain capture if button down
 		else
 		{
-			if (wParam & (MK_LBUTTON | MK_RBUTTON)) {
-				mouse.OnMouseMove(pt.x, pt.y);
+			if( wParam & (MK_LBUTTON | MK_RBUTTON) )
+			{
+				mouse.OnMouseMove( pt.x,pt.y );
 			}
+			// button up -> release capture / log event for leaving
 			else
 			{
 				ReleaseCapture();
 				mouse.OnMouseLeave();
 			}
 		}
+		break;
 	}
-	break;
 	case WM_LBUTTONDOWN:
 	{
-		if (imio.WantCaptureKeyboard) {
+		SetForegroundWindow( hWnd );
+		if( !cursorEnabled )
+		{
+			ConfineCursor();
+			HideCursor();
+		}
+		// stifle this mouse message if imgui wants to capture
+		if( imio.WantCaptureMouse )
+		{
 			break;
 		}
-		const POINTS pt = MAKEPOINTS(lParam); //lParam holds mouse coordinates
-		mouse.OnLeftPressed(pt.x, pt.y);
-
-		//Brings window to foreground object when clicked on
-		SetForegroundWindow(hWnd);
+		const POINTS pt = MAKEPOINTS( lParam );
+		mouse.OnLeftPressed( pt.x,pt.y );
+		break;
 	}
-	break;
 	case WM_RBUTTONDOWN:
 	{
-		if (imio.WantCaptureKeyboard) {
+		// stifle this mouse message if imgui wants to capture
+		if( imio.WantCaptureMouse )
+		{
 			break;
 		}
-		const POINTS pt = MAKEPOINTS(lParam);
-		mouse.OnRightPressed(pt.x, pt.y);
+		const POINTS pt = MAKEPOINTS( lParam );
+		mouse.OnRightPressed( pt.x,pt.y );
+		break;
 	}
-	break;
 	case WM_LBUTTONUP:
 	{
-		if (imio.WantCaptureKeyboard) {
+		// stifle this mouse message if imgui wants to capture
+		if( imio.WantCaptureMouse )
+		{
 			break;
 		}
-		const POINTS pt = MAKEPOINTS(lParam);
-		mouse.OnLeftReleased(pt.x, pt.y);
+		const POINTS pt = MAKEPOINTS( lParam );
+		mouse.OnLeftReleased( pt.x,pt.y );
+		// release mouse if outside of window
+		if( pt.x < 0 || pt.x >= width || pt.y < 0 || pt.y >= height )
+		{
+			ReleaseCapture();
+			mouse.OnMouseLeave();
+		}
+		break;
 	}
-	break;
 	case WM_RBUTTONUP:
 	{
-		if (imio.WantCaptureKeyboard) {
+		// stifle this mouse message if imgui wants to capture
+		if( imio.WantCaptureMouse )
+		{
 			break;
 		}
-		const POINTS pt = MAKEPOINTS(lParam);
-		mouse.OnRightReleased(pt.x, pt.y);
+		const POINTS pt = MAKEPOINTS( lParam );
+		mouse.OnRightReleased( pt.x,pt.y );
+		// release mouse if outside of window
+		if( pt.x < 0 || pt.x >= width || pt.y < 0 || pt.y >= height )
+		{
+			ReleaseCapture();
+			mouse.OnMouseLeave();
+		}
+		break;
 	}
-	break;
 	case WM_MOUSEWHEEL:
 	{
-		if (imio.WantCaptureKeyboard) {
+		// stifle this mouse message if imgui wants to capture
+		if( imio.WantCaptureMouse )
+		{
 			break;
 		}
-		const POINTS pt = MAKEPOINTS(lParam);
-		const int delta = GET_WHEEL_DELTA_WPARAM(wParam); //wParam holds mouse wheel
-		mouse.OnWheelDelta(pt.x, pt.y, delta);
+		const POINTS pt = MAKEPOINTS( lParam );
+		const int delta = GET_WHEEL_DELTA_WPARAM( wParam );
+		mouse.OnWheelDelta( pt.x,pt.y,delta );
+		break;
 	}
-
-	//You will not get WM_INPUT messages until you register raw input for the input device
+	/************** END MOUSE MESSAGES **************/
+	
+	/************** RAW MOUSE MESSAGES **************/
 	case WM_INPUT:
 	{
-		if (!mouse.RawEnabled()) {
+		if( !mouse.RawEnabled() )
+		{
 			break;
 		}
-
 		UINT size;
-		//lparam is the handle for the raw data
-		//fills the size variable with how much data is required
-		if (GetRawInputData(
+		// first get the size of the input data
+		if( GetRawInputData(
 			reinterpret_cast<HRAWINPUT>(lParam),
 			RID_INPUT,
 			nullptr,
 			&size,
-			sizeof(RAWINPUTHEADER)) == -1)
+			sizeof( RAWINPUTHEADER ) ) == -1)
 		{
-			//bails out if msg processing goes wrong
+			// bail msg processing if error
 			break;
 		}
-		rawBuffer.resize(size);
-
-		//fills the raw input vector with the data listed from the buffer size
-		if (GetRawInputData(
+		rawBuffer.resize( size );
+		// read in the input data
+		if( GetRawInputData(
 			reinterpret_cast<HRAWINPUT>(lParam),
 			RID_INPUT,
 			rawBuffer.data(),
 			&size,
-			sizeof(RAWINPUTHEADER)) != size)
+			sizeof( RAWINPUTHEADER ) ) != size )
 		{
-			//bail out if processing goes wrong
+			// bail msg processing if error
 			break;
 		}
-
-		//processes the raw input data
+		// process the raw input data
 		auto& ri = reinterpret_cast<const RAWINPUT&>(*rawBuffer.data());
-
-		//checks to see if the lastx and lasty is different to the previous frame
-		if (ri.header.dwType == RIM_TYPEMOUSE &&
-			(ri.data.mouse.lLastX != 0 || ri.data.mouse.lLastY != 0))
+		if( ri.header.dwType == RIM_TYPEMOUSE &&
+			(ri.data.mouse.lLastX != 0 || ri.data.mouse.lLastY != 0) )
 		{
-			//stores the new raw values if they are different to the previous frame
-			mouse.OnRawDelta(ri.data.mouse.lLastX, ri.data.mouse.lLastY);
+			mouse.OnRawDelta( ri.data.mouse.lLastX,ri.data.mouse.lLastY );
 		}
 		break;
 	}
-
-	}
-	return DefWindowProc(hWnd, msg, wParam, lParam);
-}
-
-void Window::SetTitle(const std::string& title)
-{
-	if (SetWindowText(hWnd, title.c_str()) == 0) {
-		throw RSWND_LAST_EXCEPT();
-	}
-}
-
-std::optional<int> Window::ProcessMessages() noexcept
-{
-	MSG msg;
-	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
-	{
-		if (msg.message == WM_QUIT) {
-			return (int)msg.wParam;
-		}
-
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
+	/************** END RAW MOUSE MESSAGES **************/
 	}
 
-	return{};
+	return DefWindowProc( hWnd,msg,wParam,lParam );
 }
 
-Graphics& Window::Gfx()
-{
-	if (!pGfx) {
-		throw RSWND_NOGFX_EXCEPT();
-	}
-	return *pGfx;
-}
 
-void Window::EnableCursor()noexcept
-{
-	cursorEnabled = true;
-	ShowCursor();
-	EnableImGuiMouse();
-	FreeCursor();
-}
-
-void Window::DisableCursor()noexcept
-{
-	cursorEnabled = false;
-	HideCursor();
-	DisableImGuiMouse();
-	ConfineCursor();
-}
-
-void Window::HideCursor()noexcept
-{
-	//uses the WinAPI ShowCursor function when it is above 0 the cursor is hidden
-	while (::ShowCursor(FALSE) >= 0);
-}
-
-void Window::ShowCursor()noexcept
-{
-	while (::ShowCursor(TRUE) < 0);
-}
-
-void Window::EnableImGuiMouse()noexcept
-{
-	ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
-}
-
-void Window::DisableImGuiMouse()noexcept
-{
-	ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouse;
-}
-
-void Window::ConfineCursor() noexcept
-{
-	RECT rect;
-	GetClientRect(hWnd, &rect);
-	MapWindowPoints(hWnd, nullptr, reinterpret_cast<POINT*>(&rect), 2);
-	ClipCursor(&rect);
-}
-
-void Window::FreeCursor() noexcept
-{
-	ClipCursor(nullptr);
-}
-
-#pragma region Windows Exception
-std::string Window::Exception::TranslateErrorCode(HRESULT hr) noexcept
+// Window Exception Stuff
+std::string Window::Exception::TranslateErrorCode( HRESULT hr ) noexcept
 {
 	char* pMsgBuf = nullptr;
-
-	//FormatMessage takes a HRESULT and returns detail on the error
-	//This function returns the length of the error code
+	// windows will allocate memory for err string and make our pointer point to it
 	const DWORD nMsgLen = FormatMessage(
-		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-		nullptr, hr, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-		reinterpret_cast<LPSTR>(&pMsgBuf), 0, nullptr
-		);
-	if (nMsgLen == 0) { //if the message length is 0 then the error code is not known
-		return "Unknown error code";
+		FORMAT_MESSAGE_ALLOCATE_BUFFER |
+		FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+		nullptr,hr,MAKELANGID( LANG_NEUTRAL,SUBLANG_DEFAULT ),
+		reinterpret_cast<LPSTR>(&pMsgBuf),0,nullptr
+	);
+	// 0 string length returned indicates a failure
+	if( nMsgLen == 0 )
+	{
+		return "Unidentified error code";
 	}
-	std::string errorString = pMsgBuf; //errorString memory will live after this function call //copies the error string into this string
-	LocalFree(pMsgBuf); //release memory from pMsgBuffer
+	// copy error string from windows-allocated buffer to std::string
+	std::string errorString = pMsgBuf;
+	// free windows buffer
+	LocalFree( pMsgBuf );
 	return errorString;
 }
-#pragma endregion
 
-#pragma region Windows HrException
-Window::HrException::HrException(int line, const char* file, HRESULT hr) noexcept : Exception(line, file), hr(hr) {}
 
-const char* Window::HrException::what() const noexcept {
+Window::HrException::HrException( int line,const char* file,HRESULT hr ) noexcept
+	:
+	Exception( line,file ),
+	hr( hr )
+{}
+
+const char* Window::HrException::what() const noexcept
+{
 	std::ostringstream oss;
 	oss << GetType() << std::endl
 		<< "[Error Code] 0x" << std::hex << std::uppercase << GetErrorCode()
@@ -428,23 +521,23 @@ const char* Window::HrException::what() const noexcept {
 	return whatBuffer.c_str();
 }
 
-const char* Window::HrException::GetType() const noexcept {
+const char* Window::HrException::GetType() const noexcept
+{
 	return "RedSky Window Exception";
 }
 
-HRESULT Window::HrException::GetErrorCode() const noexcept {
+HRESULT Window::HrException::GetErrorCode() const noexcept
+{
 	return hr;
 }
 
-std::string Window::HrException::GetErrorDescription() const noexcept {
-	return Exception::TranslateErrorCode(hr);
+std::string Window::HrException::GetErrorDescription() const noexcept
+{
+	return Exception::TranslateErrorCode( hr );
 }
-#pragma endregion
 
-#pragma region Windows NoGfxException
-const char* Window::NoGfxException::GetType() const noexcept {
+
+const char* Window::NoGfxException::GetType() const noexcept
+{
 	return "RedSky Window Exception [No Graphics]";
 }
-#pragma endregion
-
-

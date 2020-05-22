@@ -4,45 +4,23 @@
 #include <optional>
 #include <unordered_map>
 
-#include "Node.h"
-#include "Mesh.h"
-
 class Node;
 
-class ModelWindow {
+class ModelWindow // pImpl idiom, only defined in this .cpp
+{
 public:
-	void Show(Graphics& gfx, const char* windowName, const Node& root) noexcept;
-
-	void ApplyParamaters() noxnd;
-
+	void Show( Graphics& gfx,const char* windowName,const Node& root ) noexcept;
+	void ApplyParameters() noxnd;
 private:
 	DirectX::XMMATRIX GetTransform() const noxnd;
-
 	const Dcb::Buffer& GetMaterial() const noxnd;
-
-	bool TransformChanged() const noxnd {
-		return pSelectedNode && transforms.at(pSelectedNode->GetID()).transformParamsTest;
-	}
-	void ResetTransformsChanged() noxnd {
-		transforms.at(pSelectedNode->GetID()).transformParamsTest = false;
-	}
-
-	bool MaterialChanged() const noxnd {
-		return pSelectedNode && transforms.at(pSelectedNode->GetID()).materialCbufTest;
-	}
-	void ResetMaterialsChanged() noxnd {
-		transforms.at(pSelectedNode->GetID()).materialCbufTest = false;
-	}
-	bool IsChanged() const noxnd {
-		return TransformChanged() || MaterialChanged();
-	}
-
-	Node* GetSelectedNode() const noexcept {
-		return pSelectedNode;
-	}
+	bool TransformDirty() const noxnd;
+	void ResetTransformDirty() noxnd;
+	bool MaterialDirty() const noxnd;
+	void ResetMaterialDirty() noxnd;
+	bool IsDirty() const noxnd;
 private:
 	Node* pSelectedNode;
-
 	struct TransformParameters
 	{
 		float roll = 0.0f;
@@ -54,10 +32,10 @@ private:
 	};
 	struct NodeData
 	{
-		TransformParameters transformParams;
-		bool transformParamsTest;
+		TransformParameters tranformParams;
+		bool transformParamsDirty;
 		std::optional<Dcb::Buffer> materialCbuf;
-		bool materialCbufTest;
+		bool materialCbufDirty;
 	};
-	std::unordered_map<int, NodeData> transforms;
+	std::unordered_map<int,NodeData> transforms;
 };

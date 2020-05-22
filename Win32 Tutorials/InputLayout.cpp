@@ -3,46 +3,46 @@
 #include "BindableCodex.h"
 #include "Vertex.h"
 
-namespace Bind {
-	InputLayout::InputLayout(Graphics& gfx, rsexp::VertexLayout layout_in, ID3DBlob* pVertexShaderByteCode)
-		: layout(std::move(layout_in))
+namespace Bind
+{
+	InputLayout::InputLayout( Graphics& gfx,
+		Dvtx::VertexLayout layout_in,
+		ID3DBlob* pVertexShaderBytecode )
+		:
+		layout( std::move( layout_in ) )
 	{
-		INFOMAN(gfx);
+		INFOMAN( gfx );
 
 		const auto d3dLayout = layout.GetD3DLayout();
 
-		GFX_THROW_INFO(GetDevice(gfx)->CreateInputLayout(
-			d3dLayout.data(), (UINT)d3dLayout.size(),
-			pVertexShaderByteCode->GetBufferPointer(),
-			pVertexShaderByteCode->GetBufferSize(),
+		GFX_THROW_INFO( GetDevice( gfx )->CreateInputLayout(
+			d3dLayout.data(),(UINT)d3dLayout.size(),
+			pVertexShaderBytecode->GetBufferPointer(),
+			pVertexShaderBytecode->GetBufferSize(),
 			&pInputLayout
-		));
+		) );
 	}
-
-	void InputLayout::Bind(Graphics& gfx) noexcept
-	{
-		GetContext(gfx)->IASetInputLayout(pInputLayout.Get());
-	}
-
-	const rsexp::VertexLayout InputLayout::GetLayout() const noexcept
+	const Dvtx::VertexLayout InputLayout::GetLayout() const noexcept
 	{
 		return layout;
 	}
 
-	std::shared_ptr<InputLayout> InputLayout::Resolve(Graphics& gfx, const rsexp::VertexLayout& layout, ID3DBlob* pVertexShaderBytecode)
+	void InputLayout::Bind( Graphics& gfx ) noexcept
 	{
-		return Codex::Resolve<InputLayout>(gfx, layout, pVertexShaderBytecode);
+		GetContext( gfx )->IASetInputLayout( pInputLayout.Get() );
 	}
-
-	std::string InputLayout::GenerateUID(const rsexp::VertexLayout& layout, ID3DBlob* pVertexShaderBytecode /*= nullptr*/)
+	std::shared_ptr<InputLayout> InputLayout::Resolve( Graphics& gfx,
+			const Dvtx::VertexLayout& layout,ID3DBlob* pVertexShaderBytecode )
+	{
+		return Codex::Resolve<InputLayout>( gfx,layout,pVertexShaderBytecode );
+	}
+	std::string InputLayout::GenerateUID( const Dvtx::VertexLayout& layout,ID3DBlob* pVertexShaderBytecode )
 	{
 		using namespace std::string_literals;
 		return typeid(InputLayout).name() + "#"s + layout.GetCode();
 	}
-
 	std::string InputLayout::GetUID() const noexcept
 	{
-		return GenerateUID(layout);
+		return GenerateUID( layout );
 	}
-
 }
