@@ -14,18 +14,18 @@ namespace dx = DirectX;
 
 
 // Mesh
-Mesh::Mesh( Graphics& gfx,const Material& mat,const aiMesh& mesh ) noxnd
+Mesh::Mesh(Graphics& gfx, const Material& mat, const aiMesh& mesh) noxnd
 	:
-	Drawable( gfx,mat,mesh )
+Drawable(gfx, mat, mesh)
 {}
 
-void Mesh::Submit( FrameCommander& frame,dx::FXMMATRIX accumulatedTranform ) const noxnd
+void Mesh::Submit(FrameCommander& frame, dx::FXMMATRIX accumulatedTranform) const noxnd
 {
-	dx::XMStoreFloat4x4( &transform,accumulatedTranform );
-	Drawable::Submit( frame );
+	dx::XMStoreFloat4x4(&transform, accumulatedTranform);
+	Drawable::Submit(frame);
 }
 
 DirectX::XMMATRIX Mesh::GetTransformXM() const noexcept
 {
-	return DirectX::XMLoadFloat4x4( &transform );
+	return DirectX::XMLoadFloat4x4(&transform);
 }

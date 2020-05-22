@@ -3,7 +3,7 @@
 #include <exception>
 #include <string>
 
-class RedSkyException : public std::exception 
+class RedSkyException : public std::exception
 {
 public:
 	RedSkyException(int line, const char* file) noexcept;

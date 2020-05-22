@@ -41,7 +41,7 @@ public:
 	void FlushKey() noexcept;
 
 	//Char Event Reading and cleaning
-	std::optional<char> ReadChar() noexcept; 
+	std::optional<char> ReadChar() noexcept;
 	bool CharIsEmpty() const noexcept { return charBuffer.empty(); }
 	void FlushChar() noexcept;
 	void Flush() noexcept; //Flush both queues
@@ -63,7 +63,7 @@ private:
 
 	template<typename T>
 	//Buffers can have a maximum size of 16, removes items until buffer size is back  at 16
-	static void TrimBuffer(std::queue<T>& buffer) noexcept; 
+	static void TrimBuffer(std::queue<T>& buffer) noexcept;
 
 private:
 	static constexpr unsigned int nKeys = 256u; //

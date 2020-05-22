@@ -9,11 +9,11 @@
 class FrameCommander
 {
 public:
-	void Accept( Job job,size_t target ) noexcept
+	void Accept(Job job, size_t target) noexcept
 	{
-		passes[target].Accept( job );
+		passes[target].Accept(job);
 	}
-	void Execute( Graphics& gfx ) const noxnd
+	void Execute(Graphics& gfx) const noxnd
 	{
 		using namespace Bind;
 		// normally this would be a loop with each pass defining it setup / etc.
@@ -21,23 +21,23 @@ public:
 		// on input / output requirements
 
 		// main phong lighting pass
-		Stencil::Resolve( gfx,Stencil::Mode::Off )->Bind( gfx );
-		passes[0].Execute( gfx );
+		Stencil::Resolve(gfx, Stencil::Mode::Off)->Bind(gfx);
+		passes[0].Execute(gfx);
 		// outline masking pass
-		Stencil::Resolve( gfx,Stencil::Mode::Write )->Bind( gfx );
-		NullPixelShader::Resolve( gfx )->Bind( gfx );
-		passes[1].Execute( gfx );
+		Stencil::Resolve(gfx, Stencil::Mode::Write)->Bind(gfx);
+		NullPixelShader::Resolve(gfx)->Bind(gfx);
+		passes[1].Execute(gfx);
 		// outline drawing pass
-		Stencil::Resolve( gfx,Stencil::Mode::Mask )->Bind( gfx );
-		passes[2].Execute( gfx );
+		Stencil::Resolve(gfx, Stencil::Mode::Mask)->Bind(gfx);
+		passes[2].Execute(gfx);
 	}
 	void Reset() noexcept
 	{
-		for( auto& p : passes )
+		for (auto& p : passes)
 		{
 			p.Reset();
 		}
 	}
 private:
-	std::array<Pass,3> passes;
+	std::array<Pass, 3> passes;
 };

@@ -1,10 +1,10 @@
 #include "ModelException.h"
 #include <sstream>
 
-ModelException::ModelException( int line,const char* file,std::string note ) noexcept
+ModelException::ModelException(int line, const char* file, std::string note) noexcept
 	:
-	RedSkyException( line,file ),
-	note( std::move( note ) )
+	RedSkyException(line, file),
+	note(std::move(note))
 {}
 
 const char* ModelException::what() const noexcept

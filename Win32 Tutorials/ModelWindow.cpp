@@ -6,7 +6,7 @@
 namespace dx = DirectX;
 
 
-void ModelWindow::Show( Graphics& gfx,const char* windowName,const Node& root ) noexcept
+void ModelWindow::Show(Graphics& gfx, const char* windowName, const Node& root) noexcept
 {
 	//// window name defaults to "Model"
 	//windowName = windowName ? windowName : "Model";
@@ -115,34 +115,34 @@ void ModelWindow::ApplyParameters() noxnd
 }
 dx::XMMATRIX ModelWindow::GetTransform() const noxnd
 {
-	assert( pSelectedNode != nullptr );
-	const auto& transform = transforms.at( pSelectedNode->GetId() ).tranformParams;
+	assert(pSelectedNode != nullptr);
+	const auto& transform = transforms.at(pSelectedNode->GetId()).tranformParams;
 	return
-		dx::XMMatrixRotationRollPitchYaw( transform.roll,transform.pitch,transform.yaw ) *
-		dx::XMMatrixTranslation( transform.x,transform.y,transform.z );
+		dx::XMMatrixRotationRollPitchYaw(transform.roll, transform.pitch, transform.yaw) *
+		dx::XMMatrixTranslation(transform.x, transform.y, transform.z);
 }
 const Dcb::Buffer& ModelWindow::GetMaterial() const noxnd
 {
-	assert( pSelectedNode != nullptr );
-	const auto& mat = transforms.at( pSelectedNode->GetId() ).materialCbuf;
-	assert( mat );
+	assert(pSelectedNode != nullptr);
+	const auto& mat = transforms.at(pSelectedNode->GetId()).materialCbuf;
+	assert(mat);
 	return *mat;
 }
 bool ModelWindow::TransformDirty() const noxnd
 {
-	return pSelectedNode && transforms.at( pSelectedNode->GetId() ).transformParamsDirty;
+	return pSelectedNode && transforms.at(pSelectedNode->GetId()).transformParamsDirty;
 }
 void ModelWindow::ResetTransformDirty() noxnd
 {
-	transforms.at( pSelectedNode->GetId() ).transformParamsDirty = false;
+	transforms.at(pSelectedNode->GetId()).transformParamsDirty = false;
 }
 bool ModelWindow::MaterialDirty() const noxnd
 {
-	return pSelectedNode && transforms.at( pSelectedNode->GetId() ).materialCbufDirty;
+	return pSelectedNode && transforms.at(pSelectedNode->GetId()).materialCbufDirty;
 }
 void ModelWindow::ResetMaterialDirty() noxnd
 {
-	transforms.at( pSelectedNode->GetId() ).materialCbufDirty = false;
+	transforms.at(pSelectedNode->GetId()).materialCbufDirty = false;
 }
 bool ModelWindow::IsDirty() const noxnd
 {

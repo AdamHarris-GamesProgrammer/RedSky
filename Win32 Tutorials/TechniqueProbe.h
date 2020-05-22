@@ -8,27 +8,27 @@ namespace Dcb
 class TechniqueProbe
 {
 public:
-	void SetTechnique( class Technique* pTech_in )
+	void SetTechnique(class Technique* pTech_in)
 	{
 		pTech = pTech_in;
 		techIdx++;
 		OnSetTechnique();
 	}
-	void SetStep( class Step* pStep_in )
+	void SetStep(class Step* pStep_in)
 	{
 		pStep = pStep_in;
 		stepIdx++;
 		OnSetStep();
 	}
-	bool VisitBuffer( class Dcb::Buffer& buf )
+	bool VisitBuffer(class Dcb::Buffer& buf)
 	{
 		bufIdx++;
-		return OnVisitBuffer( buf );
+		return OnVisitBuffer(buf);
 	}
 protected:
 	virtual void OnSetTechnique() {}
 	virtual void OnSetStep() {}
-	virtual bool OnVisitBuffer( class Dcb::Buffer& ) = 0;
+	virtual bool OnVisitBuffer(class Dcb::Buffer&) = 0;
 protected:
 	class Technique* pTech = nullptr;
 	class Step* pStep = nullptr;

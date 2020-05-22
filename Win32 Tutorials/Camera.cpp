@@ -20,7 +20,7 @@ DirectX::XMMATRIX Camera::GetMatrix() const noexcept
 	);
 
 	const auto camPosition = XMLoadFloat3(&pos);
-	
+
 	const auto camTarget = camPosition + lookVector;
 
 	return XMMatrixLookAtLH(camPosition, camTarget, XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f));

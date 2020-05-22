@@ -29,7 +29,7 @@ namespace DX = DirectX;
 
 App::App(const std::string& commandLine) :
 	commandLine(commandLine),
-	wnd(1280, 720, "RedSky Demo Window"), 
+	wnd(1280, 720, "RedSky Demo Window"),
 	scriptCommander(TokenizeQuoted(commandLine)),
 	light(wnd.Gfx())
 {
@@ -80,7 +80,7 @@ void App::DoFrame()
 
 	PollInput(dt);
 
-	while (const auto delta = wnd.mouse.ReadRawDelta()) 
+	while (const auto delta = wnd.mouse.ReadRawDelta())
 	{
 		if (!wnd.CursorEnabled()) {
 			cam.Rotate((float)delta->x, (float)delta->y);

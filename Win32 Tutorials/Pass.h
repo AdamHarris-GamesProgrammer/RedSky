@@ -6,15 +6,15 @@
 class Pass
 {
 public:
-	void Accept( Job job ) noexcept
+	void Accept(Job job) noexcept
 	{
-		jobs.push_back( job );
+		jobs.push_back(job);
 	}
-	void Execute( Graphics& gfx ) const noxnd
+	void Execute(Graphics& gfx) const noxnd
 	{
-		for( const auto& j : jobs )
+		for (const auto& j : jobs)
 		{
-			j.Execute( gfx );
+			j.Execute(gfx);
 		}
 	}
 	void Reset() noexcept

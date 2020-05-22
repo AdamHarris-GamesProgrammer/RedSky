@@ -7,15 +7,15 @@ namespace Bind
 {
 	namespace wrl = Microsoft::WRL;
 
-	Texture::Texture( Graphics& gfx,const std::string& path,UINT slot )
+	Texture::Texture(Graphics& gfx, const std::string& path, UINT slot)
 		:
-		path( path ),
-		slot( slot )
+		path(path),
+		slot(slot)
 	{
-		INFOMAN( gfx );
+		INFOMAN(gfx);
 
 		// load surface
-		const auto s = Surface::FromFile( path );
+		const auto s = Surface::FromFile(path);
 		hasAlpha = s.AlphaLoaded();
 
 		// create texture resource
@@ -32,13 +32,13 @@ namespace Bind
 		textureDesc.CPUAccessFlags = 0;
 		textureDesc.MiscFlags = D3D11_RESOURCE_MISC_GENERATE_MIPS;
 		wrl::ComPtr<ID3D11Texture2D> pTexture;
-		GFX_THROW_INFO( GetDevice( gfx )->CreateTexture2D(
-			&textureDesc,nullptr,&pTexture
-		) );
+		GFX_THROW_INFO(GetDevice(gfx)->CreateTexture2D(
+			&textureDesc, nullptr, &pTexture
+		));
 
 		// write image data into top mip level
-		GetContext( gfx )->UpdateSubresource(
-			pTexture.Get(),0u,nullptr,s.GetBufferPtrConst(),s.GetWidth() * sizeof( Surface::Color ),0u
+		GetContext(gfx)->UpdateSubresource(
+			pTexture.Get(), 0u, nullptr, s.GetBufferPtrConst(), s.GetWidth() * sizeof(Surface::Color), 0u
 		);
 
 		// create the resource view on the texture
@@ -47,39 +47,39 @@ namespace Bind
 		srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 		srvDesc.Texture2D.MostDetailedMip = 0;
 		srvDesc.Texture2D.MipLevels = -1;
-		GFX_THROW_INFO( GetDevice( gfx )->CreateShaderResourceView(
-			pTexture.Get(),&srvDesc,&pTextureView
-		) );
+		GFX_THROW_INFO(GetDevice(gfx)->CreateShaderResourceView(
+			pTexture.Get(), &srvDesc, &pTextureView
+		));
 
 		// generate the mip chain using the gpu rendering pipeline
-		GetContext( gfx )->GenerateMips( pTextureView.Get() );
+		GetContext(gfx)->GenerateMips(pTextureView.Get());
 	}
 
-	void Texture::Bind( Graphics& gfx ) noexcept
+	void Texture::Bind(Graphics& gfx) noexcept
 	{
-		GetContext( gfx )->PSSetShaderResources( slot,1u,pTextureView.GetAddressOf() );
+		GetContext(gfx)->PSSetShaderResources(slot, 1u, pTextureView.GetAddressOf());
 	}
-	std::shared_ptr<Texture> Texture::Resolve( Graphics& gfx,const std::string& path,UINT slot )
+	std::shared_ptr<Texture> Texture::Resolve(Graphics& gfx, const std::string& path, UINT slot)
 	{
-		return Codex::Resolve<Texture>( gfx,path,slot );
+		return Codex::Resolve<Texture>(gfx, path, slot);
 	}
-	std::string Texture::GenerateUID( const std::string& path,UINT slot )
+	std::string Texture::GenerateUID(const std::string& path, UINT slot)
 	{
 		using namespace std::string_literals;
-		return typeid(Texture).name() + "#"s + path + "#" + std::to_string( slot );
+		return typeid(Texture).name() + "#"s + path + "#" + std::to_string(slot);
 	}
 	std::string Texture::GetUID() const noexcept
 	{
-		return GenerateUID( path,slot );
+		return GenerateUID(path, slot);
 	}
 	bool Texture::HasAlpha() const noexcept
 	{
 		return hasAlpha;
 	}
-	UINT Texture::CalculateNumberOfMipLevels( UINT width,UINT height ) noexcept
+	UINT Texture::CalculateNumberOfMipLevels(UINT width, UINT height) noexcept
 	{
-		const float xSteps = std::ceil( log2( (float)width ) );
-		const float ySteps = std::ceil( log2( (float)height ) );
-		return (UINT)std::max( xSteps,ySteps );
+		const float xSteps = std::ceil(log2((float)width));
+		const float ySteps = std::ceil(log2((float)height));
+		return (UINT)std::max(xSteps, ySteps);
 	}
 }

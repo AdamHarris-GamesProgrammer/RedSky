@@ -75,7 +75,7 @@ void Graphics::SetupSwapchainAndDevice(HWND& hWnd, int width, int height)
 		&pDevice,
 		nullptr,
 		&pContext
-		));
+	));
 }
 
 void Graphics::SetupRenderTarget()

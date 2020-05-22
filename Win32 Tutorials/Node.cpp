@@ -4,36 +4,36 @@
 
 namespace dx = DirectX;
 
-Node::Node( int id,const std::string& name,std::vector<Mesh*> meshPtrs,const DirectX::XMMATRIX& transform_in ) noxnd
+Node::Node(int id, const std::string& name, std::vector<Mesh*> meshPtrs, const DirectX::XMMATRIX& transform_in) noxnd
 	:
-	id( id ),
-	meshPtrs( std::move( meshPtrs ) ),
-	name( name )
+id(id),
+meshPtrs(std::move(meshPtrs)),
+name(name)
 {
-	dx::XMStoreFloat4x4( &transform,transform_in );
-	dx::XMStoreFloat4x4( &appliedTransform,dx::XMMatrixIdentity() );
+	dx::XMStoreFloat4x4(&transform, transform_in);
+	dx::XMStoreFloat4x4(&appliedTransform, dx::XMMatrixIdentity());
 }
 
-void Node::Submit( FrameCommander& frame,DirectX::FXMMATRIX accumulatedTransform ) const noxnd
+void Node::Submit(FrameCommander& frame, DirectX::FXMMATRIX accumulatedTransform) const noxnd
 {
 	const auto built =
-		dx::XMLoadFloat4x4( &appliedTransform ) *
-		dx::XMLoadFloat4x4( &transform ) *
+		dx::XMLoadFloat4x4(&appliedTransform) *
+		dx::XMLoadFloat4x4(&transform) *
 		accumulatedTransform;
-	for( const auto pm : meshPtrs )
+	for (const auto pm : meshPtrs)
 	{
-		pm->Submit( frame,accumulatedTransform );
+		pm->Submit(frame, accumulatedTransform);
 	}
-	for( const auto& pc : childPtrs )
+	for (const auto& pc : childPtrs)
 	{
-		pc->Submit( frame,accumulatedTransform );
+		pc->Submit(frame, accumulatedTransform);
 	}
 }
 
-void Node::AddChild( std::unique_ptr<Node> pChild ) noxnd
+void Node::AddChild(std::unique_ptr<Node> pChild) noxnd
 {
-	assert( pChild );
-	childPtrs.push_back( std::move( pChild ) );
+	assert(pChild);
+	childPtrs.push_back(std::move(pChild));
 }
 
 //void Node::ShowTree( Node*& pSelectedNode ) const noexcept
@@ -64,9 +64,9 @@ void Node::AddChild( std::unique_ptr<Node> pChild ) noxnd
 //	}
 //}
 
-void Node::SetAppliedTransform( DirectX::FXMMATRIX transform ) noexcept
+void Node::SetAppliedTransform(DirectX::FXMMATRIX transform) noexcept
 {
-	dx::XMStoreFloat4x4( &appliedTransform,transform );
+	dx::XMStoreFloat4x4(&appliedTransform, transform);
 }
 
 const DirectX::XMFLOAT4X4& Node::GetAppliedTransform() const noexcept

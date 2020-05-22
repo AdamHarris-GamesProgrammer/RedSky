@@ -4,9 +4,9 @@
 #include "imgui/imgui.h"
 #include "TransformCbufDoubleSlot.h"
 
-TestPlane::TestPlane( Graphics& gfx,float size,DirectX::XMFLOAT4 color )
+TestPlane::TestPlane(Graphics& gfx, float size, DirectX::XMFLOAT4 color)
 	:
-	pmc( { color } )
+	pmc({ color })
 {
 	//using namespace Bind;
 	//namespace dx = DirectX;
@@ -36,12 +36,12 @@ TestPlane::TestPlane( Graphics& gfx,float size,DirectX::XMFLOAT4 color )
 	//AddBind( Rasterizer::Resolve( gfx,true ) );
 }
 
-void TestPlane::SetPos( DirectX::XMFLOAT3 pos ) noexcept
+void TestPlane::SetPos(DirectX::XMFLOAT3 pos) noexcept
 {
 	this->pos = pos;
 }
 
-void TestPlane::SetRotation( float roll,float pitch,float yaw ) noexcept
+void TestPlane::SetRotation(float roll, float pitch, float yaw) noexcept
 {
 	this->roll = roll;
 	this->pitch = pitch;
@@ -50,11 +50,11 @@ void TestPlane::SetRotation( float roll,float pitch,float yaw ) noexcept
 
 DirectX::XMMATRIX TestPlane::GetTransformXM() const noexcept
 {
-	return DirectX::XMMatrixRotationRollPitchYaw( roll,pitch,yaw ) *
-		DirectX::XMMatrixTranslation( pos.x,pos.y,pos.z );
+	return DirectX::XMMatrixRotationRollPitchYaw(roll, pitch, yaw) *
+		DirectX::XMMatrixTranslation(pos.x, pos.y, pos.z);
 }
 
-void TestPlane::SpawnControlWindow( Graphics& gfx,const std::string& name ) noexcept
+void TestPlane::SpawnControlWindow(Graphics& gfx, const std::string& name) noexcept
 {
 	//if( ImGui::Begin( name.c_str() ) )
 	//{

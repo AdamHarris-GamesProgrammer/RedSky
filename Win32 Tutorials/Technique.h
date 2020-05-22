@@ -8,30 +8,30 @@ class Technique
 {
 public:
 	Technique() = default;
-	Technique( std::string name ) noexcept
+	Technique(std::string name) noexcept
 		:
-		name( name )
+		name(name)
 	{}
-	void Submit( class FrameCommander& frame,const class Drawable& drawable ) const noexcept;
-	void AddStep( Step step ) noexcept
+	void Submit(class FrameCommander& frame, const class Drawable& drawable) const noexcept;
+	void AddStep(Step step) noexcept
 	{
-		steps.push_back( std::move( step ) );
+		steps.push_back(std::move(step));
 	}
 	bool IsActive() const noexcept
 	{
 		return active;
 	}
-	void SetActiveState( bool active_in ) noexcept
+	void SetActiveState(bool active_in) noexcept
 	{
 		active = active_in;
 	}
-	void InitializeParentReferences( const class Drawable& parent ) noexcept;
-	void Accept( TechniqueProbe& probe )
+	void InitializeParentReferences(const class Drawable& parent) noexcept;
+	void Accept(TechniqueProbe& probe)
 	{
-		probe.SetTechnique( this );
-		for( auto& s : steps )
+		probe.SetTechnique(this);
+		for (auto& s : steps)
 		{
-			s.Accept( probe );
+			s.Accept(probe);
 		}
 	}
 	const std::string& GetName() const noexcept

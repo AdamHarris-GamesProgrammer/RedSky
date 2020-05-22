@@ -9,7 +9,7 @@ class Node;
 class ModelWindow // pImpl idiom, only defined in this .cpp
 {
 public:
-	void Show( Graphics& gfx,const char* windowName,const Node& root ) noexcept;
+	void Show(Graphics& gfx, const char* windowName, const Node& root) noexcept;
 	void ApplyParameters() noxnd;
 private:
 	DirectX::XMMATRIX GetTransform() const noxnd;
@@ -37,5 +37,5 @@ private:
 		std::optional<Dcb::Buffer> materialCbuf;
 		bool materialCbufDirty;
 	};
-	std::unordered_map<int,NodeData> transforms;
+	std::unordered_map<int, NodeData> transforms;
 };
