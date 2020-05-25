@@ -7,6 +7,7 @@
 #include "Node.h"
 #include "Mesh.h"
 #include "Material.h"
+#include "ModelProbe.h"
 
 namespace dx = DirectX;
 
@@ -63,6 +64,11 @@ void Model::Submit(FrameCommander& frame) const noxnd
 void Model::SetRootTransform(DirectX::FXMMATRIX tf) noexcept
 {
 	pRoot->SetAppliedTransform(tf);
+}
+
+void Model::Accept(class ModelProbe& probe)
+{
+	pRoot->Accept(probe);
 }
 
 Model::~Model() noexcept

@@ -19,6 +19,9 @@
 #include "PerformanceLog.h"
 #include "RedSkyKeyboardKeys.h"
 
+#include "ModelProbe.h"
+#include "Node.h"
+
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
@@ -83,7 +86,7 @@ void App::DoFrame()
 
 	fc.Execute(wnd.Gfx());
 
-	class Probe : public TechniqueProbe {
+	class TP : public TechniqueProbe {
 	public:
 		void OnSetTechnique() override {
 			using namespace std::string_literals;
@@ -128,6 +131,48 @@ void App::DoFrame()
 		}
 	} probe;
 
+	class MP : ModelProbe {
+	public:
+		void SpawnWindow(Model& model) {
+			ImGui::Begin("Model");
+			ImGui::Columns(2, nullptr, true);
+			model.Accept(*this);
+
+			ImGui::NextColumn();
+			if (pSelectedNode != nullptr) {
+
+			}
+			ImGui::End();
+		}
+
+
+	protected:
+		bool PushNode(Node& node) override {
+			const int selectedId = (pSelectedNode == nullptr) ? -1 : pSelectedNode->GetId();
+
+			const auto node_flags = ImGuiTreeNodeFlags_OpenOnArrow
+				| ((node.GetId() == selectedId) ? ImGuiTreeNodeFlags_Selected : 0)
+				| (node.HasChildren() ? 0 : ImGuiTreeNodeFlags_Leaf);
+
+			const auto expanded = ImGui::TreeNodeEx(
+				(void*)(intptr_t)node.GetId(),
+				node_flags, node.GetName().c_str()
+			);
+
+			if (ImGui::IsItemClicked()) {
+				pSelectedNode = &node;
+			}
+			return expanded;
+		}
+		void PopNode(Node& node) override {
+			ImGui::TreePop();
+		}
+	protected:
+		Node* pSelectedNode = nullptr;
+	};
+	static MP modelProbe;
+
+	modelProbe.SpawnWindow(sponza);
 	SpawnBackgroundControlWindow();
 	cam.SpawnControlWindow();
 	light.SpawnControlWindow();
