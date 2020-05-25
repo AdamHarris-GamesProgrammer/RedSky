@@ -21,8 +21,8 @@ modelPath(path.string())
 		aiString texFileName;
 
 		// common (pre)
-		vtxLayout.Append(Dvtx::VertexLayout::Position3D);
-		vtxLayout.Append(Dvtx::VertexLayout::Normal);
+		vtxLayout.Append(rsexp::VertexLayout::Position3D);
+		vtxLayout.Append(rsexp::VertexLayout::Normal);
 		Dcb::RawLayout pscLayout;
 		bool hasTexture = false;
 		bool hasGlossAlpha = false;
@@ -34,7 +34,7 @@ modelPath(path.string())
 			{
 				hasTexture = true;
 				shaderCode += "Dif";
-				vtxLayout.Append(Dvtx::VertexLayout::Texture2D);
+				vtxLayout.Append(rsexp::VertexLayout::Texture2D);
 				auto tex = Texture::Resolve(gfx, rootPath + texFileName.C_Str());
 				if (tex->HasAlpha())
 				{
@@ -55,7 +55,7 @@ modelPath(path.string())
 			{
 				hasTexture = true;
 				shaderCode += "Spc";
-				vtxLayout.Append(Dvtx::VertexLayout::Texture2D);
+				vtxLayout.Append(rsexp::VertexLayout::Texture2D);
 				auto tex = Texture::Resolve(gfx, rootPath + texFileName.C_Str(), 1);
 				hasGlossAlpha = tex->HasAlpha();
 				step.AddBindable(std::move(tex));
@@ -71,9 +71,9 @@ modelPath(path.string())
 			{
 				hasTexture = true;
 				shaderCode += "Nrm";
-				vtxLayout.Append(Dvtx::VertexLayout::Texture2D);
-				vtxLayout.Append(Dvtx::VertexLayout::Tangent);
-				vtxLayout.Append(Dvtx::VertexLayout::Bitangent);
+				vtxLayout.Append(rsexp::VertexLayout::Texture2D);
+				vtxLayout.Append(rsexp::VertexLayout::Tangent);
+				vtxLayout.Append(rsexp::VertexLayout::Bitangent);
 				step.AddBindable(Texture::Resolve(gfx, rootPath + texFileName.C_Str(), 2));
 				pscLayout.Add<Dcb::Bool>("useNormalMap");
 				pscLayout.Add<Dcb::Float>("normalMapWeight");
@@ -207,7 +207,7 @@ modelPath(path.string())
 		techniques.push_back(std::move(outline));
 	}
 }
-Dvtx::VertexBuffer Material::ExtractVertices(const aiMesh& mesh) const noexcept
+rsexp::VertexBuffer Material::ExtractVertices(const aiMesh& mesh) const noexcept
 {
 	return { vtxLayout,mesh };
 }
@@ -225,9 +225,18 @@ std::vector<unsigned short> Material::ExtractIndices(const aiMesh& mesh) const n
 	}
 	return indices;
 }
-std::shared_ptr<Bind::VertexBuffer> Material::MakeVertexBindable(Graphics& gfx, const aiMesh& mesh) const noxnd
+std::shared_ptr<Bind::VertexBuffer> Material::MakeVertexBindable(Graphics& gfx, const aiMesh& mesh, float scale) const noxnd
 {
-	return Bind::VertexBuffer::Resolve(gfx, MakeMeshTag(mesh), ExtractVertices(mesh));
+	auto vtc = ExtractVertices(mesh);
+	if (scale != 1.0f) {
+		for (auto i = 0u; i < vtc.Size(); i++) {
+			DirectX::XMFLOAT3& pos = vtc[i].Attr<rsexp::VertexLayout::ElementType::Position3D>();
+			pos.x *= scale;
+			pos.y *= scale;
+			pos.z *= scale;
+		}
+	}
+	return Bind::VertexBuffer::Resolve(gfx, MakeMeshTag(mesh), std::move(vtc));
 }
 std::shared_ptr<Bind::IndexBuffer> Material::MakeIndexBindable(Graphics& gfx, const aiMesh& mesh) const noxnd
 {

@@ -1,7 +1,7 @@
 #define DVTX_SOURCE_FILE
 #include "Vertex.h"
 
-namespace Dvtx
+namespace rsexp
 {
 	// VertexLayout
 	const VertexLayout::Element& VertexLayout::ResolveByIndex(size_t i) const noxnd
@@ -100,7 +100,7 @@ namespace Dvtx
 			return VertexLayout::Map<type>::code;
 		}
 	};
-	const char* Dvtx::VertexLayout::Element::GetCode() const noexcept
+	const char* rsexp::VertexLayout::Element::GetCode() const noexcept
 	{
 		return Bridge<CodeLookup>(type);
 	}

@@ -11,10 +11,10 @@
 class Cube
 {
 public:
-	static IndexedTriangleList MakeIndependent( Dvtx::VertexLayout layout )
+	static IndexedTriangleList MakeIndependent( rsexp::VertexLayout layout )
 	{
-		using namespace Dvtx;
-		using Type = Dvtx::VertexLayout::ElementType;
+		using namespace rsexp;
+		using Type = rsexp::VertexLayout::ElementType;
 
 		constexpr float side = 1.0f / 2.0f;
 
@@ -57,8 +57,8 @@ public:
 	}
 	static IndexedTriangleList MakeIndependentTextured()
 	{
-		using namespace Dvtx;
-		using Type = Dvtx::VertexLayout::ElementType;
+		using namespace rsexp;
+		using Type = rsexp::VertexLayout::ElementType;
 
 		auto itl = MakeIndependent( std::move( VertexLayout{}
 			.Append( Type::Position3D )

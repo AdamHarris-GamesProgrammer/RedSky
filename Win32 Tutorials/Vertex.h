@@ -21,7 +21,7 @@
 	X( BGRAColor ) \
 	X( Count )
 
-namespace Dvtx
+namespace rsexp
 {
 	class VertexLayout
 	{

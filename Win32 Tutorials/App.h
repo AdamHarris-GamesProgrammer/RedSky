@@ -42,8 +42,8 @@ private:
 
 	FrameCommander fc;
 
-	//TestCube cube{ wnd.Gfx(), 4.0f };
-	//TestCube cube2{ wnd.Gfx(), 4.0f };
+	TestCube cube{ wnd.Gfx(), 4.0f };
+	TestCube cube2{ wnd.Gfx(), 4.0f };
 
 	DirectX::XMFLOAT4 bgColour = { 0.1f,0.1f,0.2f, 1.0f };
 

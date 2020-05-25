@@ -6,7 +6,7 @@
 namespace Bind
 {
 	InputLayout::InputLayout(Graphics& gfx,
-		Dvtx::VertexLayout layout_in,
+		rsexp::VertexLayout layout_in,
 		ID3DBlob* pVertexShaderBytecode)
 		:
 		layout(std::move(layout_in))
@@ -22,7 +22,7 @@ namespace Bind
 			&pInputLayout
 		));
 	}
-	const Dvtx::VertexLayout InputLayout::GetLayout() const noexcept
+	const rsexp::VertexLayout InputLayout::GetLayout() const noexcept
 	{
 		return layout;
 	}
@@ -32,11 +32,11 @@ namespace Bind
 		GetContext(gfx)->IASetInputLayout(pInputLayout.Get());
 	}
 	std::shared_ptr<InputLayout> InputLayout::Resolve(Graphics& gfx,
-		const Dvtx::VertexLayout& layout, ID3DBlob* pVertexShaderBytecode)
+		const rsexp::VertexLayout& layout, ID3DBlob* pVertexShaderBytecode)
 	{
 		return Codex::Resolve<InputLayout>(gfx, layout, pVertexShaderBytecode);
 	}
-	std::string InputLayout::GenerateUID(const Dvtx::VertexLayout& layout, ID3DBlob* pVertexShaderBytecode)
+	std::string InputLayout::GenerateUID(const rsexp::VertexLayout& layout, ID3DBlob* pVertexShaderBytecode)
 	{
 		using namespace std::string_literals;
 		return typeid(InputLayout).name() + "#"s + layout.GetCode();

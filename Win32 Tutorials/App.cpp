@@ -21,6 +21,7 @@
 
 #include "ModelProbe.h"
 #include "Node.h"
+#include "RedSkyXM.h"
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -40,8 +41,8 @@ App::App(const std::string& commandLine) :
 	//TestDynamicMeshLoading();
 	//TestDynamicConstant();
 
-	//cube.SetPos({ 4.0f,0.0f,0.0f });
-	//cube2.SetPos({ 0.0f,4.0f,0.0 });
+	cube.SetPos({ 4.0f,0.0f,0.0f });
+	cube2.SetPos({ 0.0f,4.0f,0.0 });
 
 	wnd.Gfx().SetProjection(DX::XMMatrixPerspectiveLH(1.0f, 9.0f / 16.0f, 0.5f, 400.0f));
 }
@@ -78,8 +79,8 @@ void App::DoFrame()
 
 
 	light.Submit(fc);
-	//cube.Submit(fc);
-	//cube2.Submit(fc);
+	cube.Submit(fc);
+	cube2.Submit(fc);
 
 	//goblin.Submit(fc);
 	sponza.Submit(fc);
@@ -134,13 +135,33 @@ void App::DoFrame()
 	class MP : ModelProbe {
 	public:
 		void SpawnWindow(Model& model) {
+			namespace dx = DirectX;
+
 			ImGui::Begin("Model");
 			ImGui::Columns(2, nullptr, true);
 			model.Accept(*this);
 
 			ImGui::NextColumn();
 			if (pSelectedNode != nullptr) {
-
+				bool test = false;
+				const auto dcheck = [&test](bool changed) { test = test || changed; };
+				auto& tf = ResolveTransform();
+				ImGui::TextColored({ 0.4f,1.0f,0.6f,1.0f }, "Translation");
+				dcheck(ImGui::SliderFloat("X", &tf.x, -60.0f, 60.0f));
+				dcheck(ImGui::SliderFloat("Y", &tf.y, -60.0f, 60.0f));
+				dcheck(ImGui::SliderFloat("Z", &tf.z, -60.0f, 60.0f));
+				ImGui::TextColored({ 0.4f,1.0f,0.6f, 1.0f }, "Orientation");
+				dcheck(ImGui::SliderAngle("X-Rotation", &tf.xRot, -180.0f, 180.0f));
+				dcheck(ImGui::SliderAngle("Y-Rotation", &tf.yRot, -180.0f, 180.0f));
+				dcheck(ImGui::SliderAngle("Z-Rotation", &tf.zRot, -180.0f, 180.0f));
+				if (test) {
+					pSelectedNode->SetAppliedTransform(
+						dx::XMMatrixRotationX(tf.xRot) *
+						dx::XMMatrixRotationX(tf.yRot) *
+						dx::XMMatrixRotationX(tf.zRot) *
+						dx::XMMatrixTranslation(tf.x, tf.y, tf.z)
+					);
+				}
 			}
 			ImGui::End();
 		}
@@ -167,8 +188,40 @@ void App::DoFrame()
 		void PopNode(Node& node) override {
 			ImGui::TreePop();
 		}
-	protected:
+	private:
 		Node* pSelectedNode = nullptr;
+
+		struct TransformParamaters {
+			float xRot = 0.0f;
+			float yRot = 0.0f;
+			float zRot = 0.0f;
+			float x = 0.0f;
+			float y = 0.0f;
+			float z = 0.0f;
+		};
+		std::unordered_map<int, TransformParamaters> transformParams;
+	private:
+		TransformParamaters& ResolveTransform() noexcept {
+			const auto id = pSelectedNode->GetId();
+			auto i = transformParams.find(id);
+			if (i == transformParams.end()) {
+				return LoadTransform(id);
+			}
+			return i->second;
+		}
+		TransformParamaters& LoadTransform(int id) noexcept {
+			const auto& applied = pSelectedNode->GetAppliedTransform();
+			const auto angles = ExtractEulerAngles(applied);
+			const auto translation = ExtractTranslation(applied);
+			TransformParamaters tp;
+			tp.zRot = angles.z;
+			tp.yRot = angles.y;
+			tp.xRot = angles.x;
+			tp.x = translation.x;
+			tp.y = translation.y;
+			tp.z = translation.z;
+			return transformParams.insert({ id, {tp} }).first->second;
+		}
 	};
 	static MP modelProbe;
 
@@ -177,8 +230,8 @@ void App::DoFrame()
 	cam.SpawnControlWindow();
 	light.SpawnControlWindow();
 
-	//cube.SpawnControlWindow(wnd.Gfx(), "Cube 1");
-	//cube2.SpawnControlWindow(wnd.Gfx(), "Cube 2");
+	cube.SpawnControlWindow(wnd.Gfx(), "Cube 1");
+	cube2.SpawnControlWindow(wnd.Gfx(), "Cube 2");
 
 	ShowImguiDemoWindow();
 

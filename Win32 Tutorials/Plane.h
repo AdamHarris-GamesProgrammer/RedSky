@@ -11,7 +11,7 @@
 class Plane
 {
 public:
-	static IndexedTriangleList MakeTesselatedTextured( Dvtx::VertexLayout layout,int divisions_x,int divisions_y )
+	static IndexedTriangleList MakeTesselatedTextured( rsexp::VertexLayout layout,int divisions_x,int divisions_y )
 	{
 		namespace dx = DirectX;
 		assert( divisions_x >= 1 );
@@ -21,7 +21,7 @@ public:
 		constexpr float height = 2.0f;
 		const int nVertices_x = divisions_x + 1;
 		const int nVertices_y = divisions_y + 1;
-		Dvtx::VertexBuffer vb{ std::move( layout ) };
+		rsexp::VertexBuffer vb{ std::move( layout ) };
 
 		{
 			const float side_x = width / 2.0f;
@@ -75,7 +75,7 @@ public:
 	}
 	static IndexedTriangleList Make()
 	{
-		using Dvtx::VertexLayout;
+		using rsexp::VertexLayout;
 		VertexLayout vl;
 		vl.Append( VertexLayout::Position3D );
 		vl.Append( VertexLayout::Normal );

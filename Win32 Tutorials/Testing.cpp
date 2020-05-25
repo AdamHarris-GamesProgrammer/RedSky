@@ -7,12 +7,14 @@
 #include <assimp/postprocess.h>
 #include "Material.h"
 #include "Mesh.h"
+#include "Testing.h"
+#include "RedSkyXM.h"
 
 namespace dx = DirectX;
 
 void TestDynamicMeshLoading()
 {
-	using namespace Dvtx;
+	using namespace rsexp;
 
 	Assimp::Importer imp;
 	const auto pScene = imp.ReadFile("Models\\brick_wall\\brick_wall.obj",
@@ -53,6 +55,16 @@ void TestMaterialSystemLoading(Graphics& gfx)
 	);
 	Material mat{ gfx,*pScene->mMaterials[1],path };
 	Mesh mesh{ gfx,mat,*pScene->mMeshes[0] };
+}
+
+void TestScaleMatrixTranslation()
+{
+	auto tlMat = DirectX::XMMatrixTranslation(20.0f, 30.0f, 40.0f);
+	tlMat = ScaleTranslation(tlMat, 0.1f);
+	dx::XMFLOAT4X4 f4;
+	dx::XMStoreFloat4x4(&f4, tlMat);
+	auto etl = ExtractTranslation(f4);
+	assert(etl.x == 2.0f && etl.y == 3.0f && etl.z == 4.0f);
 }
 
 void TestDynamicConstant()
