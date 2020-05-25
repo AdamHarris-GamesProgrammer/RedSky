@@ -34,22 +34,8 @@ App::App(const std::string& commandLine) :
 	light(wnd.Gfx())
 {
 	//TestMaterialSystemLoading(wnd.Gfx());
-	TestDynamicMeshLoading();
-	TestDynamicConstant();
-
-	{
-		std::string path = "Models\\brick_wall\\brick_wall.obj";
-		Assimp::Importer imp;
-		const auto pScene = imp.ReadFile(path,
-			aiProcess_Triangulate |
-			aiProcess_JoinIdenticalVertices |
-			aiProcess_ConvertToLeftHanded |
-			aiProcess_GenNormals |
-			aiProcess_CalcTangentSpace
-		);
-		Material mat{ wnd.Gfx(),*pScene->mMaterials[1],path };
-		pLoaded = std::make_unique<Mesh>(wnd.Gfx(), mat, *pScene->mMeshes[0]);
-	}
+	//TestDynamicMeshLoading();
+	//TestDynamicConstant();
 
 	//cube.SetPos({ 4.0f,0.0f,0.0f });
 	//cube2.SetPos({ 0.0f,4.0f,0.0 });
@@ -92,10 +78,8 @@ void App::DoFrame()
 	//cube.Submit(fc);
 	//cube2.Submit(fc);
 
-	goblin.Submit(fc);
-
-
-	pLoaded->Submit(fc, DirectX::XMMatrixIdentity());
+	//goblin.Submit(fc);
+	sponza.Submit(fc);
 
 	fc.Execute(wnd.Gfx());
 
@@ -143,7 +127,6 @@ void App::DoFrame()
 			return test;
 		}
 	} probe;
-	pLoaded->Accept(probe);
 
 	SpawnBackgroundControlWindow();
 	cam.SpawnControlWindow();
