@@ -192,6 +192,22 @@ void App::DoFrame()
 			);
 
 			if (ImGui::IsItemClicked()) {
+
+				struct Probe : TechniqueProbe {
+					virtual void OnSetTechnique() {
+						if (pTech->GetName() == "Outline") {
+							pTech->SetActiveState(highlighted);
+						}
+					} 
+					bool highlighted = false;
+				} probe;
+
+				if (pSelectedNode != nullptr) {
+					pSelectedNode->Accept(probe);
+				}
+				probe.highlighted = true;
+				node.Accept(probe);
+
 				pSelectedNode = &node;
 			}
 			return expanded;
