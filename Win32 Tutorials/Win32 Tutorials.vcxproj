@@ -167,6 +167,7 @@
     <ClInclude Include="Color.h" />
     <ClInclude Include="ConditionalNoexcept.h" />
     <ClInclude Include="ConstantBuffers.h" />
+    <ClInclude Include="ConstantBuffersEx.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Drawable.h" />
     <ClInclude Include="dxerr.h" />
@@ -259,6 +260,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="Offset_VS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="PhongDifSpcNrm_VS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>

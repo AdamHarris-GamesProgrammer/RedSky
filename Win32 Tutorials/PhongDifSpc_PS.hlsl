@@ -27,7 +27,7 @@ float4 main(float3 viewFragPos : Position, float3 viewNormal : Normal, float2 tc
     // specular parameters
     float specularPowerLoaded = specularGloss;
     const float4 specularSample = spec.Sample(splr, tc);
-    const float3 specularReflectionColor;
+    float3 specularReflectionColor;
     if (useSpecularMap)
     {
         specularReflectionColor = specularSample.rgb;

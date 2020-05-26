@@ -476,6 +476,9 @@
     <ClInclude Include="ModelProbe.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ConstantBuffersEx.h">
+      <Filter>Header Files\Bindable</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="RedSky.rc">
@@ -552,5 +555,6 @@
     <FxCompile Include="PhongDifSpcNrm_VS.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
+    <FxCompile Include="Offset_VS.hlsl" />
   </ItemGroup>
 </Project>
