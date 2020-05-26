@@ -141,10 +141,10 @@ void App::DoFrame()
 			namespace dx = DirectX;
 
 			ImGui::Begin("Model");
-			ImGui::Columns(2, nullptr, true);
 			model.Accept(*this);
 
-			ImGui::NextColumn();
+
+			ImGui::Begin("Inspector");
 			if (pSelectedNode != nullptr) {
 				bool test = false;
 				const auto dcheck = [&test](bool changed) { test = test || changed; };
@@ -170,6 +170,7 @@ void App::DoFrame()
 				TP probe;
 				pSelectedNode->Accept(probe);
 			}
+			ImGui::End();
 			ImGui::End();
 		}
 
