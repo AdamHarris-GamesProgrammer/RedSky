@@ -20,6 +20,7 @@ public:
 	}
 
 	void Accept(class ModelProbe& probe);
+	void Accept(class TechniqueProbe& probe);
 	const std::string& GetName() const {
 		return name;
 	}

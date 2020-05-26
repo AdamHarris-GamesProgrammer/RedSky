@@ -61,3 +61,10 @@ void Node::Accept(ModelProbe& probe)
 		probe.PopNode(*this);
 	}
 }
+
+void Node::Accept(class TechniqueProbe& probe)
+{
+	for (auto& mp : meshPtrs) {
+		mp->Accept(probe);
+	}
+}

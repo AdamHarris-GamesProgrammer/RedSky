@@ -122,6 +122,9 @@ void App::DoFrame()
 			if (auto v = buf["specularWeight"]; v.Exists()) {
 				dcheck(ImGui::SliderFloat(tag("Spec. Weight"), &v, 0.0f, 2.0f));
 			}
+			if (auto v = buf["useSpecularMap"]; v.Exists()) {
+				dcheck(ImGui::Checkbox(tag("Spec. Map Enabled"), &v));
+			}
 			if (auto v = buf["useNormalMap"]; v.Exists()) {
 				dcheck(ImGui::Checkbox(tag("Normal Map Enabled"), &v));
 			}
@@ -130,7 +133,7 @@ void App::DoFrame()
 			}
 			return test;
 		}
-	} probe;
+	};
 
 	class MP : ModelProbe {
 	public:
@@ -162,6 +165,10 @@ void App::DoFrame()
 						dx::XMMatrixTranslation(tf.x, tf.y, tf.z)
 					);
 				}
+			}
+			if (pSelectedNode != nullptr) {
+				TP probe;
+				pSelectedNode->Accept(probe);
 			}
 			ImGui::End();
 		}
