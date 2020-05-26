@@ -222,9 +222,6 @@
     <ClCompile Include="ModelException.cpp">
       <Filter>Source Files\Model</Filter>
     </ClCompile>
-    <ClCompile Include="ModelWindow.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
     <ClCompile Include="Model.cpp">
       <Filter>Source Files\Model</Filter>
     </ClCompile>
@@ -459,9 +456,6 @@
       <Filter>Header Files\Model</Filter>
     </ClInclude>
     <ClInclude Include="ModelException.h">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="ModelWindow.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
     <ClInclude Include="Node.h">
