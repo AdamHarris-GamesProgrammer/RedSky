@@ -40,7 +40,7 @@ private:
 
 	PointLight light;
 
-	FrameCommander fc;
+	FrameCommander fc{ wnd.Gfx() };
 
 	TestCube cube{ wnd.Gfx(), 4.0f };
 	TestCube cube2{ wnd.Gfx(), 4.0f };

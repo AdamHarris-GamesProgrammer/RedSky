@@ -14,13 +14,15 @@
 
 #include "ConditionalNoexcept.h"
 
+class DepthStencil;
+
 namespace Bind {
 	class Bindable;
 }
 
 class Graphics
 {
-	friend class Bind::Bindable;
+	friend class GraphicsResource;
 public:
 	//Exception classes 
 	class Exception : public RedSkyException { //Base graphics exception
@@ -68,12 +70,13 @@ public:
 	//DirectX Setup
 	void SetupSwapchainAndDevice(HWND& hWnd, int width, int height);
 	void SetupRenderTarget();
-	void SetupDepthStencil(int width, int height);
 	void SetupViewport(int width, int height);
 
 	//Swap Chain related functions
 	void EndFrame();
 	void BeginFrame(DirectX::XMFLOAT4 colour) noexcept;
+	void BindSwapBuffer() noexcept;
+	void BindSwapBuffer(const DepthStencil& ds) noexcept;
 
 
 	//Indexed Objects
@@ -92,7 +95,13 @@ public:
 	void DisableImgui() noexcept { imguiEnabled = false; }
 	bool IsImGuiEnabled() const noexcept { return imguiEnabled; }
 
+	UINT GetWidth() const noexcept { return width; }
+	UINT GetHeight() const noexcept { return height; }
+
 private:
+	UINT width;
+	UINT height;
+
 	DirectX::XMMATRIX camera;
 	DirectX::XMMATRIX projection;
 

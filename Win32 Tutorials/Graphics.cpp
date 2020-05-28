@@ -8,6 +8,7 @@
 #include "Constants.h"
 #include "imgui/imgui_impl_dx11.h"
 #include "imgui/imgui_impl_win32.h"
+#include "DepthStencil.h"
 
 //shorthand for Microsoft::WRL
 namespace wrl = Microsoft::WRL;
@@ -17,12 +18,12 @@ namespace wrl = Microsoft::WRL;
 #pragma comment(lib, "D3DCompiler.lib")
 
 Graphics::Graphics(HWND hWnd, int width, int height)
+	: width(width), height(height)
 {
 	HRESULT hr;
 
 	SetupSwapchainAndDevice(hWnd, width, height);
 	SetupRenderTarget();
-	SetupDepthStencil(width, height);
 
 	//Bind Render target
 	pContext->OMSetRenderTargets(1u, pTarget.GetAddressOf(), pDSV.Get());
@@ -87,32 +88,6 @@ void Graphics::SetupRenderTarget()
 	GFX_THROW_INFO(pDevice->CreateRenderTargetView(pBackBuffer.Get(), nullptr, &pTarget));
 }
 
-void Graphics::SetupDepthStencil(int width, int height)
-{
-	HRESULT hr;
-
-	wrl::ComPtr<ID3D11Texture2D> pDepthStencil;
-
-	D3D11_TEXTURE2D_DESC descDepth = {};
-	descDepth.Width = width;
-	descDepth.Height = height;
-	descDepth.MipLevels = 1u;
-	descDepth.ArraySize = 1u;
-	descDepth.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-	descDepth.SampleDesc.Count = 1u;
-	descDepth.SampleDesc.Quality = 0u;
-	descDepth.Usage = D3D11_USAGE_DEFAULT;
-	descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-
-	GFX_THROW_INFO(pDevice->CreateTexture2D(&descDepth, nullptr, &pDepthStencil)); //filling the depth stencil
-
-	D3D11_DEPTH_STENCIL_VIEW_DESC descDSV = {};
-	descDSV.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-	descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-	descDSV.Texture2D.MipSlice = 0u;
-
-	GFX_THROW_INFO(pDevice->CreateDepthStencilView(pDepthStencil.Get(), &descDSV, &pDSV));
-}
 
 void Graphics::SetupViewport(int width, int height)
 {
@@ -140,8 +115,8 @@ void Graphics::BeginFrame(DirectX::XMFLOAT4 colour) noexcept
 		ImGui::NewFrame();
 	}
 
-	pContext->ClearRenderTargetView(pTarget.Get(), &colour.x); //have to use the .get() method to get the address of the ComPtr
-	pContext->ClearDepthStencilView(pDSV.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0u);
+	const float color[] = { colour.x, colour.y, colour.z, 1.0f };
+	pContext->ClearRenderTargetView(pTarget.Get(), color);
 }
 
 void Graphics::EndFrame()
@@ -167,6 +142,16 @@ void Graphics::EndFrame()
 			throw GFX_EXCEPT(hr); //General purpose error
 		}
 	}
+}
+
+void Graphics::BindSwapBuffer() noexcept
+{
+	pContext->OMSetRenderTargets(1u, pTarget.GetAddressOf(), nullptr);
+}
+
+void Graphics::BindSwapBuffer(const DepthStencil& ds) noexcept
+{
+	pContext->OMSetRenderTargets(1u, pTarget.GetAddressOf(), ds.pDepthStencilView.Get());
 }
 
 void Graphics::DrawIndexed(UINT count) noxnd
