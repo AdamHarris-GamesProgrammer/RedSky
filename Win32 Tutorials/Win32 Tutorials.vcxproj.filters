@@ -565,5 +565,7 @@
       <Filter>Shader</Filter>
     </FxCompile>
     <FxCompile Include="Offset_VS.hlsl" />
+    <FxCompile Include="Test_PS.hlsl" />
+    <FxCompile Include="Fullscreen_VS.hlsl" />
   </ItemGroup>
 </Project>

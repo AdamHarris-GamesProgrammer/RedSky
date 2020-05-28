@@ -6,12 +6,33 @@
 #include "Pass.h"
 #include "PerformanceLog.h"
 #include "DepthStencil.h"
+#include "RenderTarget.h"
+#include <array>
 
 class FrameCommander
 {
 public:
 	FrameCommander(Graphics& gfx)
-		: ds(gfx, gfx.GetWidth(), gfx.GetHeight()) {}
+		: ds(gfx, gfx.GetWidth(), gfx.GetHeight()),
+		rt(gfx, gfx.GetWidth(), gfx.GetHeight())
+	{
+		namespace dx = DirectX;
+
+		rsexp::VertexLayout lay;
+		lay.Append(rsexp::VertexLayout::Position2D);
+		rsexp::VertexBuffer bufFull{ lay };
+		bufFull.EmplaceBack(dx::XMFLOAT2{ -1,1 });
+		bufFull.EmplaceBack(dx::XMFLOAT2{ 1,1 });
+		bufFull.EmplaceBack(dx::XMFLOAT2{ -1,-1 });
+		bufFull.EmplaceBack(dx::XMFLOAT2{ 1,-1 });
+		pVbFull = Bind::VertexBuffer::Resolve(gfx, "$Full", std::move(bufFull));
+		std::vector<unsigned short> indices = { 0,1,2,1,3,2 };
+		pIbFull = Bind::IndexBuffer::Resolve(gfx, "$Full", std::move(indices));
+
+		pPsFull = Bind::PixelShader::Resolve(gfx, "Test_PS.cso");
+		pVsFull = Bind::VertexShader::Resolve(gfx, "Fullscreen_VS.cso");
+		pLayoutFull = Bind::InputLayout::Resolve(gfx, lay, pVsFull->GetBytecode());
+	}
 
 	void Accept(Job job, size_t target) noexcept
 	{
@@ -25,7 +46,7 @@ public:
 		// on input / output requirements
 
 		ds.Clear(gfx);
-		gfx.BindSwapBuffer(ds);
+		rt.BindAsTarget(gfx, ds);
 
 		// main phong lighting pass
 		Stencil::Resolve(gfx, Stencil::Mode::Off)->Bind(gfx);
@@ -37,6 +58,16 @@ public:
 		// outline drawing pass
 		Stencil::Resolve(gfx, Stencil::Mode::Mask)->Bind(gfx);
 		passes[2].Execute(gfx);
+
+		//fullscreen passes
+		gfx.BindSwapBuffer();
+		rt.BindAsTexture(gfx, 0);
+		pVbFull->Bind(gfx);
+		pIbFull->Bind(gfx);
+		pPsFull->Bind(gfx);
+		pVsFull->Bind(gfx);
+		pLayoutFull->Bind(gfx);
+		gfx.DrawIndexed(pIbFull->GetCount());
 	}
 	void Reset() noexcept
 	{
@@ -45,7 +76,14 @@ public:
 			p.Reset();
 		}
 	}
+
 private:
 	std::array<Pass, 3> passes;
 	DepthStencil ds;
+	RenderTarget rt;
+	std::shared_ptr<Bind::VertexBuffer> pVbFull;
+	std::shared_ptr<Bind::IndexBuffer> pIbFull;
+	std::shared_ptr<Bind::VertexShader> pVsFull;
+	std::shared_ptr<Bind::PixelShader> pPsFull;
+	std::shared_ptr<Bind::InputLayout> pLayoutFull;
 };
