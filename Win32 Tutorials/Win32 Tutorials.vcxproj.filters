@@ -488,6 +488,9 @@
     <ClInclude Include="DepthStencil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BlurPack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="RedSky.rc">
@@ -565,7 +568,8 @@
       <Filter>Shader</Filter>
     </FxCompile>
     <FxCompile Include="Offset_VS.hlsl" />
-    <FxCompile Include="Test_PS.hlsl" />
     <FxCompile Include="Fullscreen_VS.hlsl" />
+    <FxCompile Include="Blur_PS.hlsl" />
+    <FxCompile Include="BlurOutline_PS.hlsl" />
   </ItemGroup>
 </Project>

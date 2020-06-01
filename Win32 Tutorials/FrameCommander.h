@@ -29,9 +29,13 @@ public:
 		std::vector<unsigned short> indices = { 0,1,2,1,3,2 };
 		pIbFull = Bind::IndexBuffer::Resolve(gfx, "$Full", std::move(indices));
 
-		pPsFull = Bind::PixelShader::Resolve(gfx, "Test_PS.cso");
+		pPsFull = Bind::PixelShader::Resolve(gfx, "BlurOutline_PS.cso");
 		pVsFull = Bind::VertexShader::Resolve(gfx, "Fullscreen_VS.cso");
 		pLayoutFull = Bind::InputLayout::Resolve(gfx, lay, pVsFull->GetBytecode());
+		pSamplerFull = Bind::Sampler::Resolve(gfx, false, true);
+		pBlenderFull = Bind::Blender::Resolve(gfx, true);
+
+		
 	}
 
 	void Accept(Job job, size_t target) noexcept
@@ -46,9 +50,11 @@ public:
 		// on input / output requirements
 
 		ds.Clear(gfx);
-		rt.BindAsTarget(gfx, ds);
+		rt.Clear(gfx);
+		gfx.BindSwapBuffer(ds);
 
 		// main phong lighting pass
+		Blender::Resolve(gfx, false)->Bind(gfx);
 		Stencil::Resolve(gfx, Stencil::Mode::Off)->Bind(gfx);
 		passes[0].Execute(gfx);
 		// outline masking pass
@@ -56,17 +62,21 @@ public:
 		NullPixelShader::Resolve(gfx)->Bind(gfx);
 		passes[1].Execute(gfx);
 		// outline drawing pass
-		Stencil::Resolve(gfx, Stencil::Mode::Mask)->Bind(gfx);
+		rt.BindAsTarget(gfx);
+		Stencil::Resolve(gfx, Stencil::Mode::Off)->Bind(gfx);
 		passes[2].Execute(gfx);
 
 		//fullscreen passes
-		gfx.BindSwapBuffer();
+		gfx.BindSwapBuffer(ds);
 		rt.BindAsTexture(gfx, 0);
 		pVbFull->Bind(gfx);
 		pIbFull->Bind(gfx);
 		pPsFull->Bind(gfx);
 		pVsFull->Bind(gfx);
 		pLayoutFull->Bind(gfx);
+		pSamplerFull->Bind(gfx);
+		pBlenderFull->Bind(gfx);
+		Stencil::Resolve(gfx, Stencil::Mode::Mask)->Bind(gfx);
 		gfx.DrawIndexed(pIbFull->GetCount());
 	}
 	void Reset() noexcept
@@ -86,4 +96,6 @@ private:
 	std::shared_ptr<Bind::VertexShader> pVsFull;
 	std::shared_ptr<Bind::PixelShader> pPsFull;
 	std::shared_ptr<Bind::InputLayout> pLayoutFull;
+	std::shared_ptr<Bind::Sampler> pSamplerFull;
+	std::shared_ptr<Bind::Blender> pBlenderFull;
 };

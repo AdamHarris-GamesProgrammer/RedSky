@@ -115,7 +115,7 @@ void Graphics::BeginFrame(DirectX::XMFLOAT4 colour) noexcept
 		ImGui::NewFrame();
 	}
 
-	const float color[] = { colour.x, colour.y, colour.z, 1.0f };
+	const float color[] = { colour.x, colour.y, colour.z, 0.0f };
 	pContext->ClearRenderTargetView(pTarget.Get(), color);
 }
 
